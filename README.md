@@ -449,3 +449,30 @@ APIs الجديدة:
 كل بوابة تتحقق من الدور قبل إنشاء الجلسة، وتمنع خلط دخول إدارة المنصة مع مستخدمي المتاجر أو الموظفين. صفحة Super Admin تحتوي الآن على قسم `إدارة بوابات الدخول` لعرض روابط المتاجر والجلسات ومحاولات الدخول.
 
 عند ضبط `JWT_SECRET` بقيمة قوية لا تقل عن 32 حرفاً، ترجع بوابات الدخول `access_token` بصيغة JWT موقعة بـ HS256 بجانب جلسة HttpOnly الآمنة.
+
+## Vercel Deployment Guard
+
+تمت إضافة إعداد نشر آمن لـ Vercel حتى لا يتم عرض ملفات PHP كنص خام:
+
+- `api/index.php` هو نقطة دخول Serverless ويستدعي `public/index.php`.
+- `vercel.json` يمرر كل المسارات إلى PHP Runtime ويترك `/assets/*` كملفات Static فقط.
+- `.vercelignore` يمنع رفع ملفات البيئة والتخزين والحزم المحلية.
+- `api/php.ini` يضبط حدود الرفع والذاكرة ويعطل `expose_php`.
+
+مهم: تشغيل المنصة على Vercel يحتاج ضبط Environment Variables داخل لوحة Vercel، خصوصاً:
+
+```text
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-vercel-domain.vercel.app
+PUBLIC_APP_URL=https://your-vercel-domain.vercel.app
+DATABASE_URL=mysql://user:password@host:3306/database
+JWT_SECRET=strong-random-secret
+ENCRYPTION_KEY=strong-random-key
+META_APP_ID=...
+META_APP_SECRET=...
+META_VERIFY_TOKEN=...
+META_WEBHOOK_SECRET=...
+```
+
+استخدم قاعدة بيانات MySQL خارجية لأن Vercel Serverless لا يوفر MySQL محلياً ولا تخزين دائم للملفات. خدمة `bridge/` الخاصة بـ WhatsApp QR Session يجب تشغيلها كخدمة Node منفصلة على VPS أو Railway أو Render لأنها تحتاج جلسة طويلة واتصال WebSocket دائم.

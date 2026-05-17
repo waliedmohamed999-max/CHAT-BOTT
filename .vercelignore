@@ -1,0 +1,12 @@
+.git
+.env
+.env.*
+storage/*
+vendor
+node_modules
+bridge/node_modules
+*.log
+*.tmp
+*.cache
+.idea
+.vscode
