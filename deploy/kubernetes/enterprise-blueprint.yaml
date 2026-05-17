@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marketing-center-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: marketing-center-api
+  template:
+    metadata:
+      labels:
+        app: marketing-center-api
+    spec:
+      containers:
+        - name: api
+          image: marketing-center/app:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: marketing-center-env
+          readinessProbe:
+            httpGet:
+              path: /marketing-center/overview
+              port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marketing-center-workers
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: marketing-center-workers
+  template:
+    metadata:
+      labels:
+        app: marketing-center-workers
+    spec:
+      containers:
+        - name: campaign-worker
+          image: marketing-center/app:latest
+          command: ["php", "bin/process-campaign-queue.php"]
+          envFrom:
+            - secretRef:
+                name: marketing-center-env
+        - name: ai-worker
+          image: marketing-center/app:latest
+          command: ["php", "bin/process-ai-queue.php", "50"]
+          envFrom:
+            - secretRef:
+                name: marketing-center-env
+        - name: ai-agent-worker
+          image: marketing-center/app:latest
+          command: ["php", "bin/process-ai-commerce-os.php", "50"]
+          envFrom:
+            - secretRef:
+                name: marketing-center-env
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: marketing-center-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: marketing-center-api
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 65

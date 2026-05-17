@@ -1,0 +1,44 @@
+services:
+  app:
+    image: marketing-center/app:latest
+    env_file: .env
+    deploy:
+      replicas: 3
+    depends_on:
+      - redis
+      - rabbitmq
+  worker:
+    image: marketing-center/app:latest
+    command: php bin/process-campaign-queue.php
+    env_file: .env
+    deploy:
+      replicas: 4
+    depends_on:
+      - redis
+      - rabbitmq
+  ai-worker:
+    image: marketing-center/app:latest
+    command: php bin/process-ai-queue.php 50
+    env_file: .env
+    deploy:
+      replicas: 2
+    depends_on:
+      - redis
+  ai-agent-worker:
+    image: marketing-center/app:latest
+    command: php bin/process-ai-commerce-os.php 50
+    env_file: .env
+    deploy:
+      replicas: 3
+    depends_on:
+      - redis
+      - rabbitmq
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - app
