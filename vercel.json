@@ -1,6 +1,7 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "buildCommand": "echo \"No frontend build required for PHP runtime\"",
   "functions": {
     "api/index.php": {
       "runtime": "vercel-php@0.9.0",
