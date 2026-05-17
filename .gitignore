@@ -18,6 +18,7 @@ storage/whatsapp_setup/*
 vendor/
 node_modules/
 bridge/node_modules/
+public/assets/.vite/
 
 *.log
 *.tmp
