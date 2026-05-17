@@ -1,7 +1,11 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
+  "framework": null,
   "cleanUrls": true,
-  "buildCommand": "echo \"No frontend build required for PHP runtime\"",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": null,
   "functions": {
     "api/index.php": {
       "runtime": "vercel-php@0.9.0",

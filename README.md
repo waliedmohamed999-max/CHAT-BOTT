@@ -456,8 +456,9 @@ APIs الجديدة:
 
 - `api/index.php` هو نقطة دخول Serverless ويستدعي `public/index.php`.
 - `vercel.json` يمرر كل المسارات إلى PHP Runtime ويترك `/assets/*` كملفات Static فقط.
-- `vercel.json` يعطل Build Command الأمامي الافتراضي عبر `buildCommand` لأن التطبيق PHP وليس Vite.
+- `vercel.json` يضبط Framework على `Other`، ويحدد Install/Build Command، ويلغي Output Directory حتى لا يبحث Vercel عن `dist`.
 - تمت إضافة `package.json` و`vite.config.js` كحل احتياطي حتى لو بقي Build Command في لوحة Vercel مضبوطاً على `vite build`.
+- تمت إضافة `composer.json` بسيط حتى يتعامل PHP Runtime مع المشروع كتطبيق PHP واضح.
 - `.vercelignore` يمنع رفع ملفات البيئة والتخزين والحزم المحلية.
 - `api/php.ini` يضبط حدود الرفع والذاكرة ويعطل `expose_php`.
 
