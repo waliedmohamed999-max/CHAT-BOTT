@@ -2284,6 +2284,380 @@ label { display: grid; gap: 8px; color: var(--muted); }
     line-height: 1.6;
     font-size: 12px;
 }
+.users-command-hero,
+.rbac-command-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 22px;
+    border: 1px solid rgba(51,74,145,.12);
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(51,74,145,.12), transparent 34%),
+        radial-gradient(circle at 100% 20%, rgba(90,169,184,.12), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,.98), rgba(247,250,253,.92));
+    box-shadow: 0 18px 48px rgba(31,42,68,.08);
+}
+.users-command-hero h2,
+.rbac-command-hero h2 {
+    margin: 8px 0 6px;
+    color: var(--text);
+    font-size: clamp(30px, 3.2vw, 48px);
+}
+.users-command-hero p,
+.rbac-command-hero p {
+    max-width: 780px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.85;
+}
+.users-command-score {
+    width: 148px;
+    min-height: 132px;
+    display: grid;
+    place-items: center;
+    gap: 5px;
+    border: 1px solid rgba(51,74,145,.14);
+    border-radius: 26px;
+    background: rgba(255,255,255,.72);
+    text-align: center;
+}
+.users-command-score strong {
+    color: var(--primary);
+    font-size: 46px;
+    line-height: 1;
+}
+.users-command-score span {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 900;
+}
+.user-ops-grid,
+.rbac-score-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.user-ops-grid article,
+.rbac-score-grid article {
+    min-height: 112px;
+    display: grid;
+    align-content: center;
+    gap: 7px;
+    padding: 16px;
+    border: 1px solid rgba(51,74,145,.12);
+    border-radius: 22px;
+    background: rgba(255,255,255,.78);
+    box-shadow: 0 14px 34px rgba(31,42,68,.07);
+}
+.user-ops-grid span,
+.rbac-score-grid span {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 900;
+}
+.user-ops-grid strong,
+.rbac-score-grid strong {
+    color: var(--primary);
+    font-size: 34px;
+    line-height: 1;
+}
+.user-ops-grid small {
+    color: var(--muted);
+    font-size: 11px;
+}
+.user-management-layout,
+.rbac-workbench {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(320px, .75fr);
+    gap: 16px;
+    margin-bottom: 18px;
+}
+.user-create-card,
+.user-tools-card,
+.rbac-create-card,
+.user-directory-panel,
+.role-card,
+.permission-group-card {
+    border: 1px solid rgba(51,74,145,.12);
+    border-radius: 24px;
+    background: rgba(255,255,255,.78);
+    box-shadow: 0 16px 42px rgba(31,42,68,.08);
+}
+.user-create-card,
+.user-tools-card,
+.rbac-create-card {
+    display: grid;
+    gap: 16px;
+    padding: 18px;
+}
+.user-card-head {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+}
+.user-card-head > span {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-3), var(--primary));
+    box-shadow: 0 14px 28px rgba(51,74,145,.20);
+    font-size: 12px;
+    font-weight: 950;
+}
+.user-card-head strong {
+    display: block;
+    color: var(--text);
+    font-size: 18px;
+}
+.user-card-head small {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 12px;
+}
+.user-create-form,
+.rbac-create-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+.user-create-form input,
+.user-create-form select,
+.rbac-create-form input,
+.rbac-create-form select {
+    min-height: 48px;
+    border: 1px solid rgba(51,74,145,.13);
+    border-radius: 16px;
+    background: rgba(255,255,255,.88);
+    color: var(--text);
+    padding: 10px 13px;
+}
+.user-create-form .premium-toggle,
+.user-create-form .primary,
+.rbac-create-form .primary,
+.rbac-create-form .ghost-btn {
+    grid-column: 1 / -1;
+}
+.user-tool-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+.user-security-note {
+    display: grid;
+    gap: 5px;
+    padding: 12px;
+    border: 1px solid rgba(35,163,108,.18);
+    border-radius: 16px;
+    background: rgba(35,163,108,.07);
+}
+.user-security-note strong {
+    color: var(--text);
+}
+.user-security-note span {
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 12px;
+}
+.user-directory-panel {
+    display: grid;
+    gap: 14px;
+    padding: 18px;
+}
+.user-directory-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 14px;
+    align-items: center;
+}
+.user-directory-head strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text);
+    font-size: 19px;
+}
+.user-directory-head span {
+    color: var(--muted);
+    font-size: 12px;
+}
+.user-directory-tools {
+    display: flex;
+    gap: 10px;
+}
+.user-directory-tools input,
+.user-directory-tools select {
+    min-height: 42px;
+    border: 1px solid rgba(51,74,145,.13);
+    border-radius: 14px;
+    background: rgba(255,255,255,.88);
+    color: var(--text);
+    padding: 8px 11px;
+}
+.user-row-grid {
+    display: grid;
+    gap: 10px;
+}
+.user-row-card {
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1.35fr) minmax(130px, .55fr) minmax(110px, .45fr) minmax(160px, .6fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid rgba(51,74,145,.10);
+    border-radius: 18px;
+    background: rgba(255,255,255,.72);
+}
+.user-avatar,
+.role-icon {
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 17px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--primary-3));
+    font-weight: 950;
+}
+.user-row-main strong {
+    display: block;
+    color: var(--text);
+}
+.user-row-main small,
+.user-last-login {
+    color: var(--muted);
+    font-size: 12px;
+}
+.user-role-pill {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    color: var(--primary);
+    background: rgba(51,74,145,.08);
+    font-size: 12px;
+    font-weight: 900;
+}
+.mini-action-form {
+    margin: 0;
+}
+.mini-action-form .ghost-btn {
+    min-height: 36px;
+    padding: 0 12px;
+}
+.user-empty-state {
+    display: grid;
+    gap: 6px;
+    place-items: center;
+    min-height: 150px;
+    border: 1px dashed rgba(51,74,145,.24);
+    border-radius: 20px;
+    color: var(--muted);
+}
+.user-empty-state strong {
+    color: var(--text);
+}
+.rbac-command-hero {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, .9fr);
+}
+.rbac-layout {
+    display: grid;
+    grid-template-columns: minmax(320px, .8fr) minmax(0, 1.2fr);
+    gap: 16px;
+}
+.role-card-grid,
+.permission-group-grid {
+    display: grid;
+    gap: 12px;
+}
+.role-card {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding: 16px;
+}
+.role-card strong {
+    display: block;
+    color: var(--text);
+    font-size: 17px;
+}
+.role-card code {
+    display: inline-block;
+    direction: ltr;
+    margin: 5px 0;
+    color: var(--primary);
+    font-size: 12px;
+}
+.role-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+    font-size: 12px;
+}
+.permission-group-card {
+    display: grid;
+    gap: 13px;
+    padding: 16px;
+}
+.permission-group-head {
+    display: grid;
+    grid-template-columns: 50px minmax(0, 1fr);
+    gap: 11px;
+    align-items: center;
+}
+.permission-group-head > span {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-3), var(--primary));
+    font-size: 11px;
+    font-weight: 950;
+}
+.permission-group-head strong {
+    display: block;
+    color: var(--text);
+}
+.permission-group-head small {
+    color: var(--muted);
+    font-size: 12px;
+}
+.permission-chip-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+.permission-chip-list span {
+    display: grid;
+    gap: 3px;
+    padding: 10px;
+    border: 1px solid rgba(51,74,145,.10);
+    border-radius: 14px;
+    background: rgba(247,250,253,.90);
+}
+.permission-chip-list b {
+    color: var(--text);
+    font-size: 12px;
+}
+.permission-chip-list code {
+    direction: ltr;
+    color: var(--muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+}
 .control-form {
     display: grid;
     gap: 16px;
@@ -4762,7 +5136,7 @@ body.safe-mode * {
     .portal-security-grid { grid-template-columns: 1fr; }
     .shell, body.sidebar-collapsed .shell { margin-right: 0; padding: 16px 16px 92px; }
     .bottom-nav { display: grid; }
-    .metric-grid, .workspace-grid, .panel-grid, .builder, .inbox, .qr-layout, .setup-center-hero, .readiness-board, .chatbot-hero, .chatbot-health-grid, .chatbot-diagnostics-grid, .advanced-settings, .settings-deck, .omni-hero, .omni-inbox-grid, .channel-grid, .mini-channel-grid, .wa-builder-layout, .department-grid, .chatbot-bottom-grid, .flow-status-cards, .ai-agent-grid, .knowledge-layout, .revenue-flow-grid, .revenue-engine-hero, .saas-hero, .plans-grid, .ai-bi-hero, .ai-bi-grid, .marketplace-hero, .marketplace-grid, .app-store-grid, .enterprise-hero, .enterprise-grid, .commerce-os-hero, .commerce-os-grid, .os-agent-grid, .env-grid, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .login-portal-grid, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .control-center-hero, .control-center-layout, .executive-overview-grid, .settings-quick-actions, .quick-action-strip, .settings-command-panel, .settings-hub-grid, .settings-control-card-grid, .settings-section-hero, .settings-section-tool-grid, .settings-section-action-bar, .settings-route-toolbar, .executive-bottom-grid, .system-health-grid, .general-settings-head, .general-settings-overview, .general-settings-grid, .general-save-strip, .control-grid, .permission-layout, .control-split, .control-metrics { grid-template-columns: 1fr; }
+    .metric-grid, .workspace-grid, .panel-grid, .builder, .inbox, .qr-layout, .setup-center-hero, .readiness-board, .chatbot-hero, .chatbot-health-grid, .chatbot-diagnostics-grid, .advanced-settings, .settings-deck, .omni-hero, .omni-inbox-grid, .channel-grid, .mini-channel-grid, .wa-builder-layout, .department-grid, .chatbot-bottom-grid, .flow-status-cards, .ai-agent-grid, .knowledge-layout, .revenue-flow-grid, .revenue-engine-hero, .saas-hero, .plans-grid, .ai-bi-hero, .ai-bi-grid, .marketplace-hero, .marketplace-grid, .app-store-grid, .enterprise-hero, .enterprise-grid, .commerce-os-hero, .commerce-os-grid, .os-agent-grid, .env-grid, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .login-portal-grid, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .control-center-hero, .control-center-layout, .executive-overview-grid, .settings-quick-actions, .quick-action-strip, .settings-command-panel, .settings-hub-grid, .settings-control-card-grid, .settings-section-hero, .settings-section-tool-grid, .settings-section-action-bar, .settings-route-toolbar, .executive-bottom-grid, .system-health-grid, .general-settings-head, .general-settings-overview, .general-settings-grid, .general-save-strip, .users-command-hero, .user-ops-grid, .user-management-layout, .user-create-form, .rbac-command-hero, .rbac-score-grid, .rbac-workbench, .rbac-layout, .permission-chip-list, .control-grid, .permission-layout, .control-split, .control-metrics { grid-template-columns: 1fr; }
     .settings-route-grid { grid-template-columns: 1fr; }
     .settings-hub-card {
         grid-template-columns: 70px minmax(0, 1fr);
@@ -4801,6 +5175,18 @@ body.safe-mode * {
     .general-stat-card {
         min-height: auto;
     }
+    .users-command-score {
+        width: auto;
+        min-height: 110px;
+    }
+    .user-directory-head,
+    .user-row-card,
+    .role-card {
+        grid-template-columns: 1fr;
+    }
+    .user-directory-tools {
+        flex-direction: column;
+    }
     .settings-save-bar { right: 16px; left: 16px; bottom: 92px; }
     .flow-library-item { grid-template-columns: 1fr; }
     .department-flow-map { min-width: 820px; }
@@ -4815,7 +5201,7 @@ body.safe-mode * {
     .portal-auth-visual { min-height: auto; }
     .top-actions, .button-row, .toolbar { align-items: stretch; flex-direction: column; }
     .search-trigger, .primary, .secondary, .danger, .ghost-btn, .icon-btn { width: 100%; }
-    .metric-grid, .step-row, .setup-grid, .workflow, .checklist, .launch-grid, .compact-form, .progress-steps, .connect-choice, .wizard-steps, .method-cards, .setup-connect-grid, .test-grid, .setup-profile-form, .upload-grid, .capability-list, .ai-meta-grid, .ai-feature-list, .ai-agent-mini, .memory-orbit, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .compact-control-form, .control-upload-form, .control-table, .control-table.compact, .permission-matrix, .setting-row, .general-field-stack, .general-field-card-head, .general-brand-card { grid-template-columns: 1fr; }
+    .metric-grid, .step-row, .setup-grid, .workflow, .checklist, .launch-grid, .compact-form, .progress-steps, .connect-choice, .wizard-steps, .method-cards, .setup-connect-grid, .test-grid, .setup-profile-form, .upload-grid, .capability-list, .ai-meta-grid, .ai-feature-list, .ai-agent-mini, .memory-orbit, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .compact-control-form, .control-upload-form, .control-table, .control-table.compact, .permission-matrix, .setting-row, .general-field-stack, .general-field-card-head, .general-brand-card, .user-card-head, .rbac-create-form { grid-template-columns: 1fr; }
     .table-like, .data-table { grid-template-columns: 1fr; }
     .hero-command h2 { font-size: 32px; }
     .panel { padding: 16px; }
@@ -4907,6 +5293,24 @@ body.safe-mode * {
     }
     .general-save-strip .button-row {
         width: 100%;
+    }
+    .users-command-hero,
+    .rbac-command-hero,
+    .user-create-card,
+    .user-tools-card,
+    .rbac-create-card,
+    .user-directory-panel,
+    .role-card,
+    .permission-group-card {
+        padding: 16px;
+        border-radius: 22px;
+    }
+    .users-command-hero h2,
+    .rbac-command-hero h2 {
+        font-size: 28px;
+    }
+    .user-tool-list {
+        grid-template-columns: 1fr;
     }
     .settings-route-side {
         grid-column: 1 / -1;

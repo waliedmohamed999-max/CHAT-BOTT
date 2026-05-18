@@ -334,38 +334,44 @@ document.querySelectorAll('[data-control-link]').forEach((link) => {
         link.classList.add('active');
     });
 });
-document.querySelector('.control-test-settings')?.addEventListener('click', async (event) => {
-    const button = event.currentTarget;
-    button.classList.add('loading');
-    try {
-        const response = await fetch(`${window.MC_APP_URL || ''}${button.dataset.api || '/api/settings/health'}`);
-        const payload = await response.json().catch(() => ({}));
-        showToast(response.ok ? 'تم اختبار الإعدادات بنجاح' : (payload.message || payload.error || 'فشل اختبار الإعدادات'));
-    } catch {
-        showToast('تعذر اختبار الإعدادات');
-    } finally {
-        button.classList.remove('loading');
-    }
+document.querySelectorAll('.control-test-settings').forEach((button) => {
+    button.addEventListener('click', async (event) => {
+        const currentButton = event.currentTarget;
+        currentButton.classList.add('loading');
+        try {
+            const response = await fetch(`${window.MC_APP_URL || ''}${currentButton.dataset.api || '/api/settings/health'}`);
+            const payload = await response.json().catch(() => ({}));
+            showToast(response.ok ? 'تم اختبار الإعدادات بنجاح' : (payload.message || payload.error || 'فشل اختبار الإعدادات'));
+        } catch {
+            showToast('تعذر اختبار الإعدادات');
+        } finally {
+            currentButton.classList.remove('loading');
+        }
+    });
 });
-document.querySelector('.control-export-report')?.addEventListener('click', async () => {
-    try {
-        const response = await fetch(`${window.MC_APP_URL || ''}/api/settings/overview`);
-        const payload = await response.json();
-        const blob = new Blob([JSON.stringify(payload.data || payload, null, 2)], {type: 'application/json'});
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `platform-control-center-${Date.now()}.json`;
-        link.click();
-        URL.revokeObjectURL(url);
-        showToast('تم تجهيز تقرير الإعدادات');
-    } catch {
-        showToast('تعذر تصدير التقرير');
-    }
+document.querySelectorAll('.control-export-report').forEach((button) => {
+    button.addEventListener('click', async () => {
+        try {
+            const response = await fetch(`${window.MC_APP_URL || ''}/api/settings/overview`);
+            const payload = await response.json();
+            const blob = new Blob([JSON.stringify(payload.data || payload, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `platform-control-center-${Date.now()}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            showToast('تم تجهيز تقرير الإعدادات');
+        } catch {
+            showToast('تعذر تصدير التقرير');
+        }
+    });
 });
-document.querySelector('.control-safe-mode')?.addEventListener('click', () => {
-    document.body.classList.toggle('safe-mode');
-    showToast('تم تبديل الوضع الآمن للواجهة');
+document.querySelectorAll('.control-safe-mode').forEach((button) => {
+    button.addEventListener('click', () => {
+        document.body.classList.toggle('safe-mode');
+        showToast('تم تبديل الوضع الآمن للواجهة');
+    });
 });
 document.querySelectorAll('.control-upload-form').forEach((form) => {
     form.addEventListener('submit', async (event) => {

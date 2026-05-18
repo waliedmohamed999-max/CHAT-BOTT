@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260518-control-center-v10';
+$assetVersion = '20260518-control-center-v11';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -2481,6 +2481,19 @@ $labelText = static function (?string $value): string {
             $activeRouteHealth = $settingHealth[$activeSetting] ?? ['class' => 'pending', 'label' => 'قيد المراجعة', 'progress' => 50];
             $activeRouteCategory = $settingCategories[$activeSetting] ?? 'core';
             $activeRouteCategoryLabel = $settingCategoryLabels[$activeRouteCategory] ?? 'تشغيل';
+            $usersList = array_values((array) $ccUsers);
+            $activeUsersCount = count(array_filter($usersList, static fn (array $user): bool => ($user['status'] ?? 'active') === 'active'));
+            $disabledUsersCount = count(array_filter($usersList, static fn (array $user): bool => ($user['status'] ?? 'active') === 'disabled'));
+            $invitedUsersCount = count(array_filter($usersList, static fn (array $user): bool => ($user['status'] ?? 'active') === 'invited'));
+            $twoFactorUsersCount = count(array_filter($usersList, static fn (array $user): bool => !empty($user['two_factor_enabled'])));
+            $rolesList = array_values((array) $ccRoles);
+            $permissionsList = array_values((array) $ccPermissions);
+            $permissionGroups = [];
+            foreach ($permissionsList as $permission) {
+                $groupKey = (string) ($permission['group'] ?? 'عام');
+                $permissionGroups[$groupKey][] = $permission;
+            }
+            $systemRolesCount = count(array_filter($rolesList, static fn (array $role): bool => !empty($role['is_system'])));
         ?>
         <section class="panel wide control-center-hero executive-control-hero">
             <div>
@@ -2842,45 +2855,176 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-users" data-control-section>
-                    <div class="panel-head"><div><h2>المستخدمون</h2><span>إضافة وتعطيل المستخدمين، متابعة آخر دخول، الجلسات النشطة والأقسام.</span></div><span class="status-pill active"><?= count((array) $ccUsers) ?> مستخدم</span></div>
-                    <form class="ajax-form compact-control-form" data-endpoint="/api/settings/users" data-method="POST">
-                        <input name="name" placeholder="اسم المستخدم">
-                        <input name="email" type="email" placeholder="البريد الإلكتروني">
-                        <input name="password" type="password" placeholder="كلمة مرور مؤقتة">
-                        <select name="role"><option value="store_admin">مدير متجر</option><option value="marketing_manager">مدير تسويق</option><option value="support_agent">دعم</option><option value="sales_agent">مبيعات</option><option value="billing_agent">حسابات</option><option value="viewer">مشاهد</option></select>
-                        <button class="primary" type="submit">إضافة مستخدم</button>
-                    </form>
-                    <div class="control-table">
-                        <span>المستخدم</span><span>الدور</span><span>الحالة</span><span>آخر دخول</span>
-                        <?php foreach (array_slice((array) $ccUsers, 0, 12) as $user): ?>
-                            <strong><?= htmlspecialchars((string) ($user['name'] ?? $user['email'] ?? 'مستخدم')) ?><small><?= htmlspecialchars((string) ($user['email'] ?? '')) ?></small></strong>
-                            <span><?= htmlspecialchars($labelText($user['role'] ?? 'viewer')) ?></span>
-                            <em><?= htmlspecialchars($labelText($user['status'] ?? 'active')) ?></em>
-                            <span><?= htmlspecialchars((string) ($user['last_login_at'] ?? 'لم يسجل بعد')) ?></span>
-                        <?php endforeach; ?>
-                        <?php if (empty($ccUsers)): ?><strong>لا يوجد مستخدمون</strong><span>أضف أول مستخدم</span><em>فارغ</em><span>-</span><?php endif; ?>
+                    <div class="users-command-hero">
+                        <div>
+                            <span class="premium-pill">User Operations Center</span>
+                            <h2>المستخدمون</h2>
+                            <p>إدارة الفريق، الدعوات، الجلسات، 2FA، والأدوار من مركز واحد مع عزل المتجر وتسجيل كل تعديل.</p>
+                        </div>
+                        <div class="users-command-score">
+                            <strong><?= count($usersList) ?></strong>
+                            <span>إجمالي المستخدمين</span>
+                        </div>
+                    </div>
+
+                    <div class="user-ops-grid">
+                        <article><span>نشط</span><strong><?= $activeUsersCount ?></strong><small>جاهزون للوصول</small></article>
+                        <article><span>معطل</span><strong><?= $disabledUsersCount ?></strong><small>حسابات مقفلة</small></article>
+                        <article><span>دعوات</span><strong><?= $invitedUsersCount ?></strong><small>بانتظار التفعيل</small></article>
+                        <article><span>2FA</span><strong><?= $twoFactorUsersCount ?></strong><small>حسابات محمية</small></article>
+                    </div>
+
+                    <div class="user-management-layout">
+                        <article class="user-create-card">
+                            <div class="user-card-head">
+                                <span>+U</span>
+                                <div><strong>إضافة مستخدم جديد</strong><small>إنشاء حساب وربطه بالدور المناسب</small></div>
+                            </div>
+                            <form class="ajax-form user-create-form" data-endpoint="/api/settings/users" data-method="POST">
+                                <input name="name" placeholder="اسم المستخدم">
+                                <input name="email" type="email" placeholder="البريد الإلكتروني">
+                                <input name="password" type="password" placeholder="كلمة مرور مؤقتة">
+                                <select name="role"><option value="store_admin">مدير متجر</option><option value="marketing_manager">مدير تسويق</option><option value="support_agent">دعم</option><option value="sales_agent">مبيعات</option><option value="billing_agent">حسابات</option><option value="viewer">مشاهد</option></select>
+                                <select name="status"><option value="active">نشط</option><option value="invited">دعوة</option><option value="disabled">معطل</option></select>
+                                <label class="toggle-line premium-toggle"><input type="checkbox" name="two_factor_enabled" value="1"><span><strong>تفعيل 2FA</strong><small>إلزام الحساب بالتحقق الثنائي</small></span></label>
+                                <button class="primary" type="submit">إضافة المستخدم</button>
+                            </form>
+                        </article>
+
+                        <article class="user-tools-card">
+                            <div class="user-card-head">
+                                <span>OPS</span>
+                                <div><strong>أدوات إدارة الفريق</strong><small>عمليات سريعة قبل الإطلاق</small></div>
+                            </div>
+                            <div class="user-tool-list">
+                                <button class="ghost-btn control-export-report" type="button">تصدير المستخدمين</button>
+                                <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/settings/security">مراجعة الجلسات</a>
+                                <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/settings/roles">فتح RBAC</a>
+                                <button class="ghost-btn control-test-settings" type="button" data-api="/api/settings/users">اختبار API المستخدمين</button>
+                            </div>
+                            <div class="user-security-note">
+                                <strong>قاعدة أمان</strong>
+                                <span>لا يتم عرض كلمات المرور بعد الإنشاء، وكل تعديل يسجل في Audit Logs.</span>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="user-directory-panel">
+                        <div class="user-directory-head">
+                            <div><strong>دليل المستخدمين</strong><span>بحث، فلترة، وتعطيل سريع للحسابات داخل المتجر الحالي.</span></div>
+                            <div class="user-directory-tools">
+                                <input type="search" placeholder="بحث داخل المستخدمين">
+                                <select><option>كل الأدوار</option><option>مدير متجر</option><option>الدعم</option><option>المبيعات</option></select>
+                            </div>
+                        </div>
+                        <div class="user-row-grid">
+                            <?php foreach (array_slice($usersList, 0, 12) as $user): ?>
+                                <?php $userId = (int) ($user['id'] ?? 0); ?>
+                                <article class="user-row-card">
+                                    <span class="user-avatar"><?= htmlspecialchars(mb_strtoupper(mb_substr((string) ($user['name'] ?? $user['email'] ?? 'U'), 0, 2))) ?></span>
+                                    <div class="user-row-main">
+                                        <strong><?= htmlspecialchars((string) ($user['name'] ?? $user['email'] ?? 'مستخدم')) ?></strong>
+                                        <small><?= htmlspecialchars((string) ($user['email'] ?? '')) ?></small>
+                                    </div>
+                                    <span class="user-role-pill"><?= htmlspecialchars($labelText($user['role'] ?? 'viewer')) ?></span>
+                                    <span class="status-pill <?= ($user['status'] ?? 'active') === 'active' ? 'ok' : 'pending' ?>"><?= htmlspecialchars($labelText($user['status'] ?? 'active')) ?></span>
+                                    <span class="user-last-login"><?= htmlspecialchars((string) ($user['last_login_at'] ?? 'لم يسجل بعد')) ?></span>
+                                    <div class="user-row-actions">
+                                        <?php if ($userId > 0): ?>
+                                            <form class="ajax-form mini-action-form" data-endpoint="/api/settings/users/<?= $userId ?>" data-method="POST">
+                                                <input type="hidden" name="status" value="<?= ($user['status'] ?? 'active') === 'active' ? 'disabled' : 'active' ?>">
+                                                <button class="ghost-btn" type="submit"><?= ($user['status'] ?? 'active') === 'active' ? 'تعطيل' : 'تفعيل' ?></button>
+                                            </form>
+                                        <?php else: ?>
+                                            <button class="ghost-btn" type="button">تجريبي</button>
+                                        <?php endif; ?>
+                                    </div>
+                                </article>
+                            <?php endforeach; ?>
+                            <?php if (!$usersList): ?>
+                                <article class="user-empty-state">
+                                    <strong>لا يوجد مستخدمون بعد</strong>
+                                    <span>أضف أول مستخدم لتفعيل إدارة الفريق والصلاحيات.</span>
+                                </article>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </section>
 
                 <section class="panel control-section" id="settings-roles" data-control-section>
-                    <div class="panel-head"><div><h2>الأدوار والصلاحيات</h2><span>RBAC كامل مع فصل بيانات المتاجر ومنع تعديل الصلاحيات الحساسة بدون صلاحية.</span></div></div>
-                    <div class="permission-layout">
-                        <div class="control-card">
-                            <h3>الأدوار</h3>
-                            <?php foreach ((array) $ccRoles as $role): ?>
-                                <div class="setting-row"><strong><?= htmlspecialchars((string) ($role['name'] ?? $role['role_key'] ?? 'Role')) ?></strong><span><?= htmlspecialchars((string) ($role['role_key'] ?? '')) ?></span></div>
-                            <?php endforeach; ?>
+                    <div class="rbac-command-hero">
+                        <div>
+                            <span class="premium-pill">RBAC Command Center</span>
+                            <h2>الأدوار والصلاحيات</h2>
+                            <p>مصفوفة تحكم دقيقة للصفحات والـ APIs والحملات والواتساب والفواتير، مع منع المساس بالأدوار الحساسة بدون صلاحية.</p>
                         </div>
-                        <div class="control-card">
-                            <h3>Permission Matrix</h3>
-                            <div class="permission-matrix">
-                                <?php foreach ((array) $ccPermissions as $permission): ?>
-                                    <span><?= htmlspecialchars((string) ($permission['group'] ?? 'عام')) ?></span>
-                                    <strong><?= htmlspecialchars((string) ($permission['label'] ?? $permission['permission_key'] ?? '')) ?></strong>
-                                    <code><?= htmlspecialchars((string) ($permission['permission_key'] ?? '')) ?></code>
-                                <?php endforeach; ?>
+                        <div class="rbac-score-grid">
+                            <article><strong><?= count($rolesList) ?></strong><span>دور</span></article>
+                            <article><strong><?= count($permissionsList) ?></strong><span>صلاحية</span></article>
+                            <article><strong><?= count($permissionGroups) ?></strong><span>مجموعة</span></article>
+                            <article><strong><?= $systemRolesCount ?></strong><span>System</span></article>
+                        </div>
+                    </div>
+
+                    <div class="rbac-workbench">
+                        <article class="rbac-create-card">
+                            <div class="user-card-head">
+                                <span>RB</span>
+                                <div><strong>إنشاء Role مخصص</strong><small>أضف دوراً جديداً ثم اربطه بالصلاحيات المطلوبة</small></div>
                             </div>
-                        </div>
+                            <form class="ajax-form rbac-create-form" data-endpoint="/api/settings/roles" data-method="POST">
+                                <input name="name" placeholder="اسم الدور">
+                                <input name="role_key" placeholder="role_key مثال: branch_manager">
+                                <input name="description" placeholder="وصف مختصر للدور">
+                                <button class="primary" type="submit">إنشاء الدور</button>
+                            </form>
+                        </article>
+                        <article class="rbac-create-card">
+                            <div class="user-card-head">
+                                <span>KEY</span>
+                                <div><strong>تحديث صلاحيات دور</strong><small>اكتب مفاتيح الصلاحيات مفصولة بفواصل</small></div>
+                            </div>
+                            <form class="ajax-form rbac-create-form" data-endpoint="/api/settings/roles/0/permissions" data-method="POST">
+                                <select name="role_key">
+                                    <?php foreach ($rolesList as $role): ?>
+                                        <option value="<?= htmlspecialchars((string) ($role['role_key'] ?? 'viewer')) ?>"><?= htmlspecialchars((string) ($role['name'] ?? $role['role_key'] ?? 'Role')) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <input name="permissions" placeholder="مثال: inbox.view,campaign.launch">
+                                <button class="ghost-btn" type="submit">حفظ الصلاحيات</button>
+                            </form>
+                        </article>
+                    </div>
+
+                    <div class="rbac-layout">
+                        <section class="role-card-grid">
+                            <?php foreach ($rolesList as $role): ?>
+                                <article class="role-card">
+                                    <span class="role-icon"><?= htmlspecialchars(mb_strtoupper(mb_substr((string) ($role['role_key'] ?? 'RB'), 0, 2))) ?></span>
+                                    <div>
+                                        <strong><?= htmlspecialchars((string) ($role['name'] ?? $role['role_key'] ?? 'Role')) ?></strong>
+                                        <code><?= htmlspecialchars((string) ($role['role_key'] ?? '')) ?></code>
+                                        <p><?= htmlspecialchars((string) ($role['description'] ?? 'دور داخل مركز التحكم')) ?></p>
+                                    </div>
+                                    <span class="status-pill <?= !empty($role['is_system']) ? 'ok' : 'pending' ?>"><?= !empty($role['is_system']) ? 'System Role' : 'Custom Role' ?></span>
+                                </article>
+                            <?php endforeach; ?>
+                        </section>
+                        <section class="permission-group-grid">
+                            <?php foreach ($permissionGroups as $group => $permissions): ?>
+                                <article class="permission-group-card">
+                                    <div class="permission-group-head">
+                                        <span><?= htmlspecialchars(mb_strtoupper(mb_substr((string) $group, 0, 2))) ?></span>
+                                        <div><strong><?= htmlspecialchars($labelText((string) $group)) ?></strong><small><?= count($permissions) ?> صلاحية</small></div>
+                                    </div>
+                                    <div class="permission-chip-list">
+                                        <?php foreach (array_slice($permissions, 0, 10) as $permission): ?>
+                                            <span><b><?= htmlspecialchars((string) ($permission['label'] ?? $permission['permission_key'] ?? '')) ?></b><code><?= htmlspecialchars((string) ($permission['permission_key'] ?? '')) ?></code></span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </article>
+                            <?php endforeach; ?>
+                        </section>
                     </div>
                 </section>
 
