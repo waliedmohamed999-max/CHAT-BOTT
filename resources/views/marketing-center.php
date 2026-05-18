@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260518-control-center-v9';
+$assetVersion = '20260518-control-center-v10';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -2692,21 +2692,94 @@ $labelText = static function (?string $value): string {
 
             <div class="control-content">
                 <section class="panel control-section" id="settings-general" data-control-section>
-                    <div class="panel-head"><div><h2>الإعدادات العامة</h2><span>اسم المنصة، اللغة، العملة، وضع التشغيل وروابط الالتزام.</span></div><span class="status-pill ok">نشط</span></div>
-                    <form class="ajax-form control-form" data-endpoint="/api/settings/general" data-method="PUT">
-                        <div class="control-grid">
-                            <label>اسم المنصة<input name="platform_name" value="<?= htmlspecialchars((string) ($ccGeneral['platform_name'] ?? 'Marketing Center')) ?>"></label>
-                            <label>اللغة الافتراضية<select name="default_language"><option value="ar" <?= ($ccGeneral['default_language'] ?? 'ar') === 'ar' ? 'selected' : '' ?>>العربية</option><option value="en" <?= ($ccGeneral['default_language'] ?? '') === 'en' ? 'selected' : '' ?>>الإنجليزية</option></select></label>
-                            <label>المنطقة الزمنية<input name="timezone" value="<?= htmlspecialchars((string) ($ccGeneral['timezone'] ?? 'Asia/Riyadh')) ?>"></label>
-                            <label>العملة الافتراضية<input name="currency" value="<?= htmlspecialchars((string) ($ccGeneral['currency'] ?? 'SAR')) ?>"></label>
-                            <label>وضع التشغيل<select name="runtime_mode"><option value="development" <?= ($ccGeneral['runtime_mode'] ?? '') === 'development' ? 'selected' : '' ?>>Development</option><option value="testing" <?= ($ccGeneral['runtime_mode'] ?? '') === 'testing' ? 'selected' : '' ?>>Testing</option><option value="production" <?= ($ccGeneral['runtime_mode'] ?? 'production') === 'production' ? 'selected' : '' ?>>Production</option></select></label>
-                            <label>البريد الرسمي للدعم<input name="support_email" value="<?= htmlspecialchars((string) ($ccGeneral['support_email'] ?? '')) ?>"></label>
-                            <label>رابط الشروط<input name="terms_url" value="<?= htmlspecialchars((string) ($ccGeneral['terms_url'] ?? '')) ?>"></label>
-                            <label>رابط الخصوصية<input name="privacy_url" value="<?= htmlspecialchars((string) ($ccGeneral['privacy_url'] ?? '')) ?>"></label>
-                            <label class="toggle-line"><input type="checkbox" name="registration_enabled" value="1" <?= !empty($ccGeneral['registration_enabled']) ? 'checked' : '' ?>> تفعيل التسجيل</label>
-                            <label class="toggle-line"><input type="checkbox" name="store_creation_enabled" value="1" <?= !empty($ccGeneral['store_creation_enabled']) ? 'checked' : '' ?>> تفعيل إنشاء المتاجر</label>
+                    <div class="general-settings-head">
+                        <div>
+                            <span class="premium-pill">Core Platform Settings</span>
+                            <h2>الإعدادات العامة</h2>
+                            <p>تحكم في هوية المنصة، بيئة التشغيل، اللغة، العملة، وروابط الالتزام من واجهة تنفيذية واحدة.</p>
                         </div>
-                        <button class="primary" type="submit">حفظ الإعدادات العامة</button>
+                        <div class="general-health-chip">
+                            <span><?= htmlspecialchars(strtoupper(substr((string) ($ccGeneral['runtime_mode'] ?? 'production'), 0, 3))) ?></span>
+                            <strong><?= htmlspecialchars($labelText($ccGeneral['runtime_mode'] ?? 'production')) ?></strong>
+                            <small>وضع التشغيل الحالي</small>
+                        </div>
+                    </div>
+                    <form class="ajax-form control-form general-settings-suite" data-endpoint="/api/settings/general" data-method="PUT">
+                        <div class="general-settings-overview">
+                            <div class="general-brand-card">
+                                <span class="general-brand-logo">MC</span>
+                                <div>
+                                    <strong><?= htmlspecialchars((string) ($ccGeneral['platform_name'] ?? 'Marketing Center')) ?></strong>
+                                    <p>منصة عربية RTL جاهزة لإدارة المتاجر، واتساب، الحملات، والصلاحيات.</p>
+                                </div>
+                            </div>
+                            <div class="general-stat-card"><span>اللغة</span><strong><?= htmlspecialchars($labelText($ccGeneral['default_language'] ?? 'ar')) ?></strong><small>واجهة افتراضية</small></div>
+                            <div class="general-stat-card"><span>المنطقة</span><strong><?= htmlspecialchars((string) ($ccGeneral['timezone'] ?? 'Asia/Riyadh')) ?></strong><small>توقيت التشغيل</small></div>
+                            <div class="general-stat-card"><span>العملة</span><strong><?= htmlspecialchars((string) ($ccGeneral['currency'] ?? 'SAR')) ?></strong><small>التقارير والفواتير</small></div>
+                        </div>
+
+                        <div class="general-settings-grid">
+                            <article class="general-field-card primary-card">
+                                <div class="general-field-card-head">
+                                    <span>ID</span>
+                                    <div><strong>هوية المنصة</strong><small>الاسم واللغة والعملة</small></div>
+                                </div>
+                                <div class="general-field-stack">
+                                    <label>اسم المنصة<input name="platform_name" value="<?= htmlspecialchars((string) ($ccGeneral['platform_name'] ?? 'Marketing Center')) ?>"></label>
+                                    <label>اللغة الافتراضية<select name="default_language"><option value="ar" <?= ($ccGeneral['default_language'] ?? 'ar') === 'ar' ? 'selected' : '' ?>>العربية</option><option value="en" <?= ($ccGeneral['default_language'] ?? '') === 'en' ? 'selected' : '' ?>>الإنجليزية</option></select></label>
+                                    <label>العملة الافتراضية<input name="currency" value="<?= htmlspecialchars((string) ($ccGeneral['currency'] ?? 'SAR')) ?>"></label>
+                                </div>
+                            </article>
+
+                            <article class="general-field-card">
+                                <div class="general-field-card-head">
+                                    <span>OPS</span>
+                                    <div><strong>التشغيل والدعم</strong><small>Production، التوقيت، والبريد الرسمي</small></div>
+                                </div>
+                                <div class="general-field-stack">
+                                    <label>وضع التشغيل<select name="runtime_mode"><option value="development" <?= ($ccGeneral['runtime_mode'] ?? '') === 'development' ? 'selected' : '' ?>>Development</option><option value="testing" <?= ($ccGeneral['runtime_mode'] ?? '') === 'testing' ? 'selected' : '' ?>>Testing</option><option value="production" <?= ($ccGeneral['runtime_mode'] ?? 'production') === 'production' ? 'selected' : '' ?>>Production</option></select></label>
+                                    <label>المنطقة الزمنية<input name="timezone" value="<?= htmlspecialchars((string) ($ccGeneral['timezone'] ?? 'Asia/Riyadh')) ?>"></label>
+                                    <label>البريد الرسمي للدعم<input name="support_email" value="<?= htmlspecialchars((string) ($ccGeneral['support_email'] ?? '')) ?>"></label>
+                                </div>
+                            </article>
+
+                            <article class="general-field-card">
+                                <div class="general-field-card-head">
+                                    <span>CMP</span>
+                                    <div><strong>روابط الالتزام</strong><small>الشروط والخصوصية وتجربة الثقة</small></div>
+                                </div>
+                                <div class="general-field-stack">
+                                    <label>رابط الشروط<input name="terms_url" value="<?= htmlspecialchars((string) ($ccGeneral['terms_url'] ?? '')) ?>" placeholder="https://example.com/terms"></label>
+                                    <label>رابط الخصوصية<input name="privacy_url" value="<?= htmlspecialchars((string) ($ccGeneral['privacy_url'] ?? '')) ?>" placeholder="https://example.com/privacy"></label>
+                                    <div class="general-compliance-note">
+                                        <strong>جاهزية الثقة</strong>
+                                        <span>يفضل إضافة روابط HTTPS قبل إطلاق المتاجر والـ White Label.</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="general-field-card">
+                                <div class="general-field-card-head">
+                                    <span>GATE</span>
+                                    <div><strong>بوابة التسجيل</strong><small>فتح أو قفل التسجيل وإنشاء المتاجر</small></div>
+                                </div>
+                                <div class="general-toggle-grid">
+                                    <label class="toggle-line premium-toggle"><input type="checkbox" name="registration_enabled" value="1" <?= !empty($ccGeneral['registration_enabled']) ? 'checked' : '' ?>><span><strong>تفعيل التسجيل</strong><small>السماح بإنشاء حسابات جديدة</small></span></label>
+                                    <label class="toggle-line premium-toggle"><input type="checkbox" name="store_creation_enabled" value="1" <?= !empty($ccGeneral['store_creation_enabled']) ? 'checked' : '' ?>><span><strong>تفعيل إنشاء المتاجر</strong><small>فتح إنشاء Workspaces جديدة</small></span></label>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div class="general-save-strip">
+                            <div>
+                                <strong>جاهز للحفظ</strong>
+                                <span>سيتم تسجيل التعديل في Audit Logs وتطبيقه على إعدادات المنصة العامة.</span>
+                            </div>
+                            <div class="button-row">
+                                <button class="ghost-btn control-test-settings" type="button" data-api="/api/settings/health">اختبار الإعدادات</button>
+                                <button class="primary" type="submit">حفظ الإعدادات العامة</button>
+                            </div>
+                        </div>
                     </form>
                 </section>
 

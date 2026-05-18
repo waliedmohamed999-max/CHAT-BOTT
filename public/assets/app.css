@@ -2008,6 +2008,282 @@ label { display: grid; gap: 8px; color: var(--muted); }
 .control-section {
     scroll-margin-top: 18px;
 }
+.general-settings-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 180px;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 22px;
+    border: 1px solid rgba(51,74,145,.12);
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(51,74,145,.12), transparent 32%),
+        linear-gradient(135deg, rgba(255,255,255,.96), rgba(247,250,253,.92));
+    box-shadow: 0 18px 48px rgba(31,42,68,.08);
+}
+.general-settings-head h2 {
+    margin: 8px 0 6px;
+    color: var(--text);
+    font-size: clamp(28px, 3vw, 44px);
+}
+.general-settings-head p {
+    max-width: 760px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.85;
+}
+.general-health-chip {
+    min-height: 128px;
+    display: grid;
+    place-items: center;
+    gap: 6px;
+    padding: 16px;
+    border: 1px solid rgba(35,163,108,.18);
+    border-radius: 24px;
+    background: rgba(35,163,108,.08);
+    text-align: center;
+}
+.general-health-chip span {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border-radius: 20px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--ok), #52c99a);
+    box-shadow: 0 16px 32px rgba(35,163,108,.22);
+    font-weight: 950;
+}
+.general-health-chip strong {
+    color: var(--text);
+}
+.general-health-chip small {
+    color: var(--muted);
+    font-size: 11px;
+}
+.general-settings-suite {
+    gap: 18px;
+}
+.general-settings-overview {
+    display: grid;
+    grid-template-columns: minmax(280px, 1.35fr) repeat(3, minmax(150px, .55fr));
+    gap: 14px;
+}
+.general-brand-card,
+.general-stat-card,
+.general-field-card,
+.general-save-strip {
+    border: 1px solid rgba(51,74,145,.12);
+    border-radius: 24px;
+    background: rgba(255,255,255,.78);
+    box-shadow: 0 16px 42px rgba(31,42,68,.08);
+}
+.general-brand-card {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 15px;
+    align-items: center;
+    padding: 18px;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(90,169,184,.12), transparent 40%),
+        linear-gradient(145deg, rgba(255,255,255,.96), rgba(247,250,253,.90));
+}
+.general-brand-logo {
+    width: 70px;
+    height: 70px;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--primary-3));
+    box-shadow: 0 18px 34px rgba(51,74,145,.25);
+    font-size: 20px;
+    font-weight: 950;
+}
+.general-brand-card strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text);
+    font-size: 20px;
+}
+.general-brand-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.65;
+    font-size: 13px;
+}
+.general-stat-card {
+    display: grid;
+    align-content: center;
+    gap: 8px;
+    min-height: 112px;
+    padding: 16px;
+}
+.general-stat-card span {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+}
+.general-stat-card strong {
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: 950;
+    direction: ltr;
+    text-align: right;
+}
+.general-stat-card small {
+    color: var(--muted);
+    font-size: 11px;
+}
+.general-settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+.general-field-card {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 16px;
+    padding: 20px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.98), rgba(247,250,253,.92)),
+        radial-gradient(circle at 0% 100%, rgba(51,74,145,.06), transparent 42%);
+}
+.general-field-card::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: 22px;
+    width: 5px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--primary), var(--cyan));
+}
+.general-field-card.primary-card::before {
+    background: linear-gradient(180deg, var(--primary-3), var(--ok));
+}
+.general-field-card-head {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+}
+.general-field-card-head > span {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-3), var(--primary));
+    box-shadow: 0 14px 28px rgba(51,74,145,.20);
+    font-size: 11px;
+    font-weight: 950;
+}
+.general-field-card-head strong {
+    display: block;
+    color: var(--text);
+    font-size: 18px;
+}
+.general-field-card-head small {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 12px;
+}
+.general-field-stack {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+.general-field-stack label:first-child:nth-last-child(3),
+.general-field-stack label:first-child:nth-last-child(3) ~ label {
+    grid-column: auto;
+}
+.general-field-stack label,
+.general-toggle-grid label {
+    display: grid;
+    gap: 7px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+}
+.general-field-stack input,
+.general-field-stack select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid rgba(51,74,145,.13);
+    border-radius: 16px;
+    background: rgba(255,255,255,.88);
+    color: var(--text);
+    padding: 10px 13px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.82);
+}
+.general-field-stack input:focus,
+.general-field-stack select:focus {
+    outline: none;
+    border-color: rgba(51,74,145,.38);
+    box-shadow: 0 0 0 4px rgba(51,74,145,.08);
+}
+.general-compliance-note {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 5px;
+    padding: 12px;
+    border: 1px solid rgba(217,148,34,.18);
+    border-radius: 16px;
+    background: rgba(217,148,34,.07);
+}
+.general-compliance-note strong {
+    color: var(--text);
+}
+.general-compliance-note span {
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 12px;
+}
+.general-toggle-grid {
+    display: grid;
+    gap: 12px;
+}
+.premium-toggle {
+    min-height: 72px;
+    align-items: center;
+    background: rgba(255,255,255,.86) !important;
+    border-radius: 18px !important;
+}
+.premium-toggle span {
+    display: grid;
+    gap: 4px;
+}
+.premium-toggle strong {
+    color: var(--text);
+}
+.premium-toggle small {
+    color: var(--muted);
+    font-size: 11px;
+}
+.general-save-strip {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: center;
+    padding: 16px;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(35,163,108,.08), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,.96), rgba(247,250,253,.92));
+}
+.general-save-strip strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text);
+}
+.general-save-strip span {
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 12px;
+}
 .control-form {
     display: grid;
     gap: 16px;
@@ -4486,7 +4762,7 @@ body.safe-mode * {
     .portal-security-grid { grid-template-columns: 1fr; }
     .shell, body.sidebar-collapsed .shell { margin-right: 0; padding: 16px 16px 92px; }
     .bottom-nav { display: grid; }
-    .metric-grid, .workspace-grid, .panel-grid, .builder, .inbox, .qr-layout, .setup-center-hero, .readiness-board, .chatbot-hero, .chatbot-health-grid, .chatbot-diagnostics-grid, .advanced-settings, .settings-deck, .omni-hero, .omni-inbox-grid, .channel-grid, .mini-channel-grid, .wa-builder-layout, .department-grid, .chatbot-bottom-grid, .flow-status-cards, .ai-agent-grid, .knowledge-layout, .revenue-flow-grid, .revenue-engine-hero, .saas-hero, .plans-grid, .ai-bi-hero, .ai-bi-grid, .marketplace-hero, .marketplace-grid, .app-store-grid, .enterprise-hero, .enterprise-grid, .commerce-os-hero, .commerce-os-grid, .os-agent-grid, .env-grid, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .login-portal-grid, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .control-center-hero, .control-center-layout, .executive-overview-grid, .settings-quick-actions, .quick-action-strip, .settings-command-panel, .settings-hub-grid, .settings-control-card-grid, .settings-section-hero, .settings-section-tool-grid, .settings-section-action-bar, .settings-route-toolbar, .executive-bottom-grid, .system-health-grid, .control-grid, .permission-layout, .control-split, .control-metrics { grid-template-columns: 1fr; }
+    .metric-grid, .workspace-grid, .panel-grid, .builder, .inbox, .qr-layout, .setup-center-hero, .readiness-board, .chatbot-hero, .chatbot-health-grid, .chatbot-diagnostics-grid, .advanced-settings, .settings-deck, .omni-hero, .omni-inbox-grid, .channel-grid, .mini-channel-grid, .wa-builder-layout, .department-grid, .chatbot-bottom-grid, .flow-status-cards, .ai-agent-grid, .knowledge-layout, .revenue-flow-grid, .revenue-engine-hero, .saas-hero, .plans-grid, .ai-bi-hero, .ai-bi-grid, .marketplace-hero, .marketplace-grid, .app-store-grid, .enterprise-hero, .enterprise-grid, .commerce-os-hero, .commerce-os-grid, .os-agent-grid, .env-grid, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .login-portal-grid, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .control-center-hero, .control-center-layout, .executive-overview-grid, .settings-quick-actions, .quick-action-strip, .settings-command-panel, .settings-hub-grid, .settings-control-card-grid, .settings-section-hero, .settings-section-tool-grid, .settings-section-action-bar, .settings-route-toolbar, .executive-bottom-grid, .system-health-grid, .general-settings-head, .general-settings-overview, .general-settings-grid, .general-save-strip, .control-grid, .permission-layout, .control-split, .control-metrics { grid-template-columns: 1fr; }
     .settings-route-grid { grid-template-columns: 1fr; }
     .settings-hub-card {
         grid-template-columns: 70px minmax(0, 1fr);
@@ -4516,6 +4792,15 @@ body.safe-mode * {
     .settings-section-progress {
         grid-column: 1 / -1;
     }
+    .general-health-chip {
+        min-height: auto;
+        grid-template-columns: 58px minmax(0, 1fr);
+        justify-items: start;
+        text-align: start;
+    }
+    .general-stat-card {
+        min-height: auto;
+    }
     .settings-save-bar { right: 16px; left: 16px; bottom: 92px; }
     .flow-library-item { grid-template-columns: 1fr; }
     .department-flow-map { min-width: 820px; }
@@ -4530,7 +4815,7 @@ body.safe-mode * {
     .portal-auth-visual { min-height: auto; }
     .top-actions, .button-row, .toolbar { align-items: stretch; flex-direction: column; }
     .search-trigger, .primary, .secondary, .danger, .ghost-btn, .icon-btn { width: 100%; }
-    .metric-grid, .step-row, .setup-grid, .workflow, .checklist, .launch-grid, .compact-form, .progress-steps, .connect-choice, .wizard-steps, .method-cards, .setup-connect-grid, .test-grid, .setup-profile-form, .upload-grid, .capability-list, .ai-meta-grid, .ai-feature-list, .ai-agent-mini, .memory-orbit, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .compact-control-form, .control-upload-form, .control-table, .control-table.compact, .permission-matrix, .setting-row { grid-template-columns: 1fr; }
+    .metric-grid, .step-row, .setup-grid, .workflow, .checklist, .launch-grid, .compact-form, .progress-steps, .connect-choice, .wizard-steps, .method-cards, .setup-connect-grid, .test-grid, .setup-profile-form, .upload-grid, .capability-list, .ai-meta-grid, .ai-feature-list, .ai-agent-mini, .memory-orbit, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .compact-control-form, .control-upload-form, .control-table, .control-table.compact, .permission-matrix, .setting-row, .general-field-stack, .general-field-card-head, .general-brand-card { grid-template-columns: 1fr; }
     .table-like, .data-table { grid-template-columns: 1fr; }
     .hero-command h2 { font-size: 32px; }
     .panel { padding: 16px; }
@@ -4604,6 +4889,24 @@ body.safe-mode * {
     }
     .settings-section-score {
         grid-template-columns: 1fr;
+    }
+    .general-settings-head,
+    .general-field-card,
+    .general-save-strip {
+        padding: 16px;
+        border-radius: 22px;
+    }
+    .general-settings-head h2 {
+        font-size: 28px;
+    }
+    .general-brand-logo,
+    .general-field-card-head > span {
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+    }
+    .general-save-strip .button-row {
+        width: 100%;
     }
     .settings-route-side {
         grid-column: 1 / -1;
