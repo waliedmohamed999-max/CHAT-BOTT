@@ -16,7 +16,11 @@ final class AuthPortalService
 
     public function __construct()
     {
-        $this->ensurePortalTables();
+        try {
+            $this->ensurePortalTables();
+        } catch (\Throwable) {
+            // Login pages must stay reachable even before the production database is attached.
+        }
     }
 
     public function portalConfig(string $portal, ?string $slug = null): array
