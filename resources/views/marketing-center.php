@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260518-control-center-v8';
+$assetVersion = '20260518-control-center-v9';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -2457,6 +2457,30 @@ $labelText = static function (?string $value): string {
             if (!$aiRecommendations) {
                 $aiRecommendations[] = ['tone' => 'ok', 'title' => 'النظام مستقر', 'text' => 'لا توجد توصيات حرجة حالياً. استمر في مراقبة السجلات والتنبيهات.'];
             }
+            $routeToolkits = [
+                'general' => ['summary' => 'مركز تشغيل هوية المنصة واللغة والروابط ووضع الإنتاج.', 'tools' => [['ID', 'هوية المنصة', 'اسم المنتج والشعار والعملة واللغة الافتراضية.'], ['RUN', 'وضع التشغيل', 'تبديل Development / Testing / Production مع تحذيرات.'], ['CMP', 'روابط الالتزام', 'الشروط والخصوصية وبريد الدعم الرسمي.']]],
+                'whatsapp' => ['summary' => 'غرفة تحكم واتساب الرسمية وQR والجودة والاشتراك.', 'tools' => [['META', 'Meta Health', 'حالة Meta وWABA والقوالب والمرسل الافتراضي.'], ['QR', 'QR Session Guard', 'حدود آمنة وربط سريع ومراقبة الاتصال.'], ['OPT', 'Compliance Rules', 'Opt-in وإلغاء الاشتراك ونافذة 24 ساعة.']]],
+                'campaigns' => ['summary' => 'مركز حدود الحملات والدفعات والتهدئة ومنع التكرار.', 'tools' => [['BAT', 'Batch Control', 'حجم الدفعة والفاصل بين الدفعات.'], ['RTE', 'Retry Policy', 'إعادة المحاولة وإيقاف الحملات عند الفشل.'], ['SAFE', 'QR Safe Mode', 'تأخير عشوائي وحدود إرسال آمنة.']]],
+                'quick-replies' => ['summary' => 'مكتبة الردود الجاهزة حسب القسم وسياق المحادثة.', 'tools' => [['WEL', 'رد الترحيب', 'رسالة البداية وتجربة أول تواصل.'], ['AWY', 'خارج الدوام', 'ردود تلقائية حسب ساعات العمل.'], ['TAG', 'تصنيف الردود', 'ربط الردود بالأقسام والوسوم.']]],
+                'users' => ['summary' => 'إدارة الفريق والجلسات وحالة المستخدمين لكل متجر.', 'tools' => [['ADD', 'إضافة مستخدم', 'إنشاء حساب وربطه بدور وقسم.'], ['SES', 'الجلسات', 'متابعة آخر دخول والجلسات النشطة.'], ['EXP', 'تصدير', 'استخراج قائمة المستخدمين للتدقيق.']]],
+                'roles' => ['summary' => 'مصفوفة RBAC كاملة للتحكم في الصفحات والـ APIs.', 'tools' => [['MAT', 'Permission Matrix', 'View/Create/Edit/Delete/Export/Launch.'], ['LOCK', 'حماية المالك', 'منع حذف آخر Super Admin أو تعطيل المالك الوحيد.'], ['AUD', 'تدقيق الصلاحيات', 'سجل تعديلات الأدوار والصلاحيات.']]],
+                'companies' => ['summary' => 'إدارة الشركات والمتاجر والدومينات وحالة التوثيق.', 'tools' => [['CO', 'ملف الشركة', 'السجل التجاري والضريبي والوثائق.'], ['ST', 'المتاجر', 'المالك والربط والاشتراك وحدود الاستخدام.'], ['DMN', 'الدومينات', 'White Label ودومين الدخول المخصص.']]],
+                'departments' => ['summary' => 'تشغيل الأقسام والتحويل التلقائي وقواعد SLA.', 'tools' => [['SLA', 'SLA Rules', 'زمن الاستجابة وأولوية القسم.'], ['RR', 'Round Robin', 'توزيع المحادثات على الموظفين.'], ['MSG', 'رسائل القسم', 'ترحيب وخارج الدوام حسب القسم.']]],
+                'billing' => ['summary' => 'إدارة الباقات والفواتير وحدود الاستخدام والـ AI Credits.', 'tools' => [['PLAN', 'Plans', 'Free / Starter / Professional / Enterprise.'], ['USE', 'Usage Limits', 'الرسائل، المستخدمون، التخزين، AI Credits.'], ['INV', 'Invoices', 'الفواتير والدفع والتجديد.']]],
+                'security' => ['summary' => 'مركز حماية الجلسات والأسرار والتسجيل ومحاولات الدخول.', 'tools' => [['2FA', 'Two Factor', 'تفعيل 2FA وسياسة كلمات المرور.'], ['IP', 'IP & Sessions', 'Whitelist والجلسات والأجهزة.'], ['SEC', 'Security Headers', 'CSRF وCSP وSecure Cookies وJWT.']]],
+                'developer' => ['summary' => 'Developer Console لإدارة API Keys وWebhooks والتكاملات.', 'tools' => [['KEY', 'API Keys', 'إنشاء وتدوير وإلغاء المفاتيح.'], ['HOOK', 'Webhook Lab', 'اختبار الروابط وعرض آخر Payload.'], ['RATE', 'API Limits', 'حدود الطلبات والتوقيعات.']]],
+                'documents' => ['summary' => 'مركز الملفات والمستندات الآمن للشركات والمتاجر.', 'tools' => [['UP', 'Upload Center', 'رفع PDF/PNG/JPG/DOCX مع التحقق.'], ['REV', 'Review Queue', 'قبول/رفض ومراجعة الوثائق.'], ['STR', 'Storage Usage', 'متابعة المساحة وصلاحيات الوصول.']]],
+                'notifications' => ['summary' => 'إعداد قنوات التنبيه للأخطاء والحملات والفوترة والربط.', 'tools' => [['MAIL', 'Email Alerts', 'تنبيهات البريد للحسابات والأمان.'], ['APP', 'In-App', 'إشعارات داخل لوحة التحكم.'], ['OPS', 'Ops Webhooks', 'Slack/Webhook لأحداث التشغيل.']]],
+                'logs' => ['summary' => 'مركز مراقبة السجلات والأحداث وفلترة المخاطر.', 'tools' => [['AUD', 'Audit Logs', 'كل تعديل مهم داخل المنصة.'], ['API', 'API Logs', 'أخطاء وطلبات التكاملات.'], ['FLT', 'Smart Filters', 'بحث وتصفية حسب الخطورة والنوع.']]],
+                'branding' => ['summary' => 'هوية White Label للدخول والمنتج والدومين والتطبيق.', 'tools' => [['LOGO', 'Brand Assets', 'الشعار والألوان والخطوط.'], ['LOGIN', 'Login Theme', 'تخصيص شاشة الدخول لكل متجر.'], ['PWA', 'PWA Theme', 'الأيقونات وSplash Screen وثيم الموبايل.']]],
+                'ai' => ['summary' => 'إعدادات الذكاء الاصطناعي والموديل وقواعد السلامة.', 'tools' => [['MODEL', 'Model Provider', 'مزود الذكاء والموديل.'], ['SAFE', 'AI Safety', 'ممنوعات الرد وحدود الاستخدام.'], ['KB', 'Knowledge Base', 'مصادر المعرفة وسجلات AI.']]],
+                'backup' => ['summary' => 'إدارة النسخ الاحتياطي والاستعادة وسياسات الاحتفاظ.', 'tools' => [['DB', 'Database Backup', 'نسخ قاعدة البيانات وجدولة النسخ.'], ['FILES', 'File Backup', 'نسخ الملفات والمستندات.'], ['REST', 'Restore Point', 'نقاط استعادة وتصدير البيانات.']]],
+                'launch' => ['summary' => 'غرفة جاهزية الإطلاق وفحص الإنتاج النهائي.', 'tools' => [['ENV', 'Environment Check', 'الأسرار والدومين وHTTPS.'], ['BUILD', 'Build Check', 'فحص البناء والمسارات الحرجة.'], ['SCORE', 'Launch Score', 'درجة الجاهزية وتوصيات المعالجة.']]],
+            ];
+            $activeToolkit = $routeToolkits[$activeSetting] ?? $routeToolkits['general'];
+            $activeRouteHealth = $settingHealth[$activeSetting] ?? ['class' => 'pending', 'label' => 'قيد المراجعة', 'progress' => 50];
+            $activeRouteCategory = $settingCategories[$activeSetting] ?? 'core';
+            $activeRouteCategoryLabel = $settingCategoryLabels[$activeRouteCategory] ?? 'تشغيل';
         ?>
         <section class="panel wide control-center-hero executive-control-hero">
             <div>
@@ -2607,14 +2631,49 @@ $labelText = static function (?string $value): string {
                 </div>
             </section>
         <?php else: ?>
-            <section class="settings-route-toolbar panel">
-                <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/settings">كل الأقسام</a>
-                <div>
-                    <span class="premium-pill">مسار مستقل</span>
-                    <h2><?= htmlspecialchars($settingSections[$activeSetting] ?? 'الإعدادات') ?></h2>
-                    <p><?= htmlspecialchars($settingDescriptions[$activeSetting] ?? 'إدارة القسم المحدد من مركز التحكم.') ?></p>
+            <section class="settings-section-hero panel">
+                <div class="settings-section-hero-main">
+                    <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/settings">كل الأقسام</a>
+                    <span class="settings-section-icon"><?= htmlspecialchars($settingIcons[$activeSetting] ?? 'ST') ?></span>
+                    <div class="settings-section-copy">
+                        <span class="premium-pill"><?= htmlspecialchars($activeRouteCategoryLabel) ?> · مسار تنفيذي مستقل</span>
+                        <h2><?= htmlspecialchars($settingSections[$activeSetting] ?? 'الإعدادات') ?></h2>
+                        <p><?= htmlspecialchars($activeToolkit['summary'] ?? ($settingDescriptions[$activeSetting] ?? 'إدارة القسم المحدد من مركز التحكم.')) ?></p>
+                        <code>/marketing-center/settings/<?= htmlspecialchars($activeSetting) ?></code>
+                    </div>
                 </div>
-                <span class="status-pill active"><?= htmlspecialchars((string) ($settingStats[$activeSetting] ?? 'جاهز')) ?></span>
+                <div class="settings-section-score">
+                    <span class="status-pill <?= htmlspecialchars($activeRouteHealth['class']) ?>"><?= htmlspecialchars($activeRouteHealth['label']) ?></span>
+                    <strong><?= (int) $activeRouteHealth['progress'] ?>%</strong>
+                    <small><?= htmlspecialchars((string) ($settingStats[$activeSetting] ?? 'جاهز')) ?></small>
+                    <span class="settings-section-progress"><i style="width: <?= (int) $activeRouteHealth['progress'] ?>%"></i></span>
+                </div>
+            </section>
+
+            <section class="settings-section-tool-grid" aria-label="أدوات القسم">
+                <?php foreach (($activeToolkit['tools'] ?? []) as $tool): ?>
+                    <article class="settings-section-tool">
+                        <span><?= htmlspecialchars((string) ($tool[0] ?? 'TOOL')) ?></span>
+                        <div>
+                            <strong><?= htmlspecialchars((string) ($tool[1] ?? 'أداة تشغيل')) ?></strong>
+                            <p><?= htmlspecialchars((string) ($tool[2] ?? 'أداة مخصصة لإدارة هذا القسم.')) ?></p>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </section>
+
+            <section class="settings-section-action-bar panel">
+                <div>
+                    <span class="premium-pill">Execution Tools</span>
+                    <h3>أدوات تشغيل <?= htmlspecialchars($settingSections[$activeSetting] ?? 'القسم') ?></h3>
+                    <p>نفّذ الحفظ، الاختبار، التصدير، أو ارجع للوضع الآمن مع تسجيل كل إجراء في Audit Trail.</p>
+                </div>
+                <div class="button-row">
+                    <button class="primary settings-save-trigger" type="button">حفظ تغييرات القسم</button>
+                    <button class="ghost-btn control-test-settings" type="button" data-api="/api/settings/health">اختبار القسم</button>
+                    <button class="ghost-btn control-export-report" type="button">تصدير تقرير</button>
+                    <button class="danger ghost-btn control-safe-mode" type="button">الوضع الآمن</button>
+                </div>
             </section>
 
         <section class="control-center-layout settings-detail-layout" data-active-setting="<?= htmlspecialchars($activeSetting) ?>">
