@@ -321,6 +321,13 @@ document.querySelectorAll('[data-settings-filter]').forEach((button) => {
     });
 });
 settingsSearchInput?.addEventListener('input', filterSettingsCards);
+document.addEventListener('keydown', (event) => {
+    const isCommandSearch = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k';
+    if (!isCommandSearch || !settingsSearchInput) return;
+    event.preventDefault();
+    settingsSearchInput.focus();
+    settingsSearchInput.select();
+});
 document.querySelectorAll('[data-control-link]').forEach((link) => {
     link.addEventListener('click', () => {
         document.querySelectorAll('[data-control-link]').forEach((item) => item.classList.remove('active'));

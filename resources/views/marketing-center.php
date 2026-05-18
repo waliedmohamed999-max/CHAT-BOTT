@@ -2387,16 +2387,90 @@ $labelText = static function (?string $value): string {
                 'backup' => ['class' => count((array) ($ccBackup['jobs'] ?? [])) > 0 ? 'ok' : 'pending', 'label' => count((array) ($ccBackup['jobs'] ?? [])) > 0 ? 'مجدول' : 'أنشئ نسخة', 'progress' => count((array) ($ccBackup['jobs'] ?? [])) > 0 ? 80 : 46],
                 'launch' => ['class' => ((int) ($ccLaunch['score'] ?? 0) >= 80) ? 'ok' : (((int) ($ccLaunch['score'] ?? 0) >= 60) ? 'pending' : 'danger'), 'label' => ((int) ($ccLaunch['score'] ?? 0) >= 80) ? 'جاهز' : 'قيد المراجعة', 'progress' => max(0, min(100, (int) ($ccLaunch['score'] ?? 0)))],
             ];
+            $launchScore = max(0, min(100, (int) ($ccLaunch['score'] ?? 0)));
+            $connectedWhatsapp = (($ccWhatsapp['meta_status'] ?? '') === 'connected' ? 1 : 0) + (($ccWhatsapp['qr_status'] ?? '') === 'connected' ? 1 : 0);
+            $integrationCount = count((array) $ccApiKeys) + count((array) $ccWebhooks) + $connectedWhatsapp;
+            $securityReady = !empty($ccSecurity['jwt_secret_present']) && !empty($ccSecurity['encryption_key_present']);
+            $executiveCards = [
+                ['label' => 'جاهزية الإطلاق', 'value' => $launchScore . '%', 'meta' => $ccLaunch['status'] ?? 'قيد المراجعة', 'tone' => $launchScore >= 80 ? 'ok' : ($launchScore >= 60 ? 'pending' : 'danger')],
+                ['label' => 'المستخدمون', 'value' => count((array) $ccUsers), 'meta' => 'حسابات مرتبطة بالأدوار', 'tone' => count((array) $ccUsers) > 0 ? 'ok' : 'pending'],
+                ['label' => 'التكاملات', 'value' => $integrationCount, 'meta' => 'واتساب، API Keys، Webhooks', 'tone' => $integrationCount > 0 ? 'ok' : 'pending'],
+                ['label' => 'سجل التدقيق', 'value' => count((array) ($ccLogs['audit'] ?? [])), 'meta' => 'آخر عمليات التحكم', 'tone' => count((array) ($ccLogs['audit'] ?? [])) > 0 ? 'ok' : 'pending'],
+            ];
+            $systemHealthCards = [
+                ['icon' => 'DB', 'label' => 'Database', 'status' => ($ccStatus['database'] ?? '') === 'connected' ? 'Online' : 'Offline', 'class' => ($ccStatus['database'] ?? '') === 'connected' ? 'ok' : 'danger', 'meta' => 'آخر فحص ' . ($cc['generated_at'] ?? date('Y-m-d H:i:s'))],
+                ['icon' => 'QU', 'label' => 'Queue', 'status' => ($ccWhatsapp['queue_status'] ?? '') === 'healthy' ? 'Online' : 'Warning', 'class' => ($ccWhatsapp['queue_status'] ?? '') === 'healthy' ? 'ok' : 'pending', 'meta' => 'Failed Jobs: ' . count((array) ($ccLogs['failed_jobs'] ?? []))],
+                ['icon' => 'WA', 'label' => 'WhatsApp', 'status' => $connectedWhatsapp > 0 ? 'Connected' : 'Disconnected', 'class' => $connectedWhatsapp > 0 ? 'ok' : 'pending', 'meta' => 'Meta ' . $labelText($ccWhatsapp['meta_status'] ?? 'disconnected') . ' / QR ' . $labelText($ccWhatsapp['qr_status'] ?? 'disconnected')],
+                ['icon' => 'WH', 'label' => 'Webhooks', 'status' => count((array) $ccWebhooks) > 0 ? 'Ready' : 'Setup', 'class' => count((array) $ccWebhooks) > 0 ? 'ok' : 'pending', 'meta' => count((array) ($ccLogs['webhook'] ?? [])) . ' Payloads'],
+                ['icon' => 'ST', 'label' => 'Storage', 'status' => count((array) $ccDocuments) > 0 ? 'Active' : 'Empty', 'class' => count((array) $ccDocuments) > 0 ? 'ok' : 'pending', 'meta' => count((array) $ccDocuments) . ' ملفات موثقة'],
+                ['icon' => 'SL', 'label' => 'SSL', 'status' => str_starts_with((string) ($ccGeneral['public_app_url'] ?? getenv('PUBLIC_APP_URL') ?: ''), 'https://') ? 'HTTPS' : 'Review', 'class' => str_starts_with((string) ($ccGeneral['public_app_url'] ?? getenv('PUBLIC_APP_URL') ?: ''), 'https://') ? 'ok' : 'pending', 'meta' => 'الدومين العام'],
+                ['icon' => 'SE', 'label' => 'Security', 'status' => $securityReady ? 'Protected' : 'Critical', 'class' => $securityReady ? 'ok' : 'danger', 'meta' => $securityReady ? 'الأسرار الأساسية موجودة' : 'JWT أو Encryption ناقص'],
+                ['icon' => 'AI', 'label' => 'AI', 'status' => !empty($ccAi['enabled']) ? 'Enabled' : 'Paused', 'class' => !empty($ccAi['enabled']) ? 'ok' : 'pending', 'meta' => $ccAi['provider'] ?? 'Knowledge Base'],
+            ];
+            $quickActions = [
+                ['label' => 'إضافة مستخدم', 'href' => '/marketing-center/settings/users', 'icon' => '+U'],
+                ['label' => 'إضافة متجر', 'href' => '/marketing-center/settings/companies', 'icon' => '+S'],
+                ['label' => 'ربط واتساب', 'href' => '/marketing-center/settings/whatsapp', 'icon' => 'WA'],
+                ['label' => 'إنشاء Role', 'href' => '/marketing-center/settings/roles', 'icon' => 'RB'],
+                ['label' => 'إنشاء API Key', 'href' => '/marketing-center/settings/developer', 'icon' => 'API'],
+                ['label' => 'رفع مستند', 'href' => '/marketing-center/settings/documents', 'icon' => 'UP'],
+                ['label' => 'تشغيل اختبار', 'href' => '/marketing-center/settings/launch', 'icon' => 'GO'],
+                ['label' => 'Backup الآن', 'href' => '/marketing-center/settings/backup', 'icon' => 'BK'],
+            ];
+            $activityTimeline = [];
+            foreach (array_slice((array) ($ccLogs['audit'] ?? []), 0, 4) as $row) {
+                $activityTimeline[] = [
+                    'title' => $row['action'] ?? $row['event_type'] ?? 'تعديل إعداد',
+                    'meta' => $row['actor_email'] ?? $row['user_email'] ?? 'System',
+                    'time' => $row['created_at'] ?? $row['updated_at'] ?? '',
+                    'class' => 'ok',
+                ];
+            }
+            foreach (array_slice((array) ($ccLogs['webhook'] ?? []), 0, 2) as $row) {
+                $activityTimeline[] = [
+                    'title' => $row['event_type'] ?? 'Webhook Payload',
+                    'meta' => $row['provider'] ?? 'Webhook',
+                    'time' => $row['received_at'] ?? $row['created_at'] ?? '',
+                    'class' => 'pending',
+                ];
+            }
+            if (!$activityTimeline) {
+                $activityTimeline[] = ['title' => 'لا توجد عمليات حديثة', 'meta' => 'ابدأ بإعداد أول مسار أو اختبار النظام', 'time' => $cc['generated_at'] ?? date('Y-m-d H:i:s'), 'class' => 'pending'];
+            }
+            $aiRecommendations = [];
+            if (!$securityReady) {
+                $aiRecommendations[] = ['tone' => 'danger', 'title' => 'استكمل أسرار الأمان', 'text' => 'JWT_SECRET و ENCRYPTION_KEY مطلوبة قبل اعتبار المنصة جاهزة للإطلاق.'];
+            }
+            if ($connectedWhatsapp === 0) {
+                $aiRecommendations[] = ['tone' => 'pending', 'title' => 'اربط قناة واتساب', 'text' => 'فعّل Meta Cloud API أو QR Session حتى تعمل الحملات والمحادثات.'];
+            }
+            if (count((array) $ccUsers) < 2) {
+                $aiRecommendations[] = ['tone' => 'pending', 'title' => 'أضف مستخدماً احتياطياً', 'text' => 'وجود أكثر من مسؤول يقلل مخاطر فقدان الوصول ويقوي التشغيل.'];
+            }
+            if ($launchScore < 80) {
+                $aiRecommendations[] = ['tone' => 'pending', 'title' => 'راجع جاهزية الإطلاق', 'text' => 'Launch Score أقل من 80%. افتح إعدادات الإطلاق لمعالجة عناصر الإنتاج.'];
+            }
+            if (!$aiRecommendations) {
+                $aiRecommendations[] = ['tone' => 'ok', 'title' => 'النظام مستقر', 'text' => 'لا توجد توصيات حرجة حالياً. استمر في مراقبة السجلات والتنبيهات.'];
+            }
         ?>
-        <section class="panel wide control-center-hero">
+        <section class="panel wide control-center-hero executive-control-hero">
             <div>
                 <span class="premium-pill">Platform Control Center</span>
                 <h2>مركز تحكم المنصة</h2>
-                <p>إدارة الإعدادات والصلاحيات والشركات والتشغيل والربط من مكان واحد مع سجل تدقيق لكل تعديل.</p>
+                <p>إدارة الإعدادات، التشغيل، الصلاحيات، الشركات، والربط من مكان واحد بهوية تنفيذية جاهزة للإطلاق.</p>
+                <div class="executive-hero-meta">
+                    <span class="status-pill <?= ($ccStatus['state'] ?? '') === 'healthy' ? 'ok' : 'pending' ?>">Launch Status: <?= htmlspecialchars($ccStatus['label'] ?? 'يحتاج مراجعة') ?></span>
+                    <span>آخر تحديث: <?= htmlspecialchars($cc['generated_at'] ?? date('Y-m-d H:i:s')) ?></span>
+                    <span>المسارات: <?= count($settingSections) ?></span>
+                </div>
             </div>
             <div class="control-hero-actions">
-                <span class="status-pill <?= ($ccStatus['state'] ?? '') === 'healthy' ? 'ok' : 'pending' ?>">حالة النظام: <?= htmlspecialchars($ccStatus['label'] ?? 'يحتاج مراجعة') ?></span>
-                <small>آخر تحديث: <?= htmlspecialchars($cc['generated_at'] ?? date('Y-m-d H:i:s')) ?></small>
+                <div class="launch-radar" style="--score: <?= $launchScore ?>%">
+                    <span><?= $launchScore ?>%</span>
+                    <small>Launch Score</small>
+                    <i></i>
+                </div>
                 <div class="button-row">
                     <button class="primary settings-save-trigger" type="button">حفظ التغييرات</button>
                     <button class="ghost-btn control-test-settings" type="button" data-api="/api/settings/health">اختبار الإعدادات</button>
@@ -2407,6 +2481,29 @@ $labelText = static function (?string $value): string {
         </section>
 
         <?php if ($settingsOverview): ?>
+            <section class="executive-overview-grid" aria-label="نظرة تنفيذية على مركز التحكم">
+                <?php foreach ($executiveCards as $card): ?>
+                    <article class="executive-metric-card <?= htmlspecialchars($card['tone']) ?>">
+                        <span><?= htmlspecialchars($card['label']) ?></span>
+                        <strong><?= htmlspecialchars((string) $card['value']) ?></strong>
+                        <small><?= htmlspecialchars($card['meta']) ?></small>
+                    </article>
+                <?php endforeach; ?>
+            </section>
+
+            <section class="settings-quick-actions panel" aria-label="إجراءات سريعة">
+                <div>
+                    <span class="premium-pill">Quick Actions</span>
+                    <h3>أدوات تشغيل سريعة</h3>
+                    <p>اختصارات مباشرة لأكثر عمليات إدارة المنصة استخداماً.</p>
+                </div>
+                <div class="quick-action-strip">
+                    <?php foreach ($quickActions as $action): ?>
+                        <a href="<?= htmlspecialchars($appUrl . $action['href']) ?>"><span><?= htmlspecialchars($action['icon']) ?></span><?= htmlspecialchars($action['label']) ?></a>
+                    <?php endforeach; ?>
+                </div>
+            </section>
+
             <section class="settings-command-panel panel" aria-label="أدوات مركز تحكم المنصة">
                 <div>
                     <span class="premium-pill">Control Routes</span>
@@ -2449,12 +2546,57 @@ $labelText = static function (?string $value): string {
                             <span class="settings-route-path"><?= htmlspecialchars($routePath) ?></span>
                             <span class="settings-route-progress" aria-hidden="true"><i style="width: <?= (int) $health['progress'] ?>%"></i></span>
                         </span>
-                        <span class="settings-route-side">
-                            <em><?= htmlspecialchars((string) ($settingStats[$key] ?? 'جاهز')) ?></em>
-                            <b>فتح المسار <span>←</span></b>
+                            <span class="settings-route-side">
+                                <em><?= htmlspecialchars((string) ($settingStats[$key] ?? 'جاهز')) ?></em>
+                            <b>فتح القسم <span>←</span></b>
+                            <small>إعداد سريع</small>
                         </span>
                     </a>
                 <?php endforeach; ?>
+            </section>
+
+            <section class="executive-bottom-grid" aria-label="مراقبة النظام والتوصيات">
+                <div class="panel system-monitor-panel">
+                    <div class="panel-head"><div><h2>System Monitoring</h2><span>حالة الخدمات الأساسية لحظة فتح مركز التحكم.</span></div><span class="status-pill <?= ($ccStatus['state'] ?? '') === 'healthy' ? 'ok' : 'pending' ?>">Live</span></div>
+                    <div class="system-health-grid">
+                        <?php foreach ($systemHealthCards as $healthCard): ?>
+                            <article class="system-health-card <?= htmlspecialchars($healthCard['class']) ?>">
+                                <span><?= htmlspecialchars($healthCard['icon']) ?></span>
+                                <strong><?= htmlspecialchars($healthCard['label']) ?></strong>
+                                <b><?= htmlspecialchars($healthCard['status']) ?></b>
+                                <small><?= htmlspecialchars($healthCard['meta']) ?></small>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <div class="panel activity-panel">
+                    <div class="panel-head"><div><h2>النشاط الأخير</h2><span>آخر عمليات التحكم والربط والمراقبة.</span></div></div>
+                    <div class="activity-timeline">
+                        <?php foreach (array_slice($activityTimeline, 0, 6) as $activity): ?>
+                            <article class="<?= htmlspecialchars($activity['class']) ?>">
+                                <span></span>
+                                <div>
+                                    <strong><?= htmlspecialchars((string) $activity['title']) ?></strong>
+                                    <p><?= htmlspecialchars((string) $activity['meta']) ?></p>
+                                </div>
+                                <time><?= htmlspecialchars((string) $activity['time']) ?></time>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <div class="panel ai-recommendation-panel">
+                    <div class="panel-head"><div><h2>AI Recommendations</h2><span>اقتراحات لتحسين جاهزية المنصة وتشغيلها.</span></div><span class="premium-pill">AI</span></div>
+                    <div class="ai-recommendation-list">
+                        <?php foreach (array_slice($aiRecommendations, 0, 4) as $recommendation): ?>
+                            <article class="<?= htmlspecialchars($recommendation['tone']) ?>">
+                                <strong><?= htmlspecialchars($recommendation['title']) ?></strong>
+                                <p><?= htmlspecialchars($recommendation['text']) ?></p>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             </section>
         <?php else: ?>
             <section class="settings-route-toolbar panel">
