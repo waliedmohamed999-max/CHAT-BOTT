@@ -1436,6 +1436,333 @@ textarea {
     }
 }
 
+/* Bot Studio final full-screen polish */
+.page-chatbot-builder #aiWidget,
+.page-chatbot-builder #aiFab,
+.page-chatbot-builder .chatbot-hero,
+.page-chatbot-builder .metric-grid,
+.page-chatbot-builder .chatbot-health-panel,
+.page-chatbot-builder .chatbot-diagnostics-panel,
+.page-chatbot-builder .chatbot-bottom-grid,
+.page-chatbot-builder .chatbot-flow-library,
+.page-chatbot-builder .department-routing,
+.page-chatbot-builder .ai-agent-studio,
+.page-chatbot-builder .ai-knowledge-base,
+.page-chatbot-builder .legacy-chatbot-tabs,
+.page-chatbot-builder .bottom-nav {
+    display: none !important;
+}
+
+.page-chatbot-builder .shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 14px;
+}
+
+.page-chatbot-builder .topbar {
+    margin-bottom: 0 !important;
+}
+
+.page-chatbot-builder .whatsapp-bot-builder {
+    min-height: calc(100vh - 124px) !important;
+    max-height: none !important;
+    display: grid !important;
+    grid-template-rows: auto minmax(0, 1fr) !important;
+    overflow: hidden !important;
+}
+
+.page-chatbot-builder .whatsapp-bot-builder .builder-actions {
+    position: relative !important;
+    top: auto !important;
+    z-index: 3 !important;
+    min-height: 64px !important;
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+}
+
+.page-chatbot-builder .builder-actions .bot-status-toggle {
+    order: -1;
+    flex: 0 0 auto;
+    margin-inline-end: 0 !important;
+}
+
+.page-chatbot-builder .builder-actions button {
+    flex: 0 0 auto;
+    font-size: 14px;
+}
+
+.page-chatbot-builder .wa-builder-layout {
+    min-height: 0 !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    grid-template-columns: 340px minmax(520px, 1fr) 360px !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+    grid-template-areas: "preview canvas settings" !important;
+    padding: 16px !important;
+}
+
+.page-chatbot-builder .bot-flow-tree {
+    display: none !important;
+}
+
+.page-chatbot-builder .wa-preview-phone,
+.page-chatbot-builder .bot-flow-canvas,
+.page-chatbot-builder .bot-node-settings {
+    height: 100%;
+    max-height: calc(100vh - 220px) !important;
+    overflow: hidden !important;
+}
+
+.page-chatbot-builder .wa-preview-phone {
+    grid-area: preview !important;
+    display: grid !important;
+    place-items: start center;
+    padding: 14px !important;
+}
+
+.page-chatbot-builder .wa-phone-frame {
+    width: min(100%, 300px) !important;
+    max-width: 300px !important;
+    height: 100% !important;
+    min-height: 560px !important;
+    max-height: calc(100vh - 250px) !important;
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    background: #eef2f7 !important;
+}
+
+.page-chatbot-builder .wa-phone-top {
+    margin-top: 6px !important;
+}
+
+.page-chatbot-builder .wa-preview-header {
+    min-height: 54px;
+    grid-template-columns: 40px minmax(0, 1fr) 28px 28px 28px !important;
+    padding: 8px 10px !important;
+}
+
+.page-chatbot-builder .wa-preview-header strong,
+.page-chatbot-builder .wa-preview-header small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.page-chatbot-builder .wa-preview-chat {
+    height: auto !important;
+    min-height: 0;
+    overflow-y: auto !important;
+    padding: 12px 10px !important;
+}
+
+.page-chatbot-builder .wa-msg {
+    max-width: 88% !important;
+    padding: 8px 9px 6px !important;
+    font-size: 13px;
+}
+
+.page-chatbot-builder .wa-quick-replies {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-width: 100% !important;
+}
+
+.page-chatbot-builder .wa-quick-replies button {
+    flex: 1 1 calc(50% - 6px);
+    min-width: 0;
+    font-size: 12px;
+}
+
+.page-chatbot-builder .wa-input-bar {
+    grid-template-columns: 30px minmax(0, 1fr) 52px !important;
+    padding: 8px !important;
+}
+
+.page-chatbot-builder .bot-flow-canvas {
+    grid-area: canvas !important;
+    display: grid !important;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    padding: 0 !important;
+}
+
+.page-chatbot-builder .canvas-title {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 20px 10px !important;
+}
+
+.page-chatbot-builder .canvas-title span {
+    max-width: 460px;
+}
+
+.page-chatbot-builder .flow-canvas-toolbar {
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    padding: 10px 20px 14px !important;
+    overflow-x: auto;
+}
+
+.page-chatbot-builder .flow-canvas-toolbar > * {
+    flex: 0 0 auto;
+}
+
+.page-chatbot-builder .department-flow-map {
+    min-height: 0 !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 20px !important;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+    align-content: start !important;
+}
+
+.page-chatbot-builder .dept-node {
+    min-height: 118px !important;
+    padding: 16px 16px 14px !important;
+    border-radius: 22px !important;
+    background: #fff !important;
+}
+
+.page-chatbot-builder .dept-node::before {
+    content: attr(data-node-title);
+    display: none;
+}
+
+.page-chatbot-builder .dept-node b {
+    font-size: 16px !important;
+}
+
+.page-chatbot-builder .dept-node span {
+    color: var(--bot-muted) !important;
+}
+
+.page-chatbot-builder .bot-node-settings {
+    grid-area: settings !important;
+    position: static !important;
+    display: grid !important;
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+    gap: 12px !important;
+    padding: 16px !important;
+    overflow-y: auto !important;
+}
+
+.page-chatbot-builder .bot-node-settings > .panel-head:first-child {
+    display: none !important;
+}
+
+.page-chatbot-builder .component-palette {
+    order: 4;
+    max-height: none !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+}
+
+.page-chatbot-builder .component-palette button {
+    min-height: 40px !important;
+    padding: 8px !important;
+    font-size: 12px !important;
+}
+
+.page-chatbot-builder .settings-title {
+    order: 1;
+    margin: 0 !important;
+    padding: 0 0 10px !important;
+    border-top: 0 !important;
+    border-bottom: 1px solid var(--bot-line);
+}
+
+.page-chatbot-builder .bot-node-settings label {
+    gap: 6px !important;
+    font-size: 12px !important;
+}
+
+.page-chatbot-builder .bot-node-settings input,
+.page-chatbot-builder .bot-node-settings select,
+.page-chatbot-builder .bot-node-settings textarea {
+    min-height: 40px !important;
+    padding: 8px 12px !important;
+}
+
+.page-chatbot-builder .bot-node-settings textarea {
+    min-height: 92px !important;
+    max-height: 120px !important;
+}
+
+.page-chatbot-builder .settings-checks {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+}
+
+.page-chatbot-builder .settings-checks label {
+    min-height: 34px !important;
+    padding: 7px 9px !important;
+}
+
+.page-chatbot-builder .bot-node-settings .button-row {
+    position: sticky;
+    bottom: -16px;
+    z-index: 2;
+    padding-top: 10px;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,.96) 24%);
+}
+
+.page-chatbot-builder .bot-node-settings .button-row button {
+    width: 100% !important;
+}
+
+.page-chatbot-builder .autosave-state {
+    order: 6;
+    margin-top: 0 !important;
+}
+
+.page-chatbot-builder .chatbot-builder-footer {
+    margin-top: 0 !important;
+}
+
+@media (max-width: 1320px) {
+    .page-chatbot-builder .wa-builder-layout {
+        grid-template-columns: 320px minmax(0, 1fr) !important;
+        grid-template-areas:
+            "preview canvas"
+            "settings settings" !important;
+        overflow-y: auto !important;
+    }
+
+    .page-chatbot-builder .wa-preview-phone,
+    .page-chatbot-builder .bot-flow-canvas,
+    .page-chatbot-builder .bot-node-settings {
+        max-height: none !important;
+        height: auto;
+    }
+
+    .page-chatbot-builder .bot-node-settings {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .page-chatbot-builder .wa-builder-layout {
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            "preview"
+            "canvas"
+            "settings" !important;
+    }
+
+    .page-chatbot-builder .bot-node-settings {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Chatbot Builder route redesign */
 .chatbot-hero {
     display: grid !important;
