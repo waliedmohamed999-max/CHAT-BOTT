@@ -512,47 +512,113 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'campaign-builder'): ?>
-        <section class="builder">
-            <form class="panel form-panel ajax-form campaign-studio" data-endpoint="/api/campaigns">
-                <div class="panel-head"><div><h2>منشئ الحملات المرئي</h2><span>أنشئ حملة واتساب خطوة بخطوة</span></div><span class="premium-pill">بمساعدة الذكاء الاصطناعي</span></div>
-                <div class="progress-steps"><span class="active">الجمهور</span><span class="active">القالب</span><span>الجدولة</span><span>الإطلاق</span></div>
-                <input name="name" placeholder="اسم الحملة">
-                <select name="campaign_type"><option value="marketing">تسويقية</option><option value="utility">خدمية</option><option value="reactivation">إعادة تنشيط</option></select>
-                <select name="send_source"><option value="cloud_api">الواجهة الرسمية Cloud API</option><option value="qr_session">جلسة واتساب بالباركود</option></select>
-                <select name="audience_type"><option value="segment">شريحة عملاء</option><option value="csv_import">استيراد CSV</option><option value="all_opted_in">كل العملاء الموافقين</option></select>
-                <input name="template_id" placeholder="رقم القالب المعتمد">
-                <textarea name="message_body" placeholder="نص رسالة جلسة الباركود عند اختيار الإرسال عبر الباركود"></textarea>
-                <textarea name="variables" placeholder="متغيرات القالب بصيغة JSON"></textarea>
-                <input type="datetime-local" name="scheduled_at">
-                <input name="estimated_cost" placeholder="التكلفة التقديرية">
-                <div class="ai-suggestion"><b>اقتراح AI</b><span>ابدأ بشريحة العملاء الذين اشتروا خلال آخر 30 يوم لرفع معدل التحويل.</span></div>
-                <div class="warning-banner compact-warning"><b>جلسة الباركود</b><span>عند اختيار الباركود سيتم استخدام حدود آمنة وتأخير عشوائي، ولا يتم استخدام القوالب الرسمية.</span></div>
-                <div class="button-row"><button class="secondary">حفظ كمسودة</button><button class="primary">جدولة</button><button type="button" class="secondary">إرسال اختبار</button><button type="button" class="danger">إطلاق الحملة</button></div>
-            </form>
-            <aside class="phone-preview">
-                <div class="wa-device">
-                    <div class="wa-statusbar"><span>9:41</span><span>•••</span></div>
-                    <div class="wa-chat-head">
-                        <span class="wa-avatar">MC</span>
-                        <div><strong>مركز التسويق</strong><small>واتساب للأعمال</small></div>
-                    </div>
-                    <div class="wa-chat-body">
-                        <div class="wa-date">اليوم</div>
-                        <article class="wa-template">
-                            <div class="wa-template-label">قالب تسويقي</div>
-                            <h3>عرض حصري لك يا {{1}}</h3>
-                            <p>مرحباً {{1}}، عرضك جاهز. استخدم الكود <b>SAVE20</b> قبل نهاية اليوم.</p>
-                            <small>للانسحاب من الرسائل التسويقية اكتب STOP.</small>
-                            <div class="wa-time">09:41 ✓✓</div>
-                            <div class="wa-buttons">
-                                <button type="button">عرض العرض</button>
-                                <button type="button">التواصل مع الدعم</button>
-                            </div>
-                        </article>
-                        <div class="wa-compliance">سيتم الإرسال فقط للعملاء الموافقين وبقالب معتمد من Meta.</div>
+        <section class="campaign-command">
+            <aside class="campaign-preview-rail">
+                <div class="campaign-phone-shell">
+                    <div class="campaign-phone">
+                        <div class="campaign-phone-status"><span>9:41</span><span>•••</span></div>
+                        <div class="campaign-phone-head">
+                            <span class="campaign-phone-avatar">MC</span>
+                            <div><strong>مركز التسويق</strong><small>واتساب للأعمال</small></div>
+                            <i>نشط</i>
+                        </div>
+                        <div class="campaign-phone-body">
+                            <div class="campaign-date">اليوم</div>
+                            <article class="campaign-message-card">
+                                <span>قالب تسويقي معتمد</span>
+                                <h3 id="campaignPreviewTitle">عرض حصري لك يا {{1}}</h3>
+                                <p id="campaignPreviewBody">مرحباً {{1}}، عرضك جاهز. استخدم الكود <b>SAVE20</b> قبل نهاية اليوم.</p>
+                                <small>للانسحاب من الرسائل التسويقية اكتب STOP.</small>
+                                <div class="campaign-wa-time">09:41 ✓✓</div>
+                                <div class="campaign-wa-buttons">
+                                    <button type="button">عرض العرض</button>
+                                    <button type="button">التواصل مع الدعم</button>
+                                </div>
+                            </article>
+                            <div class="campaign-compliance-note">الإرسال للعملاء الموافقين فقط وبقالب معتمد من Meta.</div>
+                        </div>
                     </div>
                 </div>
+                <div class="campaign-side-metrics">
+                    <article><span>جاهزية الجمهور</span><strong>92%</strong><small>Opt-in صالح</small></article>
+                    <article><span>خطر الإرسال</span><strong>منخفض</strong><small>حدود آمنة</small></article>
+                </div>
             </aside>
+
+            <form class="panel form-panel ajax-form campaign-studio campaign-workbench" data-endpoint="/api/campaigns">
+                <div class="campaign-studio-hero">
+                    <div>
+                        <span class="premium-pill">Campaign Command Studio</span>
+                        <h2>منشئ الحملات المرئي</h2>
+                        <p>صمّم الجمهور، اختر مصدر الإرسال، راجع الالتزام، وجدول الحملة من مساحة واحدة واضحة.</p>
+                    </div>
+                    <div class="campaign-health">
+                        <b>جاهزية الإطلاق</b>
+                        <strong>86%</strong>
+                        <span>قالب + جمهور + جدولة</span>
+                    </div>
+                </div>
+
+                <div class="campaign-quick-tools">
+                    <button type="button" class="campaign-tool active" data-campaign-step="audience"><b>01</b><span>الجمهور</span></button>
+                    <button type="button" class="campaign-tool active" data-campaign-step="template"><b>02</b><span>القالب</span></button>
+                    <button type="button" class="campaign-tool" data-campaign-step="schedule"><b>03</b><span>الجدولة</span></button>
+                    <button type="button" class="campaign-tool" data-campaign-step="launch"><b>04</b><span>الإطلاق</span></button>
+                </div>
+
+                <div class="campaign-kpi-strip">
+                    <article><span>عملاء مستهدفون</span><strong><?= number_format((int) ($data['contacts'] ?? 0)) ?></strong><small>الموافقون فقط</small></article>
+                    <article><span>مصدر الإرسال</span><strong>Cloud</strong><small id="campaignSourceHint">قوالب Meta الرسمية</small></article>
+                    <article><span>التكلفة</span><strong id="campaignCostPreview">0</strong><small>تقديري</small></article>
+                    <article><span>حالة الالتزام</span><strong>آمن</strong><small>Opt-in + STOP</small></article>
+                </div>
+
+                <div class="campaign-form-grid">
+                    <label class="campaign-field wide"><span>اسم الحملة</span><input name="name" data-campaign-name placeholder="مثال: عرض نهاية الأسبوع للعملاء النشطين"></label>
+                    <label class="campaign-field"><span>نوع الحملة</span><select name="campaign_type"><option value="marketing">تسويقية</option><option value="utility">خدمية</option><option value="reactivation">إعادة تنشيط</option></select></label>
+                    <label class="campaign-field"><span>مصدر الإرسال</span><select name="send_source" data-campaign-source><option value="cloud_api">الواجهة الرسمية Cloud API</option><option value="qr_session">جلسة واتساب بالباركود</option></select></label>
+                    <label class="campaign-field"><span>الجمهور</span><select name="audience_type"><option value="segment">شريحة عملاء</option><option value="csv_import">استيراد CSV</option><option value="all_opted_in">كل العملاء الموافقين</option></select></label>
+                    <label class="campaign-field"><span>القالب المعتمد</span><input name="template_id" placeholder="رقم القالب أو ID الداخلي"></label>
+                    <label class="campaign-field"><span>رقم اختبار</span><input name="test_to" placeholder="+9665xxxxxxxx"></label>
+                    <label class="campaign-field wide"><span>نص الباركود الآمن</span><textarea name="message_body" data-campaign-body placeholder="يستخدم فقط عند اختيار QR Session. اكتب رسالة قصيرة بتأخير آمن ودون إرسال جماعي كثيف."></textarea></label>
+                    <label class="campaign-field wide"><span>متغيرات القالب</span><textarea name="variables" data-campaign-vars placeholder='{"1":"أحمد","coupon":"SAVE20"}'></textarea></label>
+                    <label class="campaign-field"><span>موعد الجدولة</span><input type="datetime-local" name="scheduled_at"></label>
+                    <label class="campaign-field"><span>التكلفة التقديرية</span><input name="estimated_cost" data-campaign-cost placeholder="0.00 SAR"></label>
+                </div>
+
+                <div class="campaign-tool-panels">
+                    <article class="campaign-tool-panel">
+                        <div><b>AI Audience Optimizer</b><span>يقترح أفضل شريحة بناءً على آخر شراء وتفاعل وOpt-in.</span></div>
+                        <button type="button" class="secondary campaign-suggest-audience">اقتراح شريحة</button>
+                    </article>
+                    <article class="campaign-tool-panel">
+                        <div><b>Template Guard</b><span>يمنع إطلاق Cloud API إذا لم يكن القالب معتمداً أو خارج نافذة 24 ساعة.</span></div>
+                        <span class="status-pill ok">مفعل</span>
+                    </article>
+                    <article class="campaign-tool-panel">
+                        <div><b>Safe QR Throttle</b><span>دفعات صغيرة، Delay عشوائي، وإيقاف تلقائي عند ارتفاع الفشل.</span></div>
+                        <span class="status-pill pending">عند اختيار QR</span>
+                    </article>
+                </div>
+
+                <div class="campaign-compliance-grid">
+                    <label><input type="checkbox" checked> العملاء لديهم موافقة Opt-in محفوظة</label>
+                    <label><input type="checkbox" checked> القالب معتمد للواجهة الرسمية</label>
+                    <label><input type="checkbox" checked> رسالة إلغاء الاشتراك STOP ظاهرة</label>
+                    <label><input type="checkbox" checked> الحدود اليومية والـ Batch مفعلة</label>
+                </div>
+
+                <div class="warning-banner compact-warning campaign-qr-warning" id="campaignQrWarning">
+                    <b>تنبيه QR Session</b><span>جلسة الباركود مناسبة للمحادثات والردود الخفيفة. الحملات الكبيرة يجب أن تستخدم Cloud API وقوالب Meta المعتمدة.</span>
+                </div>
+
+                <div class="campaign-actions">
+                    <button class="secondary" type="submit">حفظ كمسودة</button>
+                    <button class="primary" type="submit">جدولة الحملة</button>
+                    <button type="button" class="secondary campaign-test-btn">إرسال اختبار</button>
+                    <button type="button" class="danger">مراجعة قبل الإطلاق</button>
+                </div>
+            </form>
         </section>
     <?php endif; ?>
 

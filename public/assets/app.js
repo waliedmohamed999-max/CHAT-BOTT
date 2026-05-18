@@ -237,7 +237,7 @@ document.querySelectorAll('.ajax-form').forEach((form) => {
         form.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
             bodyData[checkbox.name] = checkbox.checked ? '1' : '0';
         });
-        const submitter = form.querySelector('button[type="submit"], button.primary');
+        const submitter = event.submitter || form.querySelector('button[type="submit"], button.primary');
         submitter?.classList.add('loading');
 
         try {
@@ -258,6 +258,82 @@ document.querySelectorAll('.ajax-form').forEach((form) => {
         }
     });
 });
+
+const campaignStudio = document.querySelector('.campaign-workbench');
+if (campaignStudio) {
+    const campaignSource = campaignStudio.querySelector('[data-campaign-source]');
+    const campaignBody = campaignStudio.querySelector('[data-campaign-body]');
+    const campaignCost = campaignStudio.querySelector('[data-campaign-cost]');
+    const previewBody = document.getElementById('campaignPreviewBody');
+    const previewTitle = document.getElementById('campaignPreviewTitle');
+    const sourceHint = document.getElementById('campaignSourceHint');
+    const costPreview = document.getElementById('campaignCostPreview');
+    const qrWarning = document.getElementById('campaignQrWarning');
+
+    function updateCampaignPreview() {
+        const source = campaignSource?.value || 'cloud_api';
+        const bodyText = campaignBody?.value.trim();
+        if (previewBody) {
+            previewBody.innerHTML = escapeHtml(bodyText || 'مرحباً {{1}}، عرضك جاهز. استخدم الكود SAVE20 قبل نهاية اليوم.').replace(/\n/g, '<br>');
+        }
+        if (previewTitle) {
+            previewTitle.textContent = source === 'qr_session' ? 'رسالة مباشرة آمنة' : 'عرض حصري لك يا {{1}}';
+        }
+        if (sourceHint) {
+            sourceHint.textContent = source === 'qr_session' ? 'دفعات صغيرة وتأخير عشوائي' : 'قوالب Meta الرسمية';
+        }
+        if (costPreview) {
+            costPreview.textContent = campaignCost?.value.trim() || '0';
+        }
+        qrWarning?.classList.toggle('show', source === 'qr_session');
+    }
+
+    campaignStudio.querySelectorAll('input, select, textarea').forEach((field) => {
+        field.addEventListener('input', updateCampaignPreview);
+        field.addEventListener('change', updateCampaignPreview);
+    });
+    updateCampaignPreview();
+
+    campaignStudio.querySelectorAll('.campaign-tool').forEach((button) => {
+        button.addEventListener('click', () => {
+            button.classList.toggle('active');
+        });
+    });
+
+    campaignStudio.querySelector('.campaign-suggest-audience')?.addEventListener('click', () => {
+        const audience = campaignStudio.querySelector('select[name="audience_type"]');
+        if (audience) {
+            audience.value = 'all_opted_in';
+            audience.dispatchEvent(new Event('change', {bubbles: true}));
+        }
+        showToast('تم اختيار العملاء الموافقين كجمهور آمن للحملة');
+    });
+
+    campaignStudio.querySelector('.campaign-test-btn')?.addEventListener('click', async (event) => {
+        const button = event.currentTarget;
+        const formData = new FormData(campaignStudio);
+        const to = String(formData.get('test_to') || '').trim();
+        const templateName = String(formData.get('template_id') || '').trim();
+        if (!to || !templateName) {
+            showToast('أدخل رقم اختبار واسم/رقم قالب معتمد قبل إرسال الاختبار');
+            return;
+        }
+        button.classList.add('loading');
+        try {
+            const response = await fetch(`${window.MC_APP_URL || ''}/api/whatsapp/send-test`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-CSRF-Token': currentCsrfToken()},
+                body: JSON.stringify({to, template_name: templateName, language: 'ar'}),
+            });
+            const payload = await response.json().catch(() => ({}));
+            showToast(response.ok ? 'تم إرسال رسالة الاختبار' : (payload.message || payload.detail || payload.error || 'تعذر إرسال الاختبار'));
+        } catch {
+            showToast('تعذر الاتصال بخدمة واتساب');
+        } finally {
+            button.classList.remove('loading');
+        }
+    });
+}
 
 document.querySelectorAll('.api-post').forEach((button) => {
     button.addEventListener('click', async () => {
