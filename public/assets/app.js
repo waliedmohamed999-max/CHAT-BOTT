@@ -283,7 +283,7 @@ document.querySelectorAll('.settings-save-trigger').forEach((button) => {
     button.addEventListener('click', () => {
         const visibleForm = Array.from(document.querySelectorAll('.control-section .ajax-form')).find((form) => {
             const section = form.closest('.control-section');
-            return section && section.getBoundingClientRect().top >= -40;
+            return section && section.offsetParent !== null && section.getBoundingClientRect().top >= -40;
         });
         visibleForm?.requestSubmit();
         if (!visibleForm) showToast('اختر قسماً يحتوي على نموذج حفظ');

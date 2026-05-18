@@ -89,6 +89,11 @@ try {
     if ($method === 'GET' && $path === '/api/system/queue-status') { $system->queueStatus(); return; }
     if ($method === 'POST' && $path === '/api/system/queue-snapshot') { $system->queueSnapshot(); return; }
 
+    if ($method === 'GET' && preg_match('#^/marketing-center/settings/([a-z0-9-]+)/?$#', $path, $m)) {
+        (new MarketingController())->page('settings-' . $m[1]);
+        return;
+    }
+
     if ($method === 'GET' && preg_match('#^/marketing-center/?([^/]*)#', $path, $m)) {
         (new MarketingController())->page($m[1] ?: 'overview');
         return;

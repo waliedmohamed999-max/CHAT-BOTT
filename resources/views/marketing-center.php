@@ -30,6 +30,26 @@ $nav = [
     'super-admin' => ['label' => 'إدارة المنصة', 'icon' => 'SU'],
     'settings' => ['label' => 'الإعدادات', 'icon' => 'ST'],
 ];
+$settingsPageLabels = [
+    'general' => 'الإعدادات العامة',
+    'whatsapp' => 'إعدادات واتساب',
+    'campaigns' => 'الحملات والحدود',
+    'quick-replies' => 'الردود السريعة',
+    'users' => 'المستخدمون',
+    'roles' => 'الأدوار والصلاحيات',
+    'companies' => 'الشركات والمتاجر',
+    'departments' => 'الفرق والأقسام',
+    'billing' => 'الاشتراكات والباقات',
+    'security' => 'الأمان والجلسات',
+    'developer' => 'Webhooks & API',
+    'documents' => 'الملفات والمستندات',
+    'notifications' => 'التنبيهات والإشعارات',
+    'logs' => 'السجلات والمراقبة',
+    'branding' => 'الهوية والـ White Label',
+    'ai' => 'إعدادات الذكاء الاصطناعي',
+    'backup' => 'النسخ الاحتياطي',
+    'launch' => 'إعدادات الإطلاق',
+];
 $cards = [
     ['إجمالي الحملات', $data['campaigns'], '+12%', 'حملات واتساب والسوشيال النشطة'],
     ['الرسائل المرسلة', $data['sent'], '+28%', 'مرسلة، مستلمة، ومقروءة'],
@@ -47,6 +67,9 @@ $checklistLabels = [
     'First Campaign Ready' => 'أول حملة جاهزة',
 ];
 $currentLabel = $nav[$page]['label'] ?? 'مركز القيادة';
+if (str_starts_with($page, 'settings-')) {
+    $currentLabel = $settingsPageLabels[substr($page, 9)] ?? $nav['settings']['label'];
+}
 $chatbotTabs = ['نظرة عامة','مسارات البوت','الردود التلقائية','المساعد الذكي','الكلمات المفتاحية','المحفزات','التحويل لموظف','قاعدة المعرفة','التحليلات','الإعدادات'];
 $sessionStatusLabels = [
     'waiting_for_scan' => 'بانتظار المسح',
@@ -174,7 +197,8 @@ $labelText = static function (?string $value): string {
     <button class="collapse-btn" id="collapseSidebar" type="button" title="طي القائمة">⇄</button>
     <nav class="side-nav">
         <?php foreach ($nav as $key => $item): ?>
-            <a class="<?= $page === $key ? 'active' : '' ?>" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/<?= $key ?>" title="<?= htmlspecialchars($item['label']) ?>">
+            <?php $isActiveNav = $page === $key || ($key === 'settings' && str_starts_with($page, 'settings-')); ?>
+            <a class="<?= $isActiveNav ? 'active' : '' ?>" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/<?= $key ?>" title="<?= htmlspecialchars($item['label']) ?>">
                 <span class="nav-icon"><?= htmlspecialchars($item['icon']) ?></span>
                 <span class="nav-label"><?= htmlspecialchars($item['label']) ?></span>
             </a>
@@ -2231,7 +2255,7 @@ $labelText = static function (?string $value): string {
         </section>
     <?php endif; ?>
 
-    <?php if ($page === 'settings'): ?>
+    <?php if ($page === 'settings' || str_starts_with($page, 'settings-')): ?>
         <?php
             $cc = $controlCenter ?? [];
             $ccGeneral = $cc['general'] ?? [];
@@ -2276,6 +2300,57 @@ $labelText = static function (?string $value): string {
                 'backup' => 'النسخ الاحتياطي',
                 'launch' => 'إعدادات الإطلاق',
             ];
+            $settingSections = $settingsPageLabels;
+            $settingsOverview = $page === 'settings';
+            $activeSetting = str_starts_with($page, 'settings-') ? substr($page, 9) : '';
+            $activeSetting = array_key_exists($activeSetting, $settingSections) ? $activeSetting : 'general';
+            $settingDescriptions = [
+                'general' => 'هوية المنصة، اللغة، المنطقة الزمنية، التسجيل، الروابط الرسمية ووضع التشغيل.',
+                'whatsapp' => 'Webhook، Meta، QR، القوالب، حدود الإرسال، الاشتراك وجودة الرقم.',
+                'campaigns' => 'حدود الحملات، Batch Sending، Retry، منع التكرار، QR Safe Mode وCloud API.',
+                'quick-replies' => 'رسائل الترحيب، خارج الدوام، التحويل، الشكاوى، المتابعة وإلغاء الاشتراك.',
+                'users' => 'إضافة المستخدمين، الأدوار، الأقسام، الجلسات النشطة وآخر تسجيل دخول.',
+                'roles' => 'مصفوفة صلاحيات كاملة للصفحات والـ APIs والحملات والواتساب والفواتير.',
+                'companies' => 'الشركات والمتاجر، التوثيق، المالك، الدومينات، الروابط وحالة الاشتراك.',
+                'departments' => 'فرق المبيعات والدعم والشحن والحسابات والشكاوى مع SLA والتحويل التلقائي.',
+                'billing' => 'الباقات، حدود الاستخدام، الفواتير، AI Credits وطرق الدفع.',
+                'security' => '2FA، CSRF، CSP، Secure Cookies، الجلسات، Login Attempts والأسرار.',
+                'developer' => 'API Keys، Webhooks، Verify Tokens، Callback URLs وسجلات آخر Payload.',
+                'documents' => 'رفع ومراجعة مستندات الشركات، التوثيق، اللوجوهات، الشروط والخصوصية.',
+                'notifications' => 'تنبيهات الربط، الحملات، الاشتراكات، الجلسات، Queue وWebhook.',
+                'logs' => 'Audit Logs، Login Logs، Webhook Logs، Campaign Logs، Queue وAPI Logs.',
+                'branding' => 'الشعار، الألوان، صفحة الدخول، الدومين المخصص، البريد وPWA Theme.',
+                'ai' => 'مزود الذكاء، الموديل، حدود الاستخدام، قواعد السلامة وKnowledge Base.',
+                'backup' => 'نسخ قاعدة البيانات والملفات، Restore Points، الجدولة وسياسة الاحتفاظ.',
+                'launch' => 'فحص البيئة، الأمان، قاعدة البيانات، Queue، Webhook، Build ووضع الإنتاج.',
+            ];
+            $settingStats = [
+                'general' => $ccGeneral['runtime_mode'] ?? 'production',
+                'whatsapp' => 'Meta ' . $labelText($ccWhatsapp['meta_status'] ?? 'disconnected'),
+                'campaigns' => ($ccLimits['daily_messages'] ?? 0) . ' رسالة/يوم',
+                'quick-replies' => '6 ردود',
+                'users' => count((array) $ccUsers) . ' مستخدم',
+                'roles' => count((array) $ccRoles) . ' أدوار',
+                'companies' => count((array) $ccStores) . ' متجر',
+                'departments' => count((array) $ccDepartments) . ' أقسام',
+                'billing' => $labelText($ccSubscriptions['current']['plan_key'] ?? 'free'),
+                'security' => (!empty($ccSecurity['jwt_secret_present']) && !empty($ccSecurity['encryption_key_present'])) ? 'أسرار مكتملة' : 'يحتاج أسرار',
+                'developer' => (count((array) $ccApiKeys) + count((array) $ccWebhooks)) . ' تكامل',
+                'documents' => count((array) $ccDocuments) . ' ملف',
+                'notifications' => count((array) ($ccNotifications['settings'] ?? [])) . ' قناة',
+                'logs' => count((array) ($ccLogs['audit'] ?? [])) . ' سجل',
+                'branding' => $ccBranding['product_name'] ?? 'Marketing Center',
+                'ai' => !empty($ccAi['enabled']) ? 'مفعل' : 'معطل',
+                'backup' => count((array) ($ccBackup['jobs'] ?? [])) . ' عمليات',
+                'launch' => ((int) ($ccLaunch['score'] ?? 0)) . '%',
+            ];
+            $settingIcons = [
+                'general' => 'GE', 'whatsapp' => 'WA', 'campaigns' => 'CA', 'quick-replies' => 'QR',
+                'users' => 'US', 'roles' => 'RB', 'companies' => 'CO', 'departments' => 'DP',
+                'billing' => 'BI', 'security' => 'SE', 'developer' => 'API', 'documents' => 'DO',
+                'notifications' => 'NO', 'logs' => 'LG', 'branding' => 'BR', 'ai' => 'AI',
+                'backup' => 'BK', 'launch' => 'GO',
+            ];
         ?>
         <section class="panel wide control-center-hero">
             <div>
@@ -2295,12 +2370,35 @@ $labelText = static function (?string $value): string {
             </div>
         </section>
 
-        <section class="control-center-layout">
+        <?php if ($settingsOverview): ?>
+            <section class="settings-hub-grid" aria-label="أقسام مركز تحكم المنصة">
+                <?php foreach ($settingSections as $key => $label): ?>
+                    <a class="settings-hub-card" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/settings/<?= htmlspecialchars($key) ?>">
+                        <span class="settings-hub-icon"><?= htmlspecialchars($settingIcons[$key] ?? 'ST') ?></span>
+                        <strong><?= htmlspecialchars($label) ?></strong>
+                        <p><?= htmlspecialchars($settingDescriptions[$key] ?? 'إدارة هذا القسم من مركز التحكم.') ?></p>
+                        <em><?= htmlspecialchars((string) ($settingStats[$key] ?? 'جاهز')) ?></em>
+                        <b>فتح المسار</b>
+                    </a>
+                <?php endforeach; ?>
+            </section>
+        <?php else: ?>
+            <section class="settings-route-toolbar panel">
+                <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/settings">كل الأقسام</a>
+                <div>
+                    <span class="premium-pill">مسار مستقل</span>
+                    <h2><?= htmlspecialchars($settingSections[$activeSetting] ?? 'الإعدادات') ?></h2>
+                    <p><?= htmlspecialchars($settingDescriptions[$activeSetting] ?? 'إدارة القسم المحدد من مركز التحكم.') ?></p>
+                </div>
+                <span class="status-pill active"><?= htmlspecialchars((string) ($settingStats[$activeSetting] ?? 'جاهز')) ?></span>
+            </section>
+
+        <section class="control-center-layout settings-detail-layout" data-active-setting="<?= htmlspecialchars($activeSetting) ?>">
             <aside class="control-sidebar panel">
                 <input class="control-search" type="search" placeholder="ابحث داخل الإعدادات">
                 <nav>
                     <?php foreach ($settingSections as $key => $label): ?>
-                        <a href="#settings-<?= htmlspecialchars($key) ?>" data-control-link><?= htmlspecialchars($label) ?></a>
+                        <a class="<?= $activeSetting === $key ? 'active' : '' ?>" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/settings/<?= htmlspecialchars($key) ?>" data-control-link><?= htmlspecialchars($label) ?></a>
                     <?php endforeach; ?>
                 </nav>
                 <div class="control-side-status">
@@ -2569,6 +2667,7 @@ $labelText = static function (?string $value): string {
             <button class="primary settings-save-trigger" type="button">حفظ الآن</button>
             <button class="ghost-btn settings-discard" type="button">تجاهل</button>
         </div>
+        <?php endif; ?>
     <?php endif; ?>
 </main>
 

@@ -21,9 +21,10 @@ final class MarketingController
     public function page(string $page = 'overview'): void
     {
         $allowed = ['overview', 'omnichannel', 'setup-checklist', 'launch-readiness', 'platform-roadmap', 'development-roadmap', 'whatsapp-setup-center', 'connect-meta', 'whatsapp-setup', 'whatsapp-qr', 'chatbot-builder', 'campaign-builder', 'templates', 'contacts', 'inbox', 'automation', 'social', 'analytics', 'ai-intelligence', 'marketplace', 'enterprise', 'ai-commerce-os', 'settings', 'saas', 'super-admin'];
+        $settingsPages = ['settings-general', 'settings-whatsapp', 'settings-campaigns', 'settings-quick-replies', 'settings-users', 'settings-roles', 'settings-companies', 'settings-departments', 'settings-billing', 'settings-security', 'settings-developer', 'settings-documents', 'settings-notifications', 'settings-logs', 'settings-branding', 'settings-ai', 'settings-backup', 'settings-launch'];
         $page = $page === 'launch-readiness' ? 'setup-checklist' : $page;
         $page = $page === 'development-roadmap' ? 'platform-roadmap' : $page;
-        $page = in_array($page, $allowed, true) ? $page : 'overview';
+        $page = in_array($page, array_merge($allowed, $settingsPages), true) ? $page : 'overview';
         $storeId = TenantContext::storeId();
         TenantContext::assertStoreAccess($storeId);
         $data = $this->dashboardData($storeId);
