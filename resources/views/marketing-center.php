@@ -5,6 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
+$assetVersion = '20260518-control-center-v8';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -67,6 +68,9 @@ $checklistLabels = [
     'First Campaign Ready' => 'أول حملة جاهزة',
 ];
 $currentLabel = $nav[$page]['label'] ?? 'مركز القيادة';
+if ($page === 'settings') {
+    $currentLabel = 'مركز تحكم المنصة';
+}
 if (str_starts_with($page, 'settings-')) {
     $currentLabel = $settingsPageLabels[substr($page, 9)] ?? $nav['settings']['label'];
 }
@@ -163,7 +167,7 @@ $labelText = static function (?string $value): string {
     <meta name="apple-mobile-web-app-title" content="Marketing Center">
     <title><?= htmlspecialchars($title) ?></title>
     <link rel="manifest" href="<?= htmlspecialchars($appUrl) ?>/manifest.webmanifest">
-    <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/app.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/app.css?v=<?= htmlspecialchars($assetVersion) ?>">
 </head>
 <body>
 <div class="ambient ambient-one"></div>
@@ -211,7 +215,7 @@ $labelText = static function (?string $value): string {
     </div>
 </aside>
 
-<main class="shell">
+<main class="shell <?= $page === 'settings' ? 'settings-exec-shell' : '' ?>">
     <header class="topbar">
         <div class="page-title">
             <p class="eyebrow">منصة تسويق ذكية متعددة القنوات</p>
@@ -2931,6 +2935,6 @@ $labelText = static function (?string $value): string {
 window.MC_APP_URL = <?= json_encode($appUrl) ?>;
 window.MC_CSRF_TOKEN = <?= json_encode(\MarketingCenter\Support\Security::csrfToken()) ?>;
 </script>
-<script src="<?= htmlspecialchars($appUrl) ?>/assets/app.js"></script>
+<script src="<?= htmlspecialchars($appUrl) ?>/assets/app.js?v=<?= htmlspecialchars($assetVersion) ?>"></script>
 </body>
 </html>
