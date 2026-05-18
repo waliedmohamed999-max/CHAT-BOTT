@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260518-premium-brand-v13';
+$assetVersion = '20260519-premium-brand-v20';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -168,8 +168,9 @@ $labelText = static function (?string $value): string {
     <title><?= htmlspecialchars($title) ?></title>
     <link rel="manifest" href="<?= htmlspecialchars($appUrl) ?>/manifest.webmanifest">
     <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/app.css?v=<?= htmlspecialchars($assetVersion) ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/brand.css?v=<?= htmlspecialchars($assetVersion) ?>">
 </head>
-<body>
+<body class="page-<?= htmlspecialchars($page) ?>">
 <div class="ambient ambient-one"></div>
 <div class="ambient ambient-two"></div>
 
@@ -831,6 +832,13 @@ $labelText = static function (?string $value): string {
                 </aside>
             </div>
         </section>
+
+        <footer class="chatbot-builder-footer" aria-label="حالة منشئ الشات بوت">
+            <span>Marketing Center Bot Studio</span>
+            <span>Version <?= htmlspecialchars($assetVersion) ?></span>
+            <span class="status-pill ok">Server online</span>
+            <span>آخر حفظ: <b id="chatbotFooterSavedAt">تلقائي</b></span>
+        </footer>
 
         <section class="chatbot-bottom-grid" id="chatbotFlowInfo">
             <article class="panel"><div class="panel-head"><div><h2>حالات التدفق</h2></div></div><div class="flow-status-cards"><span class="danger-state">معطل <b id="pausedFlowCount">0</b></span><span class="ok">منشور <b id="activeFlowCount"><?= (int) ($chatbotOverview['active_flows'] ?? 0) ?></b></span><span class="pending">مسودة <b id="draftFlowCount">0</b></span><span>العقد <b id="flowNodeCount">0</b></span></div></article>

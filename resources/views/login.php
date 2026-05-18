@@ -4,6 +4,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
+$assetVersion = '20260519-premium-brand-v20';
 $csrfToken = \MarketingCenter\Support\Security::csrfToken();
 ?>
 <!doctype html>
@@ -13,7 +14,8 @@ $csrfToken = \MarketingCenter\Support\Security::csrfToken();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?= htmlspecialchars($csrfToken) ?>">
     <title>تسجيل الدخول - مركز التسويق</title>
-    <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/app.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/app.css?v=<?= htmlspecialchars($assetVersion) ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/brand.css?v=<?= htmlspecialchars($assetVersion) ?>">
 </head>
 <body class="auth-body">
     <main class="auth-shell">

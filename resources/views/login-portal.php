@@ -4,6 +4,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
+$assetVersion = '20260519-premium-brand-v20';
 $csrfToken = \MarketingCenter\Support\Security::csrfToken();
 $config = $config ?? [];
 $portal = (string) ($config['portal'] ?? 'store');
@@ -17,7 +18,8 @@ $secondary = (string) ($config['secondary'] ?? '#5aa9b8');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?= htmlspecialchars($csrfToken) ?>">
     <title><?= htmlspecialchars((string) ($config['title'] ?? 'تسجيل الدخول')) ?> - Marketing Center</title>
-    <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/app.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/app.css?v=<?= htmlspecialchars($assetVersion) ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/brand.css?v=<?= htmlspecialchars($assetVersion) ?>">
     <style>
         :root { --portal-accent: <?= htmlspecialchars($accent) ?>; --portal-secondary: <?= htmlspecialchars($secondary) ?>; }
         <?php if (!empty($config['background_url'])): ?>

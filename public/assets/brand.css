@@ -1,0 +1,2056 @@
+/* Active brand layer loaded after app.css. */
+:root {
+    --bg: #f8fafc;
+    --bg-2: #eef4f8;
+    --surface: rgba(255, 255, 255, .82);
+    --surface-strong: rgba(255, 255, 255, .96);
+    --glass: rgba(255, 255, 255, .72);
+    --text: #101828;
+    --muted: #667085;
+    --line: rgba(15, 23, 42, .10);
+    --primary: #3157d5;
+    --primary-2: #7c3aed;
+    --primary-3: #172554;
+    --cyan: #0891b2;
+    --emerald: #059669;
+    --violet: #7c3aed;
+    --coral: #f97316;
+    --brand-gradient: linear-gradient(135deg, #172554 0%, #3157d5 45%, #7c3aed 100%);
+    --accent-gradient: linear-gradient(135deg, #0891b2 0%, #10b981 100%);
+    --warm-gradient: linear-gradient(135deg, #f97316 0%, #f43f5e 100%);
+    --soft-gradient: linear-gradient(145deg, rgba(255,255,255,.96), rgba(241,247,252,.78));
+    --shadow: 0 30px 90px rgba(15, 23, 42, .14);
+    --shadow-soft: 0 16px 44px rgba(15, 23, 42, .08);
+    --shadow-card: 0 22px 58px rgba(49, 87, 213, .14);
+    --glow-primary: 0 0 0 1px rgba(49,87,213,.18), 0 20px 46px rgba(49,87,213,.20);
+    --radius: 22px;
+    --radius-lg: 28px;
+    --sidebar: 304px;
+}
+
+[data-theme="dark"] {
+    --bg: #090f1c;
+    --bg-2: #111827;
+    --surface: rgba(17, 24, 39, .78);
+    --surface-strong: rgba(22, 31, 49, .94);
+    --glass: rgba(15, 23, 42, .76);
+    --text: #f8fafc;
+    --muted: #a7b0c0;
+    --line: rgba(226, 232, 240, .12);
+    --primary: #7c8cff;
+    --primary-2: #b090ff;
+    --primary-3: #4f65ff;
+    --cyan: #38bdf8;
+    --emerald: #34d399;
+    --brand-gradient: linear-gradient(135deg, #4f65ff 0%, #7c8cff 46%, #b090ff 100%);
+    --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #34d399 100%);
+    --soft-gradient: linear-gradient(145deg, rgba(24,32,50,.94), rgba(12,18,31,.80));
+    --shadow: 0 32px 90px rgba(0, 0, 0, .44);
+    --shadow-soft: 0 18px 48px rgba(0, 0, 0, .28);
+    --shadow-card: 0 24px 64px rgba(0, 0, 0, .34);
+    --glow-primary: 0 0 0 1px rgba(124,140,255,.22), 0 24px 56px rgba(124,140,255,.22);
+}
+
+html,
+body {
+    background:
+        linear-gradient(135deg, rgba(248,250,252,.98), rgba(238,244,248,.94)),
+        repeating-linear-gradient(90deg, rgba(49,87,213,.040) 0 1px, transparent 1px 78px),
+        repeating-linear-gradient(0deg, rgba(8,145,178,.032) 0 1px, transparent 1px 78px) !important;
+    color: var(--text);
+}
+
+[data-theme="dark"] body {
+    background:
+        linear-gradient(135deg, rgba(9,15,28,.98), rgba(17,24,39,.96)),
+        repeating-linear-gradient(90deg, rgba(124,140,255,.060) 0 1px, transparent 1px 78px),
+        repeating-linear-gradient(0deg, rgba(56,189,248,.040) 0 1px, transparent 1px 78px) !important;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(120deg, transparent 0 42%, rgba(49,87,213,.060) 42% 43%, transparent 43% 100%),
+        linear-gradient(60deg, transparent 0 58%, rgba(8,145,178,.046) 58% 59%, transparent 59% 100%);
+    mask-image: linear-gradient(180deg, rgba(0,0,0,.95), rgba(0,0,0,.24));
+}
+
+.ambient {
+    display: none !important;
+}
+
+.sidebar {
+    inset: 14px 14px 14px auto !important;
+    width: var(--sidebar) !important;
+    border-radius: 30px !important;
+    border: 1px solid rgba(15, 23, 42, .09) !important;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.62)),
+        linear-gradient(135deg, rgba(49,87,213,.10), rgba(8,145,178,.045)) !important;
+    box-shadow: 0 30px 86px rgba(15, 23, 42, .13) !important;
+}
+
+.brand,
+.topbar,
+.hero-command,
+.panel,
+.metric-card,
+.lift-card,
+.sidebar-card {
+    border-color: rgba(15, 23, 42, .095) !important;
+    background: var(--soft-gradient) !important;
+    box-shadow: var(--shadow-soft) !important;
+}
+
+.brand {
+    min-height: 62px;
+    padding: 6px !important;
+    border-radius: 24px !important;
+}
+
+.brand-mark,
+.mobile-brand > span,
+.mobile-avatar,
+.portal-brand-orb {
+    border-radius: 18px !important;
+    background: var(--brand-gradient) !important;
+    box-shadow: var(--glow-primary) !important;
+}
+
+.side-nav {
+    gap: 8px !important;
+}
+
+.side-nav a {
+    min-height: 50px !important;
+    border-radius: 18px !important;
+    padding: 10px 12px !important;
+    font-weight: 800 !important;
+}
+
+.side-nav a.active {
+    color: #fff !important;
+    background: var(--brand-gradient) !important;
+    border-color: rgba(255,255,255,.18) !important;
+    box-shadow: var(--glow-primary) !important;
+}
+
+.side-nav a.active .nav-icon,
+.bottom-nav a.active {
+    color: #fff !important;
+    background: rgba(255,255,255,.17) !important;
+}
+
+.topbar {
+    min-height: 86px !important;
+    padding: 16px !important;
+    border-radius: 28px !important;
+}
+
+.search-trigger,
+.secondary,
+.ghost-btn,
+.icon-btn,
+input,
+select,
+textarea {
+    border-radius: 16px !important;
+    border-color: rgba(15, 23, 42, .11) !important;
+    background: rgba(255,255,255,.66) !important;
+}
+
+.primary,
+.fab,
+.bottom-nav a.active {
+    color: #fff !important;
+    background: var(--brand-gradient) !important;
+    box-shadow: var(--glow-primary) !important;
+}
+
+.primary {
+    border-radius: 16px !important;
+    font-weight: 850 !important;
+}
+
+.hero-command {
+    min-height: 320px !important;
+    border-radius: 34px !important;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,.94), rgba(245,250,255,.70)),
+        linear-gradient(120deg, rgba(49,87,213,.080), rgba(8,145,178,.048)) !important;
+}
+
+.hero-command::before {
+    background:
+        linear-gradient(120deg, rgba(49,87,213,.085), transparent 35%, rgba(8,145,178,.065)),
+        repeating-linear-gradient(135deg, rgba(49,87,213,.060) 0 1px, transparent 1px 18px) !important;
+}
+
+.hero-command h2,
+.page-title h1 {
+    letter-spacing: 0 !important;
+    font-weight: 950 !important;
+}
+
+.metric-card,
+.panel,
+.lift-card {
+    border-radius: var(--radius-lg) !important;
+}
+
+.metric-card {
+    min-height: 148px !important;
+    padding: 20px !important;
+}
+
+.metric-card strong,
+.counter,
+.launch-score strong {
+    font-variant-numeric: tabular-nums;
+    font-weight: 950 !important;
+}
+
+.premium-pill,
+.status-pill {
+    border-radius: 999px !important;
+    border-color: rgba(49,87,213,.16) !important;
+    background: rgba(49,87,213,.080) !important;
+    color: var(--primary) !important;
+    font-weight: 900 !important;
+}
+
+.ok,
+.metric-card em,
+.chart-summary strong {
+    color: var(--emerald) !important;
+}
+
+.chart-stage,
+.line-chart,
+.predictive-chart,
+.flow-builder,
+.department-flow-map,
+.data-table,
+.table-like,
+.premium-table {
+    border-radius: 24px !important;
+    border-color: rgba(15, 23, 42, .10) !important;
+    box-shadow: var(--shadow-soft) !important;
+}
+
+.bottom-nav {
+    border-radius: 28px !important;
+    background: rgba(255,255,255,.76) !important;
+    box-shadow: var(--shadow-soft) !important;
+}
+
+.mobile-app-header {
+    background: rgba(255,255,255,.80) !important;
+}
+
+.auth-card,
+.portal-auth-card,
+.portal-auth-visual {
+    border-radius: 32px !important;
+    box-shadow: var(--shadow) !important;
+}
+
+*,
+*::before,
+*::after {
+    min-width: 0;
+}
+
+img,
+svg,
+canvas,
+video {
+    max-width: 100%;
+}
+
+p,
+span,
+small,
+strong,
+b,
+em,
+label,
+button,
+a,
+td,
+th,
+code,
+pre {
+    overflow-wrap: anywhere;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+.shell {
+    max-width: 100%;
+}
+
+.page-title,
+.panel-head,
+.topbar,
+.button-row,
+.toolbar,
+.auth-inline-row,
+.campaign-actions,
+.template-actions,
+.template-hero-actions,
+.marketplace-actions,
+.control-hero-actions,
+.user-directory-tools,
+.settings-section-action-bar,
+.settings-route-toolbar,
+.flow-toolbar,
+.builder-actions,
+.flow-canvas-toolbar {
+    flex-wrap: wrap;
+}
+
+.hero-command,
+.campaign-command,
+.template-hero,
+.saas-hero,
+.setup-center-hero,
+.chatbot-hero,
+.omni-hero,
+.ai-bi-hero,
+.marketplace-hero,
+.enterprise-hero,
+.commerce-os-hero,
+.roadmap-hero,
+.launch-readiness-hero,
+.control-center-hero,
+.settings-section-hero,
+.users-command-hero,
+.rbac-command-hero,
+.ops-suite-hero,
+.revenue-engine-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 34px !important;
+    border: 1px solid rgba(15, 23, 42, .095) !important;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,.94), rgba(245,250,255,.72)),
+        linear-gradient(120deg, rgba(49,87,213,.085), rgba(8,145,178,.050)) !important;
+    box-shadow: var(--shadow-soft) !important;
+}
+
+.hero-command::before,
+.campaign-command::before,
+.template-hero::before,
+.saas-hero::before,
+.setup-center-hero::before,
+.chatbot-hero::before,
+.omni-hero::before,
+.ai-bi-hero::before,
+.marketplace-hero::before,
+.enterprise-hero::before,
+.commerce-os-hero::before,
+.roadmap-hero::before,
+.launch-readiness-hero::before,
+.control-center-hero::before,
+.settings-section-hero::before,
+.users-command-hero::before,
+.rbac-command-hero::before,
+.ops-suite-hero::before,
+.revenue-engine-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 12% 12%, rgba(16,185,129,.11), transparent 28%),
+        radial-gradient(circle at 88% 10%, rgba(124,58,237,.10), transparent 30%),
+        repeating-linear-gradient(135deg, rgba(49,87,213,.052) 0 1px, transparent 1px 18px);
+}
+
+.hero-command > *,
+.campaign-command > *,
+.template-hero > *,
+.saas-hero > *,
+.setup-center-hero > *,
+.chatbot-hero > *,
+.omni-hero > *,
+.ai-bi-hero > *,
+.marketplace-hero > *,
+.enterprise-hero > *,
+.commerce-os-hero > *,
+.roadmap-hero > *,
+.launch-readiness-hero > *,
+.control-center-hero > *,
+.settings-section-hero > *,
+.users-command-hero > *,
+.rbac-command-hero > *,
+.ops-suite-hero > *,
+.revenue-engine-hero > * {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-command h2,
+.campaign-command h2,
+.campaign-studio-hero h2,
+.template-hero h2,
+.saas-hero h2,
+.setup-center-hero h2,
+.chatbot-hero h2,
+.omni-hero h2,
+.ai-bi-hero h2,
+.marketplace-hero h2,
+.enterprise-hero h2,
+.commerce-os-hero h2,
+.roadmap-hero h2,
+.launch-readiness-hero h2,
+.control-center-hero h2,
+.settings-section-copy h2,
+.users-command-hero h2,
+.rbac-command-hero h2,
+.ops-suite-hero h2 {
+    max-width: 980px;
+    color: var(--text);
+    font-size: clamp(28px, 4vw, 58px) !important;
+    line-height: 1.08 !important;
+    font-weight: 950 !important;
+    letter-spacing: 0 !important;
+}
+
+.hero-command p,
+.campaign-command p,
+.campaign-studio-hero p,
+.template-hero p,
+.saas-hero p,
+.setup-center-hero p,
+.chatbot-hero p,
+.omni-hero p,
+.ai-bi-hero p,
+.marketplace-hero p,
+.enterprise-hero p,
+.commerce-os-hero p,
+.roadmap-hero p,
+.launch-readiness-hero p,
+.control-center-hero p,
+.settings-section-copy p,
+.users-command-hero p,
+.rbac-command-hero p,
+.ops-suite-hero p {
+    max-width: 920px;
+    color: var(--muted) !important;
+    line-height: 1.85 !important;
+}
+
+.campaign-workbench,
+.campaign-tool-panel,
+.campaign-tool,
+.campaign-kpi-strip article,
+.campaign-side-metrics article,
+.campaign-health,
+.template-composer,
+.template-preview-card,
+.template-library-card,
+.template-empty-state,
+.template-status-strip article,
+.template-tool-btn,
+.template-variable-lab,
+.template-json-box,
+.template-review-checks,
+.wa-device,
+.wa-preview-phone,
+.wa-phone-frame,
+.inbox,
+.conversations,
+.chat,
+.workflow div,
+.plans-grid article,
+.calendar,
+.connect-choice article,
+.method-cards article,
+.setup-profile-form,
+.chatbot-mode,
+.flow-node,
+.ai-output,
+.settings-hub-card,
+.settings-control-card,
+.settings-command-panel,
+.settings-quick-actions,
+.settings-section-tool,
+.control-sidebar,
+.control-card,
+.control-table,
+.general-brand-card,
+.general-stat-card,
+.general-field-card,
+.general-save-strip,
+.user-create-card,
+.user-tools-card,
+.user-directory-panel,
+.user-row-card,
+.rbac-create-card,
+.ops-tool-card,
+.ai-recommendation-panel,
+.ai-recommendation-list article,
+.omni-inbox-grid,
+.channel-grid article,
+.wa-preview-chat,
+.flow-step-list article,
+.chatbot-health-grid article,
+.chatbot-diagnostics-grid article,
+.department-grid article,
+.ai-agent-grid article,
+.ai-policy-card,
+.ai-inbox-panel,
+.ai-bi-card,
+.marketplace-grid article,
+.enterprise-grid article,
+.commerce-os-grid article,
+.roadmap-phase-grid > article,
+.roadmap-issue-list article,
+.launch-alert-list article,
+.launch-env-command,
+.command-box,
+.ai-widget {
+    border: 1px solid rgba(15, 23, 42, .095) !important;
+    border-radius: var(--radius-lg) !important;
+    background: var(--soft-gradient) !important;
+    box-shadow: var(--shadow-soft) !important;
+}
+
+.campaign-tool.active,
+.template-type-switch button.active,
+.chatbot-tabs button.active,
+.settings-filter-pills button.active,
+.control-sidebar nav a.active,
+.flow-library-item.selected,
+.conversations button.active {
+    color: #fff !important;
+    border-color: rgba(255,255,255,.18) !important;
+    background: var(--brand-gradient) !important;
+    box-shadow: var(--glow-primary) !important;
+}
+
+.campaign-tool.active *,
+.template-type-switch button.active *,
+.chatbot-tabs button.active *,
+.settings-filter-pills button.active *,
+.control-sidebar nav a.active *,
+.flow-library-item.selected *,
+.conversations button.active * {
+    color: inherit !important;
+}
+
+.metric-grid,
+.campaign-quick-tools,
+.campaign-kpi-strip,
+.campaign-tool-panels,
+.campaign-compliance-grid,
+.template-status-strip,
+.template-smart-tools,
+.template-form-grid,
+.template-variable-lab,
+.template-policy-grid,
+.template-review-checks,
+.template-library-grid,
+.step-row,
+.setup-grid,
+.workflow,
+.plans-grid,
+.checklist,
+.launch-grid,
+.method-cards,
+.setup-connect-grid,
+.test-grid,
+.upload-grid,
+.capability-list,
+.chatbot-health-grid,
+.chatbot-diagnostics-grid,
+.flow-status-cards,
+.department-grid,
+.ai-agent-grid,
+.ai-meta-grid,
+.ai-feature-list,
+.ai-agent-mini,
+.ai-bi-grid,
+.marketplace-grid,
+.enterprise-grid,
+.commerce-os-grid,
+.roadmap-phase-grid,
+.roadmap-list-grid,
+.roadmap-detail-columns,
+.settings-hub-grid,
+.settings-control-card-grid,
+.settings-section-tool-grid,
+.general-settings-overview,
+.general-settings-grid,
+.user-ops-grid,
+.rbac-score-grid,
+.ops-tool-grid,
+.control-grid,
+.control-metrics,
+.permission-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)) !important;
+    gap: 16px !important;
+}
+
+.workspace-grid,
+.panel-grid,
+.builder,
+.campaign-workbench,
+.template-workspace,
+.qr-layout,
+.readiness-board,
+.advanced-settings,
+.settings-deck,
+.omni-inbox-grid,
+.wa-builder-layout,
+.knowledge-layout,
+.revenue-engine-hero,
+.saas-hero,
+.ai-bi-hero,
+.marketplace-hero,
+.enterprise-hero,
+.commerce-os-hero,
+.roadmap-hero,
+.control-center-layout,
+.settings-detail-layout,
+.user-management-layout,
+.rbac-workbench,
+.control-split,
+.permission-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr) !important;
+    gap: 18px !important;
+    align-items: start;
+}
+
+.inbox,
+.omni-inbox-grid {
+    grid-template-columns: minmax(240px, .72fr) minmax(0, 1.6fr) minmax(260px, .78fr) !important;
+}
+
+.table-like,
+.data-table,
+.premium-table,
+.control-table,
+.permission-matrix,
+.user-row-grid {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table-like > *,
+.data-table > *,
+.premium-table > *,
+.control-table > *,
+.permission-matrix > *,
+.user-row-grid > * {
+    min-width: 0;
+}
+
+.campaign-phone-shell,
+.template-phone,
+.wa-phone-frame,
+.wa-preview-phone {
+    margin-inline: auto;
+    max-width: min(100%, 390px);
+}
+
+.flow-builder,
+.department-flow-map,
+.builder-canvas,
+.flow-canvas {
+    max-width: 100%;
+    overflow: auto !important;
+}
+
+.flow-node,
+.dept-node {
+    max-width: min(280px, 76vw);
+}
+
+.chat,
+.wa-preview-chat,
+.campaign-phone-body,
+.template-phone-body {
+    overflow: auto;
+}
+
+.bubble,
+.wa-msg,
+.template-preview-message,
+.campaign-message-card {
+    max-width: min(86%, 620px);
+}
+
+.data-table,
+.table-like,
+.premium-table,
+.control-table {
+    scrollbar-width: thin;
+}
+
+@media (max-width: 1400px) {
+    .workspace-grid,
+    .panel-grid,
+    .builder,
+    .campaign-workbench,
+    .template-workspace,
+    .qr-layout,
+    .readiness-board,
+    .advanced-settings,
+    .settings-deck,
+    .omni-inbox-grid,
+    .wa-builder-layout,
+    .knowledge-layout,
+    .revenue-engine-hero,
+    .saas-hero,
+    .ai-bi-hero,
+    .marketplace-hero,
+    .enterprise-hero,
+    .commerce-os-hero,
+    .roadmap-hero,
+    .control-center-layout,
+    .settings-detail-layout,
+    .user-management-layout,
+    .rbac-workbench,
+    .control-split,
+    .permission-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    .inbox,
+    .omni-inbox-grid {
+        grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr) !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .inbox,
+    .omni-inbox-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .conversations {
+        display: flex !important;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+    }
+
+    .conversations button {
+        min-width: min(82vw, 320px);
+    }
+
+    .page-title h1,
+    .hero-command h2,
+    .campaign-command h2,
+    .template-hero h2,
+    .saas-hero h2,
+    .setup-center-hero h2,
+    .chatbot-hero h2,
+    .omni-hero h2,
+    .ai-bi-hero h2,
+    .marketplace-hero h2,
+    .enterprise-hero h2,
+    .commerce-os-hero h2,
+    .roadmap-hero h2,
+    .control-center-hero h2 {
+        font-size: clamp(24px, 8vw, 38px) !important;
+    }
+}
+
+@media (max-width: 760px) {
+    :root {
+        --radius: 18px;
+        --radius-lg: 22px;
+    }
+
+    .shell {
+        padding-inline: 12px !important;
+    }
+
+    .topbar,
+    .hero-command,
+    .campaign-command,
+    .template-hero,
+    .saas-hero,
+    .setup-center-hero,
+    .chatbot-hero,
+    .omni-hero,
+    .ai-bi-hero,
+    .marketplace-hero,
+    .enterprise-hero,
+    .commerce-os-hero,
+    .roadmap-hero,
+    .launch-readiness-hero,
+    .control-center-hero,
+    .settings-section-hero,
+    .panel,
+    .metric-card,
+    .lift-card {
+        border-radius: 22px !important;
+    }
+
+    .search-trigger,
+    .primary,
+    .secondary,
+    .danger,
+    .ghost-btn,
+    .icon-btn {
+        width: 100%;
+    }
+}
+
+/* Final chatbot builder stabilization */
+.page-chatbot-builder .whatsapp-bot-builder {
+    overflow: visible !important;
+}
+
+.page-chatbot-builder .wa-builder-layout {
+    display: grid !important;
+    grid-template-columns: minmax(270px, 320px) minmax(0, 1fr) minmax(300px, 360px) !important;
+    grid-template-areas:
+        "preview canvas settings"
+        "tree canvas settings" !important;
+    gap: 18px !important;
+    align-items: start !important;
+}
+
+.page-chatbot-builder .wa-preview-phone {
+    grid-area: preview !important;
+}
+
+.page-chatbot-builder .bot-flow-tree {
+    grid-area: tree !important;
+}
+
+.page-chatbot-builder .bot-flow-canvas {
+    grid-area: canvas !important;
+}
+
+.page-chatbot-builder .bot-node-settings {
+    grid-area: settings !important;
+}
+
+.page-chatbot-builder .wa-phone-frame {
+    min-height: auto !important;
+    border-width: 7px !important;
+}
+
+.page-chatbot-builder .wa-preview-chat {
+    height: 390px !important;
+}
+
+.page-chatbot-builder .wa-msg,
+.page-chatbot-builder .wa-quick-replies {
+    max-width: 96% !important;
+}
+
+.page-chatbot-builder .wa-quick-replies {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.page-chatbot-builder .wa-quick-replies button {
+    min-height: 34px;
+    padding-inline: 8px;
+    white-space: normal;
+    line-height: 1.3;
+}
+
+.page-chatbot-builder .bot-flow-canvas {
+    min-height: auto !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+.page-chatbot-builder .canvas-title {
+    text-align: right !important;
+    padding: 18px 20px 8px !important;
+}
+
+.page-chatbot-builder .flow-canvas-toolbar {
+    justify-content: flex-start !important;
+    padding: 12px 20px 16px !important;
+}
+
+.page-chatbot-builder .department-flow-map {
+    direction: rtl;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)) !important;
+    gap: 14px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 420px !important;
+    padding: 20px !important;
+    overflow: visible !important;
+}
+
+.page-chatbot-builder .department-flow-map svg {
+    display: none !important;
+}
+
+.page-chatbot-builder .dept-node {
+    position: relative !important;
+    inset: auto !important;
+    right: auto !important;
+    top: auto !important;
+    width: auto !important;
+    min-height: 112px !important;
+    display: grid !important;
+    align-content: start !important;
+    gap: 10px !important;
+    padding: 16px !important;
+    cursor: pointer !important;
+}
+
+.page-chatbot-builder .dept-node::after {
+    display: none !important;
+}
+
+.page-chatbot-builder .dept-node.start,
+.page-chatbot-builder .dept-node.message,
+.page-chatbot-builder .dept-node.list {
+    grid-column: span 1;
+}
+
+.page-chatbot-builder .dept-node b {
+    font-size: 15px;
+    line-height: 1.35;
+}
+
+.page-chatbot-builder .dept-node span {
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.page-chatbot-builder .bot-node-settings {
+    position: sticky;
+    top: 96px;
+    max-height: calc(100vh - 120px) !important;
+}
+
+.page-chatbot-builder .component-palette {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.page-chatbot-builder .component-palette button {
+    min-height: 44px;
+    justify-content: flex-start;
+    gap: 8px;
+    text-align: right;
+}
+
+.page-chatbot-builder .bot-node-settings textarea {
+    max-height: 140px;
+}
+
+.page-chatbot-builder .bot-settings-menu {
+    display: none !important;
+}
+
+.page-chatbot-builder .chatbot-bottom-grid,
+.page-chatbot-builder .knowledge-layout,
+.page-chatbot-builder .ai-agent-grid,
+.page-chatbot-builder .department-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)) !important;
+}
+
+.page-chatbot-builder .legacy-chatbot-tabs {
+    display: none !important;
+}
+
+@media (max-width: 1500px) {
+    .page-chatbot-builder .wa-builder-layout {
+        grid-template-columns: minmax(270px, 320px) minmax(0, 1fr) !important;
+        grid-template-areas:
+            "preview canvas"
+            "tree canvas"
+            "settings settings" !important;
+    }
+
+    .page-chatbot-builder .bot-node-settings {
+        position: static;
+        max-height: none !important;
+    }
+}
+
+@media (max-width: 1100px) {
+    .page-chatbot-builder .wa-builder-layout {
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            "preview"
+            "tree"
+            "canvas"
+            "settings" !important;
+    }
+
+    .page-chatbot-builder .wa-phone-frame {
+        max-width: 380px !important;
+    }
+
+    .page-chatbot-builder .department-flow-map {
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)) !important;
+    }
+}
+
+/* Premium SaaS bot studio shell */
+.page-chatbot-builder {
+    --bot-bg: #F5F7FB;
+    --bot-card: #FFFFFF;
+    --bot-ink: #101828;
+    --bot-muted: #667085;
+    --bot-line: rgba(16, 24, 40, .09);
+    --bot-primary: linear-gradient(135deg,#1E3A8A,#7C3AED);
+    --bot-shadow: 0 20px 60px rgba(16, 24, 40, .08);
+    --bot-shadow-strong: 0 26px 80px rgba(30, 58, 138, .16);
+    background: var(--bot-bg) !important;
+}
+
+.page-chatbot-builder .ambient,
+.page-chatbot-builder .mobile-app-header {
+    display: none !important;
+}
+
+.page-chatbot-builder .sidebar {
+    width: 92px !important;
+    inset: 14px 14px 14px auto !important;
+    padding: 14px 10px !important;
+    border-radius: 28px !important;
+    background: rgba(255,255,255,.82) !important;
+    box-shadow: var(--bot-shadow) !important;
+}
+
+.page-chatbot-builder .sidebar .brand {
+    justify-content: center;
+    padding: 0 !important;
+    min-height: 58px;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.page-chatbot-builder .sidebar .brand-copy,
+.page-chatbot-builder .sidebar-card,
+.page-chatbot-builder .side-nav .nav-label {
+    display: none !important;
+}
+
+.page-chatbot-builder .collapse-btn {
+    width: 42px;
+    margin: 8px auto 12px;
+}
+
+.page-chatbot-builder .side-nav {
+    gap: 10px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+.page-chatbot-builder .side-nav a {
+    width: 54px !important;
+    min-height: 54px !important;
+    margin: 0 auto;
+    padding: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    border-radius: 18px !important;
+}
+
+.page-chatbot-builder .side-nav a::after {
+    content: attr(title);
+    position: absolute;
+    right: 66px;
+    top: 50%;
+    z-index: 50;
+    padding: 8px 10px;
+    border-radius: 12px;
+    color: #fff;
+    background: #111827;
+    box-shadow: var(--bot-shadow);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(8px);
+    transition: opacity .16s ease, transform .16s ease;
+}
+
+.page-chatbot-builder .side-nav a:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+.page-chatbot-builder .side-nav a.active {
+    background: var(--bot-primary) !important;
+}
+
+.page-chatbot-builder .shell {
+    margin-right: 120px !important;
+    padding: 14px 18px 28px !important;
+    max-width: none !important;
+}
+
+.page-chatbot-builder .topbar {
+    position: sticky !important;
+    top: 10px !important;
+    z-index: 40 !important;
+    min-height: 72px !important;
+    padding: 10px 14px !important;
+    margin-bottom: 14px !important;
+    border-radius: 24px !important;
+    background: rgba(255,255,255,.78) !important;
+    border: 1px solid var(--bot-line) !important;
+    box-shadow: var(--bot-shadow) !important;
+    backdrop-filter: blur(20px);
+}
+
+.page-chatbot-builder .page-title .eyebrow {
+    font-size: 12px;
+}
+
+.page-chatbot-builder .page-title h1 {
+    font-size: clamp(26px, 2.3vw, 38px) !important;
+}
+
+.page-chatbot-builder .top-actions {
+    gap: 8px !important;
+}
+
+.page-chatbot-builder .search-trigger {
+    min-width: min(320px, 34vw) !important;
+    min-height: 44px !important;
+}
+
+.page-chatbot-builder .chatbot-hero {
+    grid-template-columns: minmax(0, 1fr) 320px !important;
+    padding: 24px !important;
+    margin-bottom: 14px !important;
+    border-radius: 28px !important;
+}
+
+.page-chatbot-builder .chatbot-hero h2 {
+    font-size: clamp(30px, 3.2vw, 52px) !important;
+}
+
+.page-chatbot-builder .metric-grid {
+    grid-template-columns: repeat(5, minmax(150px, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 14px !important;
+}
+
+.page-chatbot-builder .metric-card {
+    min-height: 118px !important;
+    padding: 16px !important;
+    border-radius: 22px !important;
+    background: var(--bot-card) !important;
+    box-shadow: var(--bot-shadow) !important;
+}
+
+.page-chatbot-builder .chatbot-health-panel,
+.page-chatbot-builder .chatbot-diagnostics-panel {
+    padding: 18px !important;
+    margin-bottom: 14px !important;
+}
+
+.page-chatbot-builder .chatbot-diagnostics-panel {
+    display: none !important;
+}
+
+.page-chatbot-builder .whatsapp-bot-builder {
+    display: grid;
+    min-height: calc(100vh - 120px);
+    border: 1px solid var(--bot-line) !important;
+    border-radius: 30px !important;
+    background: var(--bot-card) !important;
+    box-shadow: var(--bot-shadow-strong) !important;
+}
+
+.page-chatbot-builder .whatsapp-bot-builder .builder-actions {
+    min-height: 70px;
+    padding: 12px 16px !important;
+    background: rgba(255,255,255,.88) !important;
+}
+
+.page-chatbot-builder .builder-actions button,
+.page-chatbot-builder .builder-actions .bot-status-toggle {
+    min-height: 40px !important;
+    border-radius: 14px !important;
+}
+
+.page-chatbot-builder .builder-actions .chatbot-create-flow,
+.page-chatbot-builder .builder-actions .chatbot-publish-flow {
+    background: var(--bot-primary) !important;
+    box-shadow: 0 14px 34px rgba(124,58,237,.20) !important;
+}
+
+.page-chatbot-builder .builder-actions .secondary:nth-of-type(n+5) {
+    display: none;
+}
+
+.page-chatbot-builder .wa-builder-layout {
+    min-height: 720px;
+    padding: 16px !important;
+    background:
+        linear-gradient(90deg, rgba(30,58,138,.035) 1px, transparent 1px),
+        linear-gradient(rgba(30,58,138,.035) 1px, transparent 1px),
+        #F8FAFC;
+    background-size: 28px 28px, 28px 28px, auto;
+}
+
+.page-chatbot-builder .wa-preview-phone,
+.page-chatbot-builder .bot-flow-tree,
+.page-chatbot-builder .bot-flow-canvas,
+.page-chatbot-builder .bot-node-settings {
+    border: 1px solid var(--bot-line) !important;
+    border-radius: 24px !important;
+    background: rgba(255,255,255,.94) !important;
+    box-shadow: var(--bot-shadow) !important;
+}
+
+.page-chatbot-builder .wa-preview-phone {
+    padding: 14px;
+}
+
+.page-chatbot-builder .wa-phone-frame {
+    border-color: #111827 !important;
+    box-shadow: 0 20px 48px rgba(16,24,40,.16) !important;
+}
+
+.page-chatbot-builder .bot-flow-tree {
+    padding: 16px !important;
+}
+
+.page-chatbot-builder .flow-step-list {
+    max-height: 300px;
+    overflow: auto;
+    padding-inline-end: 3px;
+}
+
+.page-chatbot-builder .flow-step-list article {
+    min-height: 58px;
+    padding: 10px 12px !important;
+}
+
+.page-chatbot-builder .bot-flow-canvas {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+}
+
+.page-chatbot-builder .flow-canvas-toolbar button,
+.page-chatbot-builder .flow-canvas-toolbar .status-pill {
+    min-height: 38px !important;
+    width: auto !important;
+}
+
+.page-chatbot-builder .department-flow-map {
+    align-content: start;
+    padding: 18px !important;
+}
+
+.page-chatbot-builder .dept-node {
+    border-inline-start: 5px solid #1E3A8A !important;
+    transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+
+.page-chatbot-builder .dept-node:hover {
+    transform: translateY(-3px);
+}
+
+.page-chatbot-builder .dept-node.start { border-inline-start-color: #1E3A8A !important; }
+.page-chatbot-builder .dept-node.message { border-inline-start-color: #2563EB !important; }
+.page-chatbot-builder .dept-node.list { border-inline-start-color: #7C3AED !important; }
+.page-chatbot-builder .dept-node.sales { border-inline-start-color: #059669 !important; }
+.page-chatbot-builder .dept-node.support { border-inline-start-color: #0284C7 !important; }
+.page-chatbot-builder .dept-node.orders { border-inline-start-color: #7C3AED !important; }
+.page-chatbot-builder .dept-node.billing { border-inline-start-color: #D97706 !important; }
+.page-chatbot-builder .dept-node.complaints { border-inline-start-color: #DC2626 !important; }
+.page-chatbot-builder .dept-node.handover { border-inline-start-color: #BE123C !important; }
+
+.page-chatbot-builder .bot-node-settings {
+    padding: 16px !important;
+}
+
+.page-chatbot-builder .bot-node-settings .panel-head h2 {
+    font-size: 18px !important;
+}
+
+.page-chatbot-builder .component-palette {
+    max-height: 132px;
+    overflow: auto;
+}
+
+.page-chatbot-builder .component-palette button {
+    font-size: 13px;
+}
+
+.page-chatbot-builder .bot-node-settings input,
+.page-chatbot-builder .bot-node-settings select,
+.page-chatbot-builder .bot-node-settings textarea {
+    min-height: 42px !important;
+    border-radius: 14px !important;
+    font-size: 14px;
+}
+
+.page-chatbot-builder .settings-title {
+    margin-top: 8px !important;
+}
+
+.page-chatbot-builder .settings-checks label {
+    min-height: 36px;
+    font-size: 12px;
+}
+
+.page-chatbot-builder .chatbot-bottom-grid,
+.page-chatbot-builder .chatbot-flow-library,
+.page-chatbot-builder .department-routing,
+.page-chatbot-builder .ai-agent-studio,
+.page-chatbot-builder .ai-knowledge-base {
+    margin-top: 16px;
+}
+
+.page-chatbot-builder .chatbot-flow-library {
+    display: none !important;
+}
+
+.page-chatbot-builder .department-grid article {
+    position: relative;
+    padding: 18px !important;
+}
+
+.page-chatbot-builder .department-grid article::before {
+    content: "";
+    position: absolute;
+    inset-block: 16px;
+    inset-inline-start: 14px;
+    width: 4px;
+    border-radius: 99px;
+    background: var(--dept-color, #1E3A8A);
+}
+
+.page-chatbot-builder .chatbot-builder-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 14px 18px;
+    border: 1px solid var(--bot-line);
+    border-radius: 20px;
+    color: var(--bot-muted);
+    background: rgba(255,255,255,.82);
+    box-shadow: var(--bot-shadow);
+}
+
+.page-chatbot-builder .bottom-nav {
+    display: none !important;
+}
+
+.page-chatbot-builder *:focus-visible {
+    outline: 3px solid rgba(124,58,237,.28);
+    outline-offset: 2px;
+}
+
+@media (min-width: 1800px) {
+    .page-chatbot-builder .wa-builder-layout {
+        grid-template-columns: 340px minmax(760px, 1fr) 380px !important;
+    }
+}
+
+@media (max-width: 1320px) {
+    .page-chatbot-builder .metric-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    .page-chatbot-builder .wa-builder-layout {
+        grid-template-columns: minmax(260px, 330px) minmax(0, 1fr) !important;
+        grid-template-areas:
+            "preview canvas"
+            "tree canvas"
+            "settings settings" !important;
+    }
+
+    .page-chatbot-builder .bot-node-settings {
+        position: static;
+        max-height: none !important;
+    }
+}
+
+@media (max-width: 980px) {
+    .page-chatbot-builder .sidebar {
+        display: none !important;
+    }
+
+    .page-chatbot-builder .shell {
+        margin-right: 0 !important;
+        padding: 10px !important;
+    }
+
+    .page-chatbot-builder .chatbot-hero,
+    .page-chatbot-builder .wa-builder-layout {
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            "preview"
+            "tree"
+            "canvas"
+            "settings" !important;
+    }
+
+    .page-chatbot-builder .metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .page-chatbot-builder .department-flow-map {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-chatbot-builder .topbar {
+        position: relative !important;
+        top: auto !important;
+    }
+
+    .page-chatbot-builder .top-actions {
+        width: 100%;
+    }
+
+    .page-chatbot-builder .search-trigger {
+        min-width: 100% !important;
+    }
+
+    .page-chatbot-builder .metric-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Chatbot Builder route redesign */
+.chatbot-hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 360px) !important;
+    gap: 24px !important;
+    align-items: end !important;
+    padding: 30px !important;
+}
+
+.chatbot-hero .chatbot-mode {
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid rgba(49, 87, 213, .14);
+    border-radius: 22px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.92), rgba(241,247,252,.72)),
+        linear-gradient(135deg, rgba(49,87,213,.08), rgba(8,145,178,.04));
+    box-shadow: var(--shadow-soft);
+}
+
+.chatbot-hero .chatbot-mode span {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.chatbot-hero .chatbot-mode select {
+    width: 100%;
+    min-height: 48px;
+    color: var(--text);
+    font-weight: 800;
+}
+
+.chatbot-health-panel,
+.chatbot-diagnostics-panel,
+.chatbot-flow-library,
+.department-routing,
+.ai-agent-studio,
+.ai-knowledge-base,
+.legacy-chatbot-tabs {
+    display: grid !important;
+    gap: 18px !important;
+    padding: 22px !important;
+}
+
+.chatbot-health-grid,
+.chatbot-diagnostics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+}
+
+.chatbot-health-grid article,
+.chatbot-diagnostics-grid article {
+    min-height: 118px;
+    border-radius: 20px !important;
+}
+
+.whatsapp-bot-builder {
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 32px !important;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.94), rgba(244,248,252,.82)),
+        linear-gradient(135deg, rgba(49,87,213,.05), rgba(8,145,178,.035)) !important;
+}
+
+.whatsapp-bot-builder .builder-actions {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    padding: 16px !important;
+    margin: 0 !important;
+    border-bottom: 1px solid rgba(15,23,42,.09);
+    background: rgba(255,255,255,.78) !important;
+    backdrop-filter: blur(18px);
+}
+
+.whatsapp-bot-builder .builder-actions .bot-status-toggle {
+    margin-inline-end: auto;
+    min-height: 44px;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.74) !important;
+}
+
+.whatsapp-bot-builder .builder-actions button {
+    width: auto !important;
+    min-height: 42px;
+    padding-inline: 14px;
+    white-space: nowrap;
+}
+
+.wa-builder-layout {
+    display: grid !important;
+    direction: ltr !important;
+    grid-template-columns: minmax(300px, 330px) minmax(0, 1fr) minmax(300px, 340px) !important;
+    gap: 16px !important;
+    align-items: stretch !important;
+    padding: 18px !important;
+}
+
+.wa-preview-phone,
+.bot-flow-tree,
+.bot-flow-canvas,
+.bot-node-settings {
+    min-width: 0;
+}
+
+.wa-preview-phone {
+    direction: ltr;
+    display: grid;
+    align-content: start;
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.bot-flow-tree {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.bot-flow-canvas {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+}
+
+.bot-node-settings {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+}
+
+.wa-phone-frame {
+    width: min(100%, 320px) !important;
+    max-width: 320px !important;
+    min-height: 640px !important;
+    border: 8px solid #111827 !important;
+    border-radius: 34px !important;
+    box-shadow: 0 28px 72px rgba(15,23,42,.20) !important;
+}
+
+.wa-preview-chat {
+    height: 505px !important;
+}
+
+.bot-flow-tree,
+.bot-node-settings {
+    max-height: 690px !important;
+    overflow: auto !important;
+    border-radius: 26px !important;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.96), rgba(245,249,252,.82)) !important;
+}
+
+.bot-flow-tree .panel-head,
+.bot-node-settings .panel-head {
+    margin-bottom: 0;
+}
+
+.flow-step-list article {
+    grid-template-columns: 34px minmax(0, 1fr) 8px !important;
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.78) !important;
+}
+
+.flow-step-list article.active {
+    color: var(--text) !important;
+    border-color: rgba(49,87,213,.35) !important;
+    background:
+        linear-gradient(135deg, rgba(49,87,213,.11), rgba(8,145,178,.06)),
+        rgba(255,255,255,.82) !important;
+    box-shadow: 0 18px 42px rgba(49,87,213,.12) !important;
+}
+
+.flow-step-list article.active > span {
+    color: #fff;
+    background: var(--brand-gradient);
+}
+
+.bot-flow-canvas {
+    min-height: 690px !important;
+    overflow: auto !important;
+    border-radius: 28px !important;
+    background:
+        linear-gradient(rgba(248,250,252,.74), rgba(248,250,252,.74)),
+        radial-gradient(circle at 20px 20px, rgba(49,87,213,.13) 1.2px, transparent 1.8px) !important;
+    background-size: auto, 26px 26px !important;
+}
+
+.canvas-title {
+    padding: 18px 18px 4px !important;
+}
+
+.canvas-title h2 {
+    color: var(--text);
+    font-size: 20px !important;
+    font-weight: 950;
+}
+
+.flow-canvas-toolbar {
+    padding: 12px 14px !important;
+    border-bottom: 1px solid rgba(15,23,42,.07);
+}
+
+.department-flow-map {
+    height: 610px !important;
+    min-width: 980px !important;
+    width: 980px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.department-flow-map path {
+    fill: none !important;
+    stroke: rgba(49, 87, 213, .42) !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+    vector-effect: non-scaling-stroke;
+}
+
+.dept-node {
+    width: 184px !important;
+    min-height: 90px !important;
+    border-radius: 18px !important;
+    background: rgba(255,255,255,.92) !important;
+    box-shadow: 0 16px 38px rgba(15,23,42,.10) !important;
+}
+
+.dept-node.selected,
+.dept-node:hover {
+    border-color: rgba(49,87,213,.46) !important;
+    box-shadow: var(--glow-primary) !important;
+}
+
+.component-palette {
+    grid-template-columns: 1fr !important;
+}
+
+.component-palette button {
+    border-radius: 14px !important;
+    background: rgba(255,255,255,.78) !important;
+}
+
+.bot-node-settings label {
+    color: var(--muted);
+    font-weight: 800;
+}
+
+.bot-node-settings input,
+.bot-node-settings select,
+.bot-node-settings textarea {
+    width: 100%;
+    background: rgba(255,255,255,.78) !important;
+}
+
+.bot-node-settings textarea {
+    min-height: 108px;
+}
+
+.settings-checks {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.settings-checks label {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 10px;
+    border: 1px solid rgba(15,23,42,.08);
+    border-radius: 14px;
+    background: rgba(255,255,255,.62);
+}
+
+.settings-checks input {
+    width: auto !important;
+}
+
+.bot-settings-menu {
+    padding: 14px;
+    border: 1px solid rgba(15,23,42,.08);
+    border-radius: 18px;
+    background: rgba(255,255,255,.58);
+}
+
+.bot-settings-menu a {
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.chatbot-bottom-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 420px) !important;
+    gap: 18px !important;
+}
+
+.flow-status-cards {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+}
+
+.flow-status-cards span {
+    border-radius: 18px !important;
+}
+
+.chatbot-flow-library-list {
+    gap: 12px !important;
+}
+
+.flow-library-item,
+.empty-flow-library {
+    grid-template-columns: minmax(220px, 1fr) auto minmax(120px, auto) auto !important;
+    border-radius: 20px !important;
+}
+
+.department-grid,
+.ai-agent-grid,
+.knowledge-layout {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important;
+}
+
+.department-grid article,
+.ai-agent-grid article,
+.knowledge-form,
+.knowledge-upload-form,
+.knowledge-list,
+.ai-settings-form {
+    border: 1px solid rgba(15,23,42,.095) !important;
+    border-radius: 24px !important;
+    background: var(--soft-gradient) !important;
+    box-shadow: var(--shadow-soft) !important;
+}
+
+.legacy-chatbot-tabs {
+    overflow: hidden !important;
+    padding: 22px !important;
+    border-radius: 32px !important;
+}
+
+.chatbot-tabs {
+    display: flex !important;
+    gap: 8px !important;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.chatbot-tabs button {
+    width: auto !important;
+    white-space: nowrap;
+    border-radius: 999px !important;
+}
+
+.legacy-chatbot-tabs .chatbot-tab {
+    padding-top: 18px;
+}
+
+.legacy-chatbot-tabs .chatbot-tab.active {
+    display: grid !important;
+    gap: 18px !important;
+}
+
+.legacy-chatbot-tabs .compact-form,
+.legacy-chatbot-tabs .chatbot-auto-form,
+.legacy-chatbot-tabs .chatbot-keyword-form,
+.legacy-chatbot-tabs .ai-settings-form,
+.knowledge-form,
+.knowledge-upload-form {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    padding: 18px !important;
+}
+
+.legacy-chatbot-tabs .compact-form h3,
+.legacy-chatbot-tabs .compact-form textarea,
+.legacy-chatbot-tabs .compact-form .primary,
+.legacy-chatbot-tabs .compact-form .button-row,
+.knowledge-form h3,
+.knowledge-form textarea,
+.knowledge-form .primary,
+.knowledge-upload-form h3,
+.knowledge-upload-form textarea,
+.knowledge-upload-form .primary {
+    grid-column: 1 / -1 !important;
+}
+
+.legacy-chatbot-tabs label,
+.knowledge-form label,
+.knowledge-upload-form label,
+.ai-settings-form label {
+    display: grid !important;
+    gap: 8px !important;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.legacy-chatbot-tabs input,
+.legacy-chatbot-tabs select,
+.legacy-chatbot-tabs textarea,
+.knowledge-form input,
+.knowledge-form select,
+.knowledge-form textarea,
+.knowledge-upload-form input,
+.knowledge-upload-form select,
+.knowledge-upload-form textarea,
+.ai-settings-form input,
+.ai-settings-form select,
+.ai-settings-form textarea {
+    width: 100% !important;
+    min-height: 46px;
+}
+
+.legacy-chatbot-tabs textarea,
+.knowledge-form textarea,
+.knowledge-upload-form textarea,
+.ai-settings-form textarea {
+    min-height: 116px;
+}
+
+.legacy-chatbot-tabs .launch-grid,
+.legacy-chatbot-tabs .upload-grid,
+.legacy-chatbot-tabs .capability-list,
+.legacy-chatbot-tabs .ai-meta-grid,
+.legacy-chatbot-tabs .ai-feature-list {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    gap: 14px !important;
+}
+
+.legacy-chatbot-tabs .funnel {
+    display: grid;
+    gap: 10px;
+}
+
+.legacy-chatbot-tabs .funnel span {
+    width: 100% !important;
+    min-height: 44px;
+    border-radius: 14px !important;
+}
+
+.department-grid article {
+    display: grid !important;
+    gap: 10px !important;
+    align-content: start;
+}
+
+.department-grid article b,
+.department-grid article span {
+    display: block;
+}
+
+.department-grid article input,
+.department-grid article select {
+    width: 100% !important;
+    min-height: 44px;
+}
+
+.ai-agent-grid article,
+.ai-policy-card,
+.ai-settings-form {
+    display: grid !important;
+    gap: 14px !important;
+    align-content: start;
+    padding: 18px !important;
+}
+
+.capability-list {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+    gap: 10px !important;
+}
+
+.capability-list span,
+.ai-rule-row,
+.flow-status-cards span,
+.launch-grid div,
+.upload-card {
+    padding: 12px !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.62) !important;
+}
+
+.warning-banner {
+    display: flex !important;
+    gap: 12px !important;
+    align-items: center !important;
+    padding: 14px 16px !important;
+    border-radius: 18px !important;
+}
+
+@media (max-width: 1680px) {
+    .wa-builder-layout {
+        grid-template-columns: minmax(280px, 320px) minmax(0, 1fr) minmax(280px, 320px) !important;
+    }
+
+    .bot-flow-tree {
+        grid-column: 1;
+    }
+
+    .wa-preview-phone {
+        grid-column: 1;
+    }
+
+    .bot-flow-canvas {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+    }
+
+    .bot-node-settings {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+    }
+}
+
+@media (max-width: 1450px) {
+    .wa-builder-layout {
+        grid-template-columns: minmax(280px, 340px) minmax(0, 1fr) !important;
+    }
+
+    .wa-preview-phone {
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+    }
+
+    .bot-flow-tree {
+        grid-column: 1 !important;
+        grid-row: 2 !important;
+    }
+
+    .bot-flow-canvas {
+        grid-column: 2 !important;
+        grid-row: 1 / span 2 !important;
+    }
+
+    .bot-node-settings {
+        grid-column: 1 / -1 !important;
+        grid-row: 3 !important;
+        max-height: none !important;
+    }
+
+    .component-palette {
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)) !important;
+    }
+}
+
+@media (max-width: 1280px) {
+    .chatbot-hero,
+    .wa-builder-layout,
+    .chatbot-bottom-grid,
+    .flow-library-item,
+    .empty-flow-library {
+        grid-template-columns: 1fr !important;
+    }
+
+    .wa-preview-phone,
+    .bot-flow-tree,
+    .bot-flow-canvas,
+    .bot-node-settings {
+        grid-column: auto !important;
+        grid-row: auto !important;
+    }
+
+    .wa-phone-frame {
+        max-width: 360px !important;
+    }
+
+    .bot-flow-tree,
+    .bot-node-settings {
+        max-height: none !important;
+    }
+
+    .bot-flow-canvas {
+        min-height: 560px !important;
+    }
+}
+
+@media (max-width: 760px) {
+    .chatbot-hero,
+    .whatsapp-bot-builder .builder-actions,
+    .wa-builder-layout,
+    .chatbot-health-panel,
+    .chatbot-diagnostics-panel,
+    .chatbot-flow-library,
+    .department-routing,
+    .ai-agent-studio,
+    .ai-knowledge-base,
+    .legacy-chatbot-tabs {
+        padding: 14px !important;
+    }
+
+    .whatsapp-bot-builder .builder-actions button {
+        width: 100% !important;
+    }
+
+    .settings-checks {
+        grid-template-columns: 1fr !important;
+    }
+
+    .department-flow-map {
+        min-width: 820px !important;
+        width: 820px !important;
+    }
+
+    .legacy-chatbot-tabs .compact-form,
+    .legacy-chatbot-tabs .chatbot-auto-form,
+    .legacy-chatbot-tabs .chatbot-keyword-form,
+    .legacy-chatbot-tabs .ai-settings-form,
+    .knowledge-form,
+    .knowledge-upload-form {
+        grid-template-columns: 1fr !important;
+    }
+}
