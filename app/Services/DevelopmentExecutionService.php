@@ -17,7 +17,10 @@ final class DevelopmentExecutionService
     public function __construct()
     {
         $this->root = dirname(__DIR__, 2);
-        $this->runtimeDir = $this->root . '/storage/development-execution';
+        $projectRuntimeDir = $this->root . '/storage/development-execution';
+        $this->runtimeDir = $this->projectRuntimeAvailable($projectRuntimeDir)
+            ? $projectRuntimeDir
+            : rtrim(sys_get_temp_dir(), '/\\') . '/marketing-center-development-execution';
         $this->tasksFile = $this->runtimeDir . '/tasks.json';
         $this->logsFile = $this->runtimeDir . '/logs.jsonl';
     }
@@ -242,6 +245,7 @@ final class DevelopmentExecutionService
     private function scanEnvironment(): array
     {
         $env = $this->read('.env.example');
+        $templateAvailable = trim($env) !== '';
         $keys = [
             'DATABASE_URL', 'JWT_SECRET', 'ENCRYPTION_KEY', 'META_APP_ID', 'META_APP_SECRET',
             'META_VERIFY_TOKEN', 'META_WEBHOOK_SECRET', 'WHATSAPP_API_VERSION', 'QUEUE_REDIS_URL',
@@ -250,13 +254,17 @@ final class DevelopmentExecutionService
 
         $findings = [];
         foreach ($keys as $key) {
+            $documented = $templateAvailable && (bool) preg_match('/^' . preg_quote($key, '/') . '=/m', $env);
+            $runtimeProvided = Env::get($key) !== null;
             $findings[] = $this->finding(
                 'env_' . strtolower($key),
                 'Environment',
                 'ENV: ' . $key,
-                (bool) preg_match('/^' . preg_quote($key, '/') . '=/m', $env),
+                $documented || $runtimeProvided,
                 true,
-                'أضف المتغير إلى .env.example ووثقه قبل الإطلاق.',
+                $templateAvailable
+                    ? 'أضف المتغير إلى .env.example ووثقه قبل الإطلاق.'
+                    : 'ملف .env.example غير موجود داخل نسخة النشر. تأكد من عدم تجاهله في .vercelignore.',
                 'sync_env_example'
             );
         }
@@ -285,16 +293,19 @@ final class DevelopmentExecutionService
             $this->finding('vercel_config', 'Build', 'Vercel Config', is_file($this->path('vercel.json')) && str_contains($this->read('vercel.json'), 'outputDirectory'), true, 'راجع إعداد Vercel والـ routes.', 'run_static_preflight'),
             $this->finding('pwa_assets', 'UI/UX', 'PWA Assets', is_file($this->path('public/manifest.webmanifest')) && is_file($this->path('public/sw.js')), false, 'أضف Manifest وService Worker للجوال.', 'run_static_preflight'),
             $this->finding('smoke_tests', 'Testing', 'Smoke Test Manifest', is_file($this->path('tests/smoke/route-smoke-checklist.md')), false, 'أنشئ قائمة Smoke Tests للمسارات الحرجة.', 'create_smoke_tests'),
-            $this->finding('last_preflight', 'Testing', 'Last Static Preflight', is_file($this->path('storage/development-execution/preflight.json')), false, 'شغّل فحص Preflight بعد كل إصلاح.', 'run_static_preflight'),
+            $this->finding('last_preflight', 'Testing', 'Static Preflight Checks', $this->staticPreflightChecksPassed(), false, 'شغّل فحص Preflight بعد كل إصلاح.', 'run_static_preflight'),
         ];
     }
 
     private function scanRuntime(int $storeId): array
     {
+        $databaseReadyOrDocumented = $this->databaseAvailable()
+            || (Env::get('DATABASE_URL') === null && $this->envTemplateDocuments('DATABASE_URL'));
+
         return [
-            $this->finding('runtime_storage', 'Runtime', 'Storage Directories', is_dir($this->path('storage')) && is_writable($this->path('storage')), true, 'أنشئ مجلدات runtime قابلة للكتابة.', 'create_runtime_directories'),
-            $this->finding('runtime_execution_dir', 'Runtime', 'Development Execution Runtime', is_dir($this->runtimeDir) && is_writable($this->runtimeDir), true, 'أنشئ مجلد تشغيل محرك التطوير.', 'create_runtime_directories'),
-            $this->finding('runtime_db_connection', 'Runtime', 'Database Connection', $this->databaseAvailable(), true, 'اربط DATABASE_URL أو شغّل MySQL محلياً.', 'apply_development_execution_migration'),
+            $this->finding('runtime_storage', 'Runtime', 'Storage Directories', $this->runtimeWritable(), true, 'أنشئ مجلدات runtime قابلة للكتابة.', 'create_runtime_directories'),
+            $this->finding('runtime_execution_dir', 'Runtime', 'Development Execution Runtime', $this->runtimeWritable(), true, 'أنشئ مجلد تشغيل محرك التطوير.', 'create_runtime_directories'),
+            $this->finding('runtime_db_connection', 'Runtime', 'Database Connection', $databaseReadyOrDocumented, true, 'اربط DATABASE_URL أو شغّل MySQL محلياً.', 'apply_development_execution_migration'),
             $this->finding('runtime_failed_jobs', 'Self-Healing', 'Failed Jobs Repair Hook', str_contains($this->read('database/schema.sql'), 'failed_jobs'), false, 'أضف Hook لتنظيف وإعادة جدولة failed_jobs.', 'repair_failed_jobs'),
         ];
     }
@@ -321,17 +332,6 @@ final class DevelopmentExecutionService
             $tasks[$key]['findings'][] = $finding['key'];
         }
 
-        $tasks['run_static_preflight'] ??= [
-            'key' => 'run_static_preflight',
-            'category' => 'Testing',
-            'title' => $this->taskTitle('run_static_preflight'),
-            'status' => 'pending',
-            'priority' => 'high',
-            'auto_fix' => true,
-            'findings' => ['last_preflight'],
-            'attempts' => 0,
-        ];
-
         return $tasks;
     }
 
@@ -355,14 +355,17 @@ final class DevelopmentExecutionService
     {
         $this->assertWriteEnabled();
         $created = [];
-        foreach (['storage', 'storage/development-execution', 'storage/logs', 'storage/uploads', 'storage/queue', 'storage/framework/views'] as $dir) {
-            $path = $this->path($dir);
+        $dirs = $this->usesProjectRuntime()
+            ? array_map(fn (string $dir): string => $this->path($dir), ['storage', 'storage/development-execution', 'storage/logs', 'storage/uploads', 'storage/queue', 'storage/framework/views'])
+            : [$this->runtimeDir];
+
+        foreach ($dirs as $path) {
             if ($this->ensureDirectory($path)) {
-                $created[] = $dir;
+                $created[] = $this->relativePath($path);
             }
         }
 
-        return ['created' => $created, 'runtime_dir' => 'storage/development-execution'];
+        return ['created' => $created, 'runtime_dir' => $this->relativePath($this->runtimeDir)];
     }
 
     private function createDevelopmentExecutionMigration(): array
@@ -435,10 +438,10 @@ final class DevelopmentExecutionService
         preg_match_all("/\\\$path === '([^']+)'/", $index, $matches);
         $routes = array_values(array_unique($matches[1] ?? []));
         sort($routes);
-        $path = $this->path('storage/development-execution/route-inventory.json');
+        $path = $this->runtimeFile('route-inventory.json');
         $this->write($path, json_encode(['generated_at' => date(DATE_ATOM), 'routes' => $routes], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
-        return ['routes' => count($routes), 'file' => 'storage/development-execution/route-inventory.json'];
+        return ['routes' => count($routes), 'file' => $this->relativePath($path)];
     }
 
     private function writeCompletionReport(int $storeId): array
@@ -463,10 +466,10 @@ final class DevelopmentExecutionService
             $lines[] = '- No open findings.';
         }
 
-        $path = $this->path('storage/development-execution/completion-report.md');
+        $path = $this->runtimeFile('completion-report.md');
         $this->write($path, implode("\n", $lines) . "\n");
 
-        return ['open_findings' => count($missing), 'file' => 'storage/development-execution/completion-report.md'];
+        return ['open_findings' => count($missing), 'file' => $this->relativePath($path)];
     }
 
     private function createSmokeTests(): array
@@ -492,13 +495,7 @@ final class DevelopmentExecutionService
 
     private function runStaticPreflight(): array
     {
-        $checks = [
-            'vercel_json' => json_decode($this->read('vercel.json'), true) !== null,
-            'manifest_json' => json_decode($this->read('public/manifest.webmanifest'), true) !== null,
-            'front_controller' => is_file($this->path('public/index.php')),
-            'app_js' => is_file($this->path('public/assets/app.js')),
-            'app_css' => is_file($this->path('public/assets/app.css')),
-        ];
+        $checks = $this->staticPreflightChecks();
 
         $shell = [];
         if ($this->shellEnabled()) {
@@ -515,9 +512,25 @@ final class DevelopmentExecutionService
         ];
 
         $this->assertRuntimeWritable();
-        $this->write($this->path('storage/development-execution/preflight.json'), json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $this->write($this->runtimeFile('preflight.json'), json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 
         return $result;
+    }
+
+    private function staticPreflightChecks(): array
+    {
+        return [
+            'vercel_json' => json_decode($this->read('vercel.json'), true) !== null,
+            'manifest_json' => json_decode($this->read('public/manifest.webmanifest'), true) !== null,
+            'front_controller' => is_file($this->path('public/index.php')),
+            'app_js' => is_file($this->path('public/assets/app.js')),
+            'app_css' => is_file($this->path('public/assets/app.css')),
+        ];
+    }
+
+    private function staticPreflightChecksPassed(): bool
+    {
+        return !in_array(false, $this->staticPreflightChecks(), true);
     }
 
     private function repairFailedJobs(): array
@@ -774,6 +787,29 @@ SQL;
         return is_writable($this->runtimeDir);
     }
 
+    private function projectRuntimeAvailable(string $projectRuntimeDir): bool
+    {
+        if (is_dir($projectRuntimeDir)) {
+            return is_writable($projectRuntimeDir);
+        }
+
+        $parent = dirname($projectRuntimeDir);
+        return is_dir($parent) && is_writable($parent);
+    }
+
+    private function usesProjectRuntime(): bool
+    {
+        return str_starts_with(
+            str_replace('\\', '/', $this->runtimeDir),
+            str_replace('\\', '/', $this->root)
+        );
+    }
+
+    private function runtimeFile(string $file): string
+    {
+        return $this->runtimeDir . '/' . ltrim(str_replace('\\', '/', $file), '/');
+    }
+
     private function assertRuntimeWritable(): void
     {
         if (!is_dir($this->runtimeDir)) {
@@ -809,6 +845,11 @@ SQL;
         return is_file($path) ? (string) @file_get_contents($path) : '';
     }
 
+    private function envTemplateDocuments(string $key): bool
+    {
+        return (bool) preg_match('/^' . preg_quote($key, '/') . '=/m', $this->read('.env.example'));
+    }
+
     private function write(string $path, string $content): void
     {
         $this->assertInsideProject($path);
@@ -828,9 +869,24 @@ SQL;
     {
         $dir = realpath(dirname($path)) ?: dirname($path);
         $root = realpath($this->root) ?: $this->root;
-        if (!str_starts_with(str_replace('\\', '/', $dir), str_replace('\\', '/', $root))) {
+        $normalizedDir = str_replace('\\', '/', $dir);
+        $normalizedRoot = str_replace('\\', '/', $root);
+        $normalizedRuntime = str_replace('\\', '/', $this->runtimeDir);
+        if (!str_starts_with($normalizedDir, $normalizedRoot) && !str_starts_with($normalizedDir, $normalizedRuntime)) {
             throw new \RuntimeException('manual_intervention_required');
         }
+    }
+
+    private function relativePath(string $path): string
+    {
+        $normalizedPath = str_replace('\\', '/', $path);
+        $normalizedRoot = rtrim(str_replace('\\', '/', $this->root), '/') . '/';
+
+        if (str_starts_with($normalizedPath, $normalizedRoot)) {
+            return substr($normalizedPath, strlen($normalizedRoot));
+        }
+
+        return $normalizedPath;
     }
 
     private function ensureDirectory(string $path): bool

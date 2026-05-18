@@ -1442,7 +1442,8 @@ $labelText = static function (?string $value): string {
             $devExecution = $developmentExecution ?? [];
             $devStats = $devExecution['stats'] ?? [];
             $devConfig = $devExecution['config'] ?? [];
-            $devFindings = array_slice($devExecution['findings'] ?? [], 0, 12);
+            $devOpenFindings = array_values(array_filter($devExecution['findings'] ?? [], static fn (array $finding): bool => ($finding['status'] ?? 'complete') !== 'complete'));
+            $devFindings = array_slice($devOpenFindings, 0, 12);
             $devTasks = array_slice($devExecution['tasks'] ?? [], 0, 12);
             $devLogs = array_slice($devExecution['logs'] ?? [], 0, 10);
             $devRecommendations = array_slice($devExecution['recommendations'] ?? [], 0, 8);
