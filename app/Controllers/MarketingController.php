@@ -8,6 +8,7 @@ use MarketingCenter\Services\MetaOAuthService;
 use MarketingCenter\Services\ConnectionService;
 use MarketingCenter\Services\DevelopmentExecutionService;
 use MarketingCenter\Services\LaunchReadinessService;
+use MarketingCenter\Services\PlatformControlCenterService;
 use MarketingCenter\Services\PlatformDevelopmentRoadmapService;
 use MarketingCenter\Services\SaasPlatformService;
 use MarketingCenter\Support\Database;
@@ -47,6 +48,7 @@ final class MarketingController
         $launchReadiness = ['score' => 0, 'status' => 'غير جاهز', 'items' => [], 'sections' => [], 'operations' => [], 'environment' => []];
         $platformRoadmap = ['name' => 'Platform Development Roadmap', 'progress' => 0, 'current_phase' => [], 'completed_sections' => [], 'in_development_sections' => [], 'upcoming_sections' => [], 'open_issues' => [], 'phase_tests' => [], 'phases' => []];
         $developmentExecution = ['stats' => [], 'findings' => [], 'tasks' => [], 'logs' => [], 'recommendations' => [], 'config' => []];
+        $controlCenter = ['system_status' => [], 'general' => [], 'whatsapp' => [], 'campaign_limits' => [], 'quick_replies' => [], 'users' => [], 'roles' => [], 'permissions' => [], 'companies' => [], 'stores' => [], 'departments' => [], 'subscriptions' => [], 'security' => [], 'api_keys' => [], 'webhooks' => [], 'documents' => [], 'notifications' => [], 'logs' => [], 'branding' => [], 'ai' => [], 'backup' => [], 'launch' => []];
         $loginPortalSessions = [];
         $loginPortalAttempts = [];
         $loginPortalStores = [];
@@ -78,6 +80,7 @@ final class MarketingController
             $launchReadiness = (new LaunchReadinessService())->overview($storeId);
             $platformRoadmap = (new PlatformDevelopmentRoadmapService())->overview($storeId);
             $developmentExecution = (new DevelopmentExecutionService())->dashboard($storeId);
+            $controlCenter = (new PlatformControlCenterService())->overview($storeId);
             $portalService = new \MarketingCenter\Services\AuthPortalService();
             $loginPortalSessions = $portalService->sessions();
             $loginPortalAttempts = $portalService->loginAttempts(40);
@@ -88,10 +91,12 @@ final class MarketingController
                 $launchReadiness = (new LaunchReadinessService())->overview($storeId);
                 $platformRoadmap = (new PlatformDevelopmentRoadmapService())->overview($storeId);
                 $developmentExecution = (new DevelopmentExecutionService())->dashboard($storeId);
+                $controlCenter = (new PlatformControlCenterService())->overview($storeId);
             } catch (\Throwable) {
                 $launchReadiness = ['score' => 0, 'status' => 'غير جاهز', 'items' => [], 'sections' => [], 'operations' => [], 'environment' => []];
                 $platformRoadmap = ['name' => 'Platform Development Roadmap', 'progress' => 0, 'current_phase' => [], 'completed_sections' => [], 'in_development_sections' => [], 'upcoming_sections' => [], 'open_issues' => [], 'phase_tests' => [], 'phases' => []];
                 $developmentExecution = ['stats' => [], 'findings' => [], 'tasks' => [], 'logs' => [], 'recommendations' => [], 'config' => []];
+                $controlCenter = ['system_status' => [], 'general' => [], 'whatsapp' => [], 'campaign_limits' => [], 'quick_replies' => [], 'users' => [], 'roles' => [], 'permissions' => [], 'companies' => [], 'stores' => [], 'departments' => [], 'subscriptions' => [], 'security' => [], 'api_keys' => [], 'webhooks' => [], 'documents' => [], 'notifications' => [], 'logs' => [], 'branding' => [], 'ai' => [], 'backup' => [], 'launch' => []];
             }
         }
 

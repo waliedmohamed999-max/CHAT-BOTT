@@ -234,17 +234,23 @@ document.querySelectorAll('.ajax-form').forEach((form) => {
         event.preventDefault();
         const endpoint = `${window.MC_APP_URL || ''}${form.dataset.endpoint}`;
         const bodyData = Object.fromEntries(new FormData(form).entries());
+        form.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+            bodyData[checkbox.name] = checkbox.checked ? '1' : '0';
+        });
         const submitter = form.querySelector('button[type="submit"], button.primary');
         submitter?.classList.add('loading');
 
         try {
             const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                method: form.dataset.method || 'POST',
+                headers: {'Content-Type': 'application/json', 'X-CSRF-Token': currentCsrfToken()},
                 body: JSON.stringify(bodyData),
             });
             const payload = await response.json().catch(() => ({}));
             showToast(response.ok ? 'تم الحفظ بنجاح' : (payload.message || payload.detail || payload.error || 'فشل تنفيذ الطلب'));
+            if (response.ok) {
+                document.querySelector('.settings-save-bar')?.classList.remove('show');
+            }
         } catch {
             showToast('تعذر الاتصال بالخادم');
         } finally {
@@ -257,13 +263,94 @@ document.querySelectorAll('.api-post').forEach((button) => {
     button.addEventListener('click', async () => {
         button.classList.add('loading');
         try {
-            const response = await fetch(`${window.MC_APP_URL || ''}${button.dataset.api}`, {method: 'POST'});
+            const response = await fetch(`${window.MC_APP_URL || ''}${button.dataset.api}`, {method: 'POST', headers: {'X-CSRF-Token': currentCsrfToken()}});
             const payload = await response.json().catch(() => ({}));
             showToast(response.ok ? 'تم تنفيذ العملية' : (payload.message || payload.detail || payload.error || 'فشلت العملية'));
         } catch {
             showToast('تعذر الاتصال بالخادم');
         } finally {
             button.classList.remove('loading');
+        }
+    });
+});
+
+const settingsSaveBar = document.querySelector('.settings-save-bar');
+document.querySelectorAll('.control-center-layout input, .control-center-layout select, .control-center-layout textarea').forEach((field) => {
+    field.addEventListener('input', () => settingsSaveBar?.classList.add('show'));
+    field.addEventListener('change', () => settingsSaveBar?.classList.add('show'));
+});
+document.querySelectorAll('.settings-save-trigger').forEach((button) => {
+    button.addEventListener('click', () => {
+        const visibleForm = Array.from(document.querySelectorAll('.control-section .ajax-form')).find((form) => {
+            const section = form.closest('.control-section');
+            return section && section.getBoundingClientRect().top >= -40;
+        });
+        visibleForm?.requestSubmit();
+        if (!visibleForm) showToast('اختر قسماً يحتوي على نموذج حفظ');
+    });
+});
+document.querySelector('.settings-discard')?.addEventListener('click', () => {
+    settingsSaveBar?.classList.remove('show');
+    showToast('تم تجاهل مؤشر التغييرات');
+});
+document.querySelector('.control-search')?.addEventListener('input', (event) => {
+    const term = event.target.value.trim().toLowerCase();
+    document.querySelectorAll('[data-control-section]').forEach((section) => {
+        section.style.display = !term || section.textContent.toLowerCase().includes(term) ? '' : 'none';
+    });
+});
+document.querySelectorAll('[data-control-link]').forEach((link) => {
+    link.addEventListener('click', () => {
+        document.querySelectorAll('[data-control-link]').forEach((item) => item.classList.remove('active'));
+        link.classList.add('active');
+    });
+});
+document.querySelector('.control-test-settings')?.addEventListener('click', async (event) => {
+    const button = event.currentTarget;
+    button.classList.add('loading');
+    try {
+        const response = await fetch(`${window.MC_APP_URL || ''}${button.dataset.api || '/api/settings/health'}`);
+        const payload = await response.json().catch(() => ({}));
+        showToast(response.ok ? 'تم اختبار الإعدادات بنجاح' : (payload.message || payload.error || 'فشل اختبار الإعدادات'));
+    } catch {
+        showToast('تعذر اختبار الإعدادات');
+    } finally {
+        button.classList.remove('loading');
+    }
+});
+document.querySelector('.control-export-report')?.addEventListener('click', async () => {
+    try {
+        const response = await fetch(`${window.MC_APP_URL || ''}/api/settings/overview`);
+        const payload = await response.json();
+        const blob = new Blob([JSON.stringify(payload.data || payload, null, 2)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `platform-control-center-${Date.now()}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+        showToast('تم تجهيز تقرير الإعدادات');
+    } catch {
+        showToast('تعذر تصدير التقرير');
+    }
+});
+document.querySelector('.control-safe-mode')?.addEventListener('click', () => {
+    document.body.classList.toggle('safe-mode');
+    showToast('تم تبديل الوضع الآمن للواجهة');
+});
+document.querySelectorAll('.control-upload-form').forEach((form) => {
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const submitter = form.querySelector('button[type="submit"]');
+        submitter?.classList.add('loading');
+        try {
+            const response = await fetch(form.action, {method: 'POST', body: new FormData(form)});
+            const payload = await response.json().catch(() => ({}));
+            showToast(response.ok ? 'تم رفع الملف بنجاح' : (payload.message || payload.error || 'تعذر رفع الملف'));
+        } catch {
+            showToast('تعذر رفع الملف');
+        } finally {
+            submitter?.classList.remove('loading');
         }
     });
 });

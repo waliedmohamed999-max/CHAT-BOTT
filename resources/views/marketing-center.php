@@ -98,6 +98,31 @@ $labelText = static function (?string $value): string {
         'one_time' => 'دفع مرة واحدة',
         'subscription' => 'اشتراك',
         'revenue_share' => 'مشاركة إيراد',
+        'connected' => 'متصل',
+        'disconnected' => 'غير متصل',
+        'synced' => 'متزامن',
+        'healthy' => 'سليم',
+        'needs_review' => 'يحتاج مراجعة',
+        'missing_verify_token' => 'توكن التحقق ناقص',
+        'configured' => 'مهيأ',
+        'ready' => 'جاهز',
+        'draft' => 'مسودة',
+        'normal' => 'عادي',
+        'high' => 'مرتفع',
+        'urgent' => 'عاجل',
+        'low' => 'منخفض',
+        'approved' => 'معتمد',
+        'rejected' => 'مرفوض',
+        'uploaded' => 'مرفوع',
+        'super_admin' => 'مدير عام',
+        'platform_admin' => 'مدير المنصة',
+        'store_owner' => 'مالك المتجر',
+        'store_admin' => 'مدير المتجر',
+        'marketing_manager' => 'مدير التسويق',
+        'support_agent' => 'موظف دعم',
+        'sales_agent' => 'موظف مبيعات',
+        'billing_agent' => 'موظف حسابات',
+        'viewer' => 'مشاهد',
     ];
 
     return $map[$value ?? ''] ?? (string) $value;
@@ -2207,25 +2232,343 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'settings'): ?>
-        <section class="panel wide form-panel">
-            <div class="panel-head"><div><h2>لوحة التحكم التشغيلية</h2><span>الالتزام، الواجهات، التنبيهات، وحدود الحملات</span></div></div>
-            <div class="setup-grid">
-                <label>رابط Webhook<input value="<?= htmlspecialchars($appUrl) ?>/api/webhooks/whatsapp"></label>
-                <label>المرسل الافتراضي<input placeholder="معرف رقم الهاتف"></label>
-                <label>حدود الحملات<input placeholder="حجم الدفعة / التهدئة"></label>
-                <label>كلمات إلغاء الاشتراك<input value="STOP, UNSUBSCRIBE, إلغاء"></label>
-                <label>ساعات العمل<input value="09:00-18:00"></label>
-                <label>إعدادات التنبيهات<input placeholder="البريد / Slack / Webhook"></label>
+        <?php
+            $cc = $controlCenter ?? [];
+            $ccGeneral = $cc['general'] ?? [];
+            $ccWhatsapp = $cc['whatsapp'] ?? [];
+            $ccLimits = $cc['campaign_limits'] ?? [];
+            $ccReplies = $cc['quick_replies'] ?? [];
+            $ccUsers = $cc['users'] ?? [];
+            $ccRoles = $cc['roles'] ?? [];
+            $ccPermissions = $cc['permissions'] ?? [];
+            $ccCompanies = $cc['companies'] ?? [];
+            $ccStores = $cc['stores'] ?? [];
+            $ccDepartments = $cc['departments'] ?? [];
+            $ccSubscriptions = $cc['subscriptions'] ?? [];
+            $ccSecurity = $cc['security'] ?? [];
+            $ccApiKeys = $cc['api_keys'] ?? [];
+            $ccWebhooks = $cc['webhooks'] ?? [];
+            $ccDocuments = $cc['documents'] ?? [];
+            $ccNotifications = $cc['notifications'] ?? [];
+            $ccLogs = $cc['logs'] ?? [];
+            $ccBranding = $cc['branding'] ?? [];
+            $ccAi = $cc['ai'] ?? [];
+            $ccBackup = $cc['backup'] ?? [];
+            $ccLaunch = $cc['launch'] ?? [];
+            $ccStatus = $cc['system_status'] ?? [];
+            $settingSections = [
+                'general' => 'الإعدادات العامة',
+                'whatsapp' => 'إعدادات واتساب',
+                'campaigns' => 'الحملات والحدود',
+                'quick-replies' => 'الردود السريعة',
+                'users' => 'المستخدمون',
+                'roles' => 'الأدوار والصلاحيات',
+                'companies' => 'الشركات والمتاجر',
+                'departments' => 'الفرق والأقسام',
+                'billing' => 'الاشتراكات والباقات',
+                'security' => 'الأمان والجلسات',
+                'developer' => 'Webhooks & API',
+                'documents' => 'الملفات والمستندات',
+                'notifications' => 'التنبيهات والإشعارات',
+                'logs' => 'السجلات والمراقبة',
+                'branding' => 'الهوية والـ White Label',
+                'ai' => 'إعدادات الذكاء الاصطناعي',
+                'backup' => 'النسخ الاحتياطي',
+                'launch' => 'إعدادات الإطلاق',
+            ];
+        ?>
+        <section class="panel wide control-center-hero">
+            <div>
+                <span class="premium-pill">Platform Control Center</span>
+                <h2>مركز تحكم المنصة</h2>
+                <p>إدارة الإعدادات والصلاحيات والشركات والتشغيل والربط من مكان واحد مع سجل تدقيق لكل تعديل.</p>
             </div>
-            <div class="advanced-settings settings-deck">
-                <article><h3>حدود الإرسال الرسمي</h3><label>حجم الدفعة<input value="250 رسالة"></label><label>فاصل الدفعات<input value="60 ثانية"></label><label>إيقاف عند الفشل<input value="10%"></label></article>
-                <article><h3>حدود جلسة الباركود</h3><label>حجم الدفعة الآمن<input value="20 رسالة"></label><label>تأخير عشوائي<input value="35 - 90 ثانية"></label><label>إيقاف تلقائي عند الأخطاء<input value="5 أخطاء متتالية"></label></article>
-                <article><h3>الالتزام والاشتراك</h3><label>إرسال للموافقين فقط<select><option>إجباري</option></select></label><label>نافذة خدمة العملاء<input value="24 ساعة"></label><label>رسالة إلغاء الاشتراك<input value="اكتب إلغاء لإيقاف الرسائل"></label></article>
-                <article><h3>الردود السريعة</h3><label>رد الترحيب<input value="أهلاً بك، كيف نقدر نساعدك؟"></label><label>رد خارج الدوام<input value="وصلتنا رسالتك وسنرد خلال ساعات العمل."></label><label>رد التحويل<input value="تم تحويلك لموظف مختص."></label></article>
-                <article><h3>المراقبة والتنبيهات</h3><label>تنبيه انخفاض الجودة<select><option>مفعل</option><option>معطل</option></select></label><label>تنبيه فشل Webhook<select><option>مفعل</option><option>معطل</option></select></label><label>تنبيه انتهاء التوكن<select><option>مفعل</option><option>معطل</option></select></label></article>
-                <article><h3>الأمان والصلاحيات</h3><label>تشفير التوكنات<select><option>مفعل دائماً</option></select></label><label>توقيع الويب هوك<select><option>إجباري</option></select></label><label>سجلات التدقيق<select><option>مفعلة</option></select></label></article>
+            <div class="control-hero-actions">
+                <span class="status-pill <?= ($ccStatus['state'] ?? '') === 'healthy' ? 'ok' : 'pending' ?>">حالة النظام: <?= htmlspecialchars($ccStatus['label'] ?? 'يحتاج مراجعة') ?></span>
+                <small>آخر تحديث: <?= htmlspecialchars($cc['generated_at'] ?? date('Y-m-d H:i:s')) ?></small>
+                <div class="button-row">
+                    <button class="primary settings-save-trigger" type="button">حفظ التغييرات</button>
+                    <button class="ghost-btn control-test-settings" type="button" data-api="/api/settings/health">اختبار الإعدادات</button>
+                    <button class="ghost-btn control-export-report" type="button">تصدير تقرير الإعدادات</button>
+                    <button class="danger ghost-btn control-safe-mode" type="button">الوضع الآمن</button>
+                </div>
             </div>
         </section>
+
+        <section class="control-center-layout">
+            <aside class="control-sidebar panel">
+                <input class="control-search" type="search" placeholder="ابحث داخل الإعدادات">
+                <nav>
+                    <?php foreach ($settingSections as $key => $label): ?>
+                        <a href="#settings-<?= htmlspecialchars($key) ?>" data-control-link><?= htmlspecialchars($label) ?></a>
+                    <?php endforeach; ?>
+                </nav>
+                <div class="control-side-status">
+                    <strong>Audit Trail</strong>
+                    <span><?= count((array) ($ccLogs['audit'] ?? [])) ?> سجل تدقيق متاح</span>
+                </div>
+            </aside>
+
+            <div class="control-content">
+                <section class="panel control-section" id="settings-general" data-control-section>
+                    <div class="panel-head"><div><h2>الإعدادات العامة</h2><span>اسم المنصة، اللغة، العملة، وضع التشغيل وروابط الالتزام.</span></div><span class="status-pill ok">نشط</span></div>
+                    <form class="ajax-form control-form" data-endpoint="/api/settings/general" data-method="PUT">
+                        <div class="control-grid">
+                            <label>اسم المنصة<input name="platform_name" value="<?= htmlspecialchars((string) ($ccGeneral['platform_name'] ?? 'Marketing Center')) ?>"></label>
+                            <label>اللغة الافتراضية<select name="default_language"><option value="ar" <?= ($ccGeneral['default_language'] ?? 'ar') === 'ar' ? 'selected' : '' ?>>العربية</option><option value="en" <?= ($ccGeneral['default_language'] ?? '') === 'en' ? 'selected' : '' ?>>الإنجليزية</option></select></label>
+                            <label>المنطقة الزمنية<input name="timezone" value="<?= htmlspecialchars((string) ($ccGeneral['timezone'] ?? 'Asia/Riyadh')) ?>"></label>
+                            <label>العملة الافتراضية<input name="currency" value="<?= htmlspecialchars((string) ($ccGeneral['currency'] ?? 'SAR')) ?>"></label>
+                            <label>وضع التشغيل<select name="runtime_mode"><option value="development" <?= ($ccGeneral['runtime_mode'] ?? '') === 'development' ? 'selected' : '' ?>>Development</option><option value="testing" <?= ($ccGeneral['runtime_mode'] ?? '') === 'testing' ? 'selected' : '' ?>>Testing</option><option value="production" <?= ($ccGeneral['runtime_mode'] ?? 'production') === 'production' ? 'selected' : '' ?>>Production</option></select></label>
+                            <label>البريد الرسمي للدعم<input name="support_email" value="<?= htmlspecialchars((string) ($ccGeneral['support_email'] ?? '')) ?>"></label>
+                            <label>رابط الشروط<input name="terms_url" value="<?= htmlspecialchars((string) ($ccGeneral['terms_url'] ?? '')) ?>"></label>
+                            <label>رابط الخصوصية<input name="privacy_url" value="<?= htmlspecialchars((string) ($ccGeneral['privacy_url'] ?? '')) ?>"></label>
+                            <label class="toggle-line"><input type="checkbox" name="registration_enabled" value="1" <?= !empty($ccGeneral['registration_enabled']) ? 'checked' : '' ?>> تفعيل التسجيل</label>
+                            <label class="toggle-line"><input type="checkbox" name="store_creation_enabled" value="1" <?= !empty($ccGeneral['store_creation_enabled']) ? 'checked' : '' ?>> تفعيل إنشاء المتاجر</label>
+                        </div>
+                        <button class="primary" type="submit">حفظ الإعدادات العامة</button>
+                    </form>
+                </section>
+
+                <section class="panel control-section" id="settings-whatsapp" data-control-section>
+                    <div class="panel-head"><div><h2>إعدادات واتساب</h2><span>الربط الرسمي، جلسة QR، Webhooks، الجودة، الاشتراك وحدود الإرسال.</span></div><span class="status-pill <?= ($ccWhatsapp['meta_status'] ?? '') === 'connected' ? 'ok' : 'pending' ?>">Meta: <?= htmlspecialchars($labelText($ccWhatsapp['meta_status'] ?? 'disconnected')) ?></span></div>
+                    <form class="ajax-form control-form" data-endpoint="/api/settings/whatsapp" data-method="PUT">
+                        <div class="control-grid">
+                            <label>رابط Webhook<input name="webhook_url" value="<?= htmlspecialchars((string) ($ccWhatsapp['webhook_url'] ?? ($appUrl . '/api/webhooks/whatsapp'))) ?>"></label>
+                            <label>المرسل الافتراضي<input name="default_sender" value="<?= htmlspecialchars((string) ($ccWhatsapp['default_sender'] ?? '')) ?>"></label>
+                            <label>ساعات العمل<input name="business_hours" value="<?= htmlspecialchars((string) ($ccWhatsapp['business_hours'] ?? '09:00-18:00')) ?>"></label>
+                            <label>حد الإرسال الرسمي يومياً<input name="official_daily_limit" type="number" value="<?= htmlspecialchars((string) ($ccWhatsapp['official_daily_limit'] ?? 1000)) ?>"></label>
+                            <label>حد جلسة الباركود يومياً<input name="qr_daily_limit" type="number" value="<?= htmlspecialchars((string) ($ccWhatsapp['qr_daily_limit'] ?? 120)) ?>"></label>
+                            <label>نافذة خدمة العملاء<input name="customer_window_hours" type="number" value="<?= htmlspecialchars((string) ($ccWhatsapp['customer_window_hours'] ?? 24)) ?>"></label>
+                            <label>كلمات إلغاء الاشتراك<input name="unsubscribe_keywords" value="<?= htmlspecialchars(implode(', ', (array) ($ccWhatsapp['unsubscribe_keywords'] ?? ['STOP', 'UNSUBSCRIBE', 'إلغاء']))) ?>"></label>
+                            <label>رسالة إلغاء الاشتراك<input name="unsubscribe_message" value="<?= htmlspecialchars((string) ($ccWhatsapp['unsubscribe_message'] ?? 'تم إلغاء اشتراكك من الرسائل التسويقية.')) ?>"></label>
+                            <label class="toggle-line"><input type="checkbox" name="quality_monitoring" value="1" <?= !empty($ccWhatsapp['quality_monitoring']) ? 'checked' : '' ?>> مراقبة جودة الرقم</label>
+                            <label class="toggle-line"><input type="checkbox" name="templates_required_after_window" value="1" <?= !empty($ccWhatsapp['templates_required_after_window']) ? 'checked' : '' ?>> القوالب إلزامية خارج 24 ساعة</label>
+                        </div>
+                        <div class="status-row">
+                            <span>QR: <?= htmlspecialchars($labelText($ccWhatsapp['qr_status'] ?? 'disconnected')) ?></span>
+                            <span>Templates: <?= htmlspecialchars($labelText($ccWhatsapp['templates_status'] ?? 'pending')) ?></span>
+                            <span>Queue: <?= htmlspecialchars($labelText($ccWhatsapp['queue_status'] ?? 'pending')) ?></span>
+                        </div>
+                        <button class="primary" type="submit">حفظ إعدادات واتساب</button>
+                    </form>
+                </section>
+
+                <section class="panel control-section" id="settings-campaigns" data-control-section>
+                    <div class="panel-head"><div><h2>الحملات والحدود</h2><span>تحكم في الدفعات، التهدئة، التكرار، QR Safe Mode، وإيقاف الحملات الضعيفة.</span></div></div>
+                    <form class="ajax-form control-form" data-endpoint="/api/settings/campaign-limits" data-method="PUT">
+                        <div class="control-grid">
+                            <label>الحد اليومي للحملات<input name="daily_campaigns" type="number" value="<?= htmlspecialchars((string) ($ccLimits['daily_campaigns'] ?? 20)) ?>"></label>
+                            <label>الحد اليومي للرسائل<input name="daily_messages" type="number" value="<?= htmlspecialchars((string) ($ccLimits['daily_messages'] ?? 5000)) ?>"></label>
+                            <label>حجم الدفعة<input name="batch_size" type="number" value="<?= htmlspecialchars((string) ($ccLimits['batch_size'] ?? 250)) ?>"></label>
+                            <label>الفاصل بين الدفعات بالثواني<input name="batch_interval_seconds" type="number" value="<?= htmlspecialchars((string) ($ccLimits['batch_interval_seconds'] ?? 60)) ?>"></label>
+                            <label>الإيقاف عند فشل %<input name="stop_on_failure_rate" type="number" value="<?= htmlspecialchars((string) ($ccLimits['stop_on_failure_rate'] ?? 10)) ?>"></label>
+                            <label>تأخير عشوائي<input name="random_delay_seconds" value="<?= htmlspecialchars((string) ($ccLimits['random_delay_seconds'] ?? '35-90')) ?>"></label>
+                            <label class="toggle-line"><input type="checkbox" name="retry_failed_messages" value="1" <?= !empty($ccLimits['retry_failed_messages']) ? 'checked' : '' ?>> إعادة محاولة الرسائل الفاشلة</label>
+                            <label class="toggle-line"><input type="checkbox" name="deduplicate_recipients" value="1" <?= !empty($ccLimits['deduplicate_recipients']) ? 'checked' : '' ?>> منع التكرار</label>
+                            <label class="toggle-line"><input type="checkbox" name="qr_safe_mode" value="1" <?= !empty($ccLimits['qr_safe_mode']) ? 'checked' : '' ?>> وضع QR الآمن</label>
+                            <label class="toggle-line"><input type="checkbox" name="cloud_api_enabled" value="1" <?= !empty($ccLimits['cloud_api_enabled']) ? 'checked' : '' ?>> تفعيل Cloud API</label>
+                        </div>
+                        <button class="primary" type="submit">حفظ حدود الحملات</button>
+                    </form>
+                </section>
+
+                <section class="panel control-section" id="settings-quick-replies" data-control-section>
+                    <div class="panel-head"><div><h2>الردود السريعة</h2><span>ردود جاهزة حسب القسم والموقف داخل Inbox والشات بوت.</span></div></div>
+                    <form class="ajax-form control-form" data-endpoint="/api/settings/quick-replies" data-method="PUT">
+                        <div class="control-grid">
+                            <label>رد الترحيب<textarea name="welcome_reply"><?= htmlspecialchars((string) ($ccReplies['welcome_reply'] ?? '')) ?></textarea></label>
+                            <label>رد خارج الدوام<textarea name="away_reply"><?= htmlspecialchars((string) ($ccReplies['away_reply'] ?? '')) ?></textarea></label>
+                            <label>رد التحويل<textarea name="handover_reply"><?= htmlspecialchars((string) ($ccReplies['handover_reply'] ?? '')) ?></textarea></label>
+                            <label>رد إلغاء الاشتراك<textarea name="unsubscribe_reply"><?= htmlspecialchars((string) ($ccReplies['unsubscribe_reply'] ?? '')) ?></textarea></label>
+                            <label>رد الشكاوى<textarea name="complaint_reply"><?= htmlspecialchars((string) ($ccReplies['complaint_reply'] ?? '')) ?></textarea></label>
+                            <label>رد المتابعة<textarea name="followup_reply"><?= htmlspecialchars((string) ($ccReplies['followup_reply'] ?? '')) ?></textarea></label>
+                        </div>
+                        <button class="primary" type="submit">حفظ الردود</button>
+                    </form>
+                </section>
+
+                <section class="panel control-section" id="settings-users" data-control-section>
+                    <div class="panel-head"><div><h2>المستخدمون</h2><span>إضافة وتعطيل المستخدمين، متابعة آخر دخول، الجلسات النشطة والأقسام.</span></div><span class="status-pill active"><?= count((array) $ccUsers) ?> مستخدم</span></div>
+                    <form class="ajax-form compact-control-form" data-endpoint="/api/settings/users" data-method="POST">
+                        <input name="name" placeholder="اسم المستخدم">
+                        <input name="email" type="email" placeholder="البريد الإلكتروني">
+                        <input name="password" type="password" placeholder="كلمة مرور مؤقتة">
+                        <select name="role"><option value="store_admin">مدير متجر</option><option value="marketing_manager">مدير تسويق</option><option value="support_agent">دعم</option><option value="sales_agent">مبيعات</option><option value="billing_agent">حسابات</option><option value="viewer">مشاهد</option></select>
+                        <button class="primary" type="submit">إضافة مستخدم</button>
+                    </form>
+                    <div class="control-table">
+                        <span>المستخدم</span><span>الدور</span><span>الحالة</span><span>آخر دخول</span>
+                        <?php foreach (array_slice((array) $ccUsers, 0, 12) as $user): ?>
+                            <strong><?= htmlspecialchars((string) ($user['name'] ?? $user['email'] ?? 'مستخدم')) ?><small><?= htmlspecialchars((string) ($user['email'] ?? '')) ?></small></strong>
+                            <span><?= htmlspecialchars($labelText($user['role'] ?? 'viewer')) ?></span>
+                            <em><?= htmlspecialchars($labelText($user['status'] ?? 'active')) ?></em>
+                            <span><?= htmlspecialchars((string) ($user['last_login_at'] ?? 'لم يسجل بعد')) ?></span>
+                        <?php endforeach; ?>
+                        <?php if (empty($ccUsers)): ?><strong>لا يوجد مستخدمون</strong><span>أضف أول مستخدم</span><em>فارغ</em><span>-</span><?php endif; ?>
+                    </div>
+                </section>
+
+                <section class="panel control-section" id="settings-roles" data-control-section>
+                    <div class="panel-head"><div><h2>الأدوار والصلاحيات</h2><span>RBAC كامل مع فصل بيانات المتاجر ومنع تعديل الصلاحيات الحساسة بدون صلاحية.</span></div></div>
+                    <div class="permission-layout">
+                        <div class="control-card">
+                            <h3>الأدوار</h3>
+                            <?php foreach ((array) $ccRoles as $role): ?>
+                                <div class="setting-row"><strong><?= htmlspecialchars((string) ($role['name'] ?? $role['role_key'] ?? 'Role')) ?></strong><span><?= htmlspecialchars((string) ($role['role_key'] ?? '')) ?></span></div>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="control-card">
+                            <h3>Permission Matrix</h3>
+                            <div class="permission-matrix">
+                                <?php foreach ((array) $ccPermissions as $permission): ?>
+                                    <span><?= htmlspecialchars((string) ($permission['group'] ?? 'عام')) ?></span>
+                                    <strong><?= htmlspecialchars((string) ($permission['label'] ?? $permission['permission_key'] ?? '')) ?></strong>
+                                    <code><?= htmlspecialchars((string) ($permission['permission_key'] ?? '')) ?></code>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel control-section" id="settings-companies" data-control-section>
+                    <div class="panel-head"><div><h2>الشركات والمتاجر</h2><span>ملفات الشركات، المتاجر التابعة، التوثيق، الدومينات والربط.</span></div></div>
+                    <div class="control-split">
+                        <div class="control-card"><h3>الشركات</h3><?php foreach (array_slice((array) $ccCompanies, 0, 8) as $company): ?><div class="setting-row"><strong><?= htmlspecialchars((string) ($company['name'] ?? 'شركة')) ?></strong><span><?= htmlspecialchars($labelText($company['verification_status'] ?? 'pending')) ?></span></div><?php endforeach; ?></div>
+                        <div class="control-card"><h3>المتاجر</h3><?php foreach (array_slice((array) $ccStores, 0, 8) as $store): ?><div class="setting-row"><strong><?= htmlspecialchars((string) ($store['name'] ?? 'متجر')) ?></strong><span><?= htmlspecialchars((string) ($store['slug'] ?? '')) ?></span><em><?= htmlspecialchars($labelText($store['status'] ?? 'active')) ?></em></div><?php endforeach; ?></div>
+                    </div>
+                </section>
+
+                <section class="panel control-section" id="settings-departments" data-control-section>
+                    <div class="panel-head"><div><h2>الفرق والأقسام</h2><span>قواعد التحويل، SLA، ساعات العمل، Round Robin والحد الأقصى للمحادثات لكل موظف.</span></div></div>
+                    <form class="ajax-form compact-control-form" data-endpoint="/api/settings/departments" data-method="POST">
+                        <input name="name" placeholder="اسم القسم">
+                        <input name="slug" placeholder="slug">
+                        <input name="color" value="#2f9b75">
+                        <input name="working_hours" value="09:00-18:00">
+                        <select name="priority"><option value="normal">عادي</option><option value="high">مرتفع</option><option value="urgent">عاجل</option></select>
+                        <button class="primary" type="submit">إضافة قسم</button>
+                    </form>
+                    <div class="department-grid">
+                        <?php foreach ((array) $ccDepartments as $department): ?>
+                            <article class="control-card"><span class="department-dot" style="background: <?= htmlspecialchars((string) ($department['color'] ?? '#2f9b75')) ?>"></span><h3><?= htmlspecialchars((string) ($department['name'] ?? 'قسم')) ?></h3><p><?= htmlspecialchars((string) ($department['welcome_message'] ?? 'رسالة ترحيب افتراضية')) ?></p><small><?= htmlspecialchars($labelText($department['priority'] ?? 'normal')) ?> · <?= !empty($department['is_active']) ? 'نشط' : 'معطل' ?></small></article>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+
+                <section class="panel control-section" id="settings-billing" data-control-section>
+                    <div class="panel-head"><div><h2>الاشتراكات والباقات</h2><span>الباقة الحالية، حدود الاستخدام، الفواتير، وسائل الدفع والترقية.</span></div><span class="status-pill active"><?= htmlspecialchars($labelText($ccSubscriptions['current']['plan_key'] ?? 'free')) ?></span></div>
+                    <div class="control-metrics">
+                        <article><strong><?= htmlspecialchars((string) ($ccSubscriptions['usage']['messages'] ?? 0)) ?></strong><span>رسائل مستخدمة</span></article>
+                        <article><strong><?= htmlspecialchars((string) ($ccSubscriptions['usage']['ai_credits'] ?? 0)) ?></strong><span>AI Credits</span></article>
+                        <article><strong><?= htmlspecialchars((string) ($ccSubscriptions['usage']['team_members'] ?? 0)) ?></strong><span>أعضاء الفريق</span></article>
+                        <article><strong><?= count((array) ($ccSubscriptions['invoices'] ?? [])) ?></strong><span>فواتير</span></article>
+                    </div>
+                </section>
+
+                <section class="panel control-section" id="settings-security" data-control-section>
+                    <div class="panel-head"><div><h2>الأمان والجلسات</h2><span>2FA، سياسة كلمة المرور، CSRF، CSP، مفاتيح التشفير، الجلسات ومحاولات الدخول.</span></div><span class="status-pill <?= !empty($ccSecurity['jwt_secret_present']) && !empty($ccSecurity['encryption_key_present']) ? 'ok' : 'danger-state' ?>">Secrets</span></div>
+                    <form class="ajax-form control-form" data-endpoint="/api/settings/security" data-method="PUT">
+                        <div class="control-grid">
+                            <label>أقل طول لكلمة المرور<input name="password_min_length" type="number" value="<?= htmlspecialchars((string) ($ccSecurity['password_min_length'] ?? 10)) ?>"></label>
+                            <label>مهلة الجلسة بالدقائق<input name="session_timeout_minutes" type="number" value="<?= htmlspecialchars((string) ($ccSecurity['session_timeout_minutes'] ?? 120)) ?>"></label>
+                            <label>Rate Limit بالدقيقة<input name="rate_limit_per_minute" type="number" value="<?= htmlspecialchars((string) ($ccSecurity['rate_limit_per_minute'] ?? 120)) ?>"></label>
+                            <label>IP Whitelist<input name="ip_whitelist" value="<?= htmlspecialchars(implode(', ', (array) ($ccSecurity['ip_whitelist'] ?? []))) ?>"></label>
+                            <label class="toggle-line"><input type="checkbox" name="two_factor_required" value="1" <?= !empty($ccSecurity['two_factor_required']) ? 'checked' : '' ?>> تفعيل 2FA إجباري</label>
+                            <label class="toggle-line"><input type="checkbox" name="csrf_enforced" value="1" <?= !empty($ccSecurity['csrf_enforced']) ? 'checked' : '' ?>> CSRF مفعل</label>
+                            <label class="toggle-line"><input type="checkbox" name="secure_cookies" value="1" <?= !empty($ccSecurity['secure_cookies']) ? 'checked' : '' ?>> Secure Cookies</label>
+                            <label class="toggle-line"><input type="checkbox" name="csp_enabled" value="1" <?= !empty($ccSecurity['csp_enabled']) ? 'checked' : '' ?>> CSP مفعل</label>
+                        </div>
+                        <button class="primary" type="submit">حفظ إعدادات الأمان</button>
+                    </form>
+                </section>
+
+                <section class="panel control-section" id="settings-developer" data-control-section>
+                    <div class="panel-head"><div><h2>Webhooks & API</h2><span>API Keys، Webhook URLs، Verify Tokens، Callback URLs، وسجلات آخر Payload.</span></div></div>
+                    <div class="control-split">
+                        <form class="ajax-form control-card" data-endpoint="/api/settings/api-keys" data-method="POST"><h3>إنشاء API Key</h3><label>الاسم<input name="name" value="Production API Key"></label><label>Scopes<input name="scopes" value="read:contacts, write:webhooks"></label><button class="primary" type="submit">إنشاء مفتاح</button></form>
+                        <form class="ajax-form control-card" data-endpoint="/api/settings/webhooks/test" data-method="POST"><h3>اختبار Webhook</h3><label>الرابط<input name="url" value="<?= htmlspecialchars((string) ($ccWhatsapp['webhook_url'] ?? ($appUrl . '/api/webhooks/whatsapp'))) ?>"></label><button class="primary" type="submit">اختبار Webhook</button></form>
+                    </div>
+                    <div class="control-table compact">
+                        <span>النوع</span><span>الاسم / الرابط</span><span>الحالة</span>
+                        <?php foreach (array_slice((array) $ccApiKeys, 0, 5) as $key): ?><strong>API Key</strong><span><?= htmlspecialchars((string) ($key['name'] ?? 'Key')) ?></span><em><?= htmlspecialchars($labelText($key['status'] ?? 'active')) ?></em><?php endforeach; ?>
+                        <?php foreach (array_slice((array) $ccWebhooks, 0, 5) as $webhook): ?><strong>Webhook</strong><span><?= htmlspecialchars((string) ($webhook['url'] ?? '')) ?></span><em><?= htmlspecialchars($labelText($webhook['status'] ?? 'active')) ?></em><?php endforeach; ?>
+                    </div>
+                </section>
+
+                <section class="panel control-section" id="settings-documents" data-control-section>
+                    <div class="panel-head"><div><h2>الملفات والمستندات</h2><span>مستندات الشركات، التوثيق، الخصوصية، الشروط، اللوجوهات والمرفقات.</span></div><span class="status-pill active"><?= count((array) $ccDocuments) ?> ملف</span></div>
+                    <form class="control-upload-form" action="<?= htmlspecialchars($appUrl) ?>/api/settings/documents/upload" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars(\MarketingCenter\Support\Security::csrfToken()) ?>">
+                        <select name="document_type"><option value="company_registration">السجل التجاري</option><option value="tax_card">البطاقة الضريبية</option><option value="privacy_policy">Privacy Policy</option><option value="terms">Terms & Conditions</option><option value="logo">Logo</option></select>
+                        <input type="file" name="file" accept=".pdf,.png,.jpg,.jpeg,.docx">
+                        <button class="primary" type="submit">رفع ملف</button>
+                    </form>
+                    <div class="control-table compact">
+                        <span>الملف</span><span>النوع</span><span>الحالة</span>
+                        <?php foreach (array_slice((array) $ccDocuments, 0, 8) as $document): ?><strong><?= htmlspecialchars((string) ($document['file_name'] ?? 'ملف')) ?></strong><span><?= htmlspecialchars((string) ($document['document_type'] ?? 'عام')) ?></span><em><?= htmlspecialchars($labelText($document['reviewed_status'] ?? $document['status'] ?? 'pending')) ?></em><?php endforeach; ?>
+                    </div>
+                </section>
+
+                <section class="panel control-section" id="settings-notifications" data-control-section>
+                    <div class="panel-head"><div><h2>التنبيهات والإشعارات</h2><span>Webhook failures، انخفاض الجودة، فشل الحملات، انتهاء الاشتراك، دخول جديد وأخطاء Queue.</span></div></div>
+                    <div class="control-metrics">
+                        <?php foreach (($ccNotifications['settings'] ?? []) as $key => $enabled): ?>
+                            <article><strong><?= !empty($enabled) ? 'مفعل' : 'معطل' ?></strong><span><?= htmlspecialchars(str_replace('_', ' ', (string) $key)) ?></span></article>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+
+                <section class="panel control-section" id="settings-logs" data-control-section>
+                    <div class="panel-head"><div><h2>السجلات والمراقبة</h2><span>Audit Logs، Login Logs، Campaign Logs، Webhook Logs، Queue Logs، Error Logs وAPI Logs.</span></div></div>
+                    <div class="control-split">
+                        <div class="control-card"><h3>Audit Logs</h3><?php foreach (array_slice((array) ($ccLogs['audit'] ?? []), 0, 6) as $log): ?><div class="setting-row"><strong><?= htmlspecialchars((string) ($log['action'] ?? 'حدث')) ?></strong><span><?= htmlspecialchars((string) ($log['created_at'] ?? '')) ?></span></div><?php endforeach; ?></div>
+                        <div class="control-card"><h3>Webhook Logs</h3><?php foreach (array_slice((array) ($ccLogs['webhook'] ?? []), 0, 6) as $log): ?><div class="setting-row"><strong><?= htmlspecialchars((string) ($log['event_type'] ?? 'webhook')) ?></strong><span><?= htmlspecialchars((string) ($log['received_at'] ?? '')) ?></span></div><?php endforeach; ?></div>
+                    </div>
+                </section>
+
+                <section class="panel control-section" id="settings-branding" data-control-section>
+                    <div class="panel-head"><div><h2>الهوية والـ White Label</h2><span>الشعار، الألوان، الخطوط، صفحة الدخول، الدومين المخصص، البريد وPWA Theme.</span></div></div>
+                    <div class="control-grid readonly-grid">
+                        <label>اسم المنتج<input readonly value="<?= htmlspecialchars((string) ($ccBranding['product_name'] ?? 'Marketing Center')) ?>"></label>
+                        <label>الشعار<input readonly value="<?= htmlspecialchars((string) ($ccBranding['logo_url'] ?? '')) ?>"></label>
+                        <label>اللون الأساسي<input readonly value="<?= htmlspecialchars((string) ($ccBranding['primary_color'] ?? '#334a91')) ?>"></label>
+                        <label>الدومين المخصص<input readonly value="<?= htmlspecialchars((string) ($ccBranding['custom_domain'] ?? '')) ?>"></label>
+                    </div>
+                    <a class="primary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/saas">فتح إعدادات White Label</a>
+                </section>
+
+                <section class="panel control-section" id="settings-ai" data-control-section>
+                    <div class="panel-head"><div><h2>إعدادات الذكاء الاصطناعي</h2><span>المزود، الموديل، اللغة، اللهجة، حدود الاستخدام، قواعد السلامة وKnowledge Base.</span></div><span class="status-pill <?= !empty($ccAi['enabled']) ? 'ok' : 'muted' ?>"><?= !empty($ccAi['enabled']) ? 'مفعل' : 'معطل' ?></span></div>
+                    <div class="control-grid readonly-grid">
+                        <label>Provider<input readonly value="<?= htmlspecialchars((string) ($ccAi['provider'] ?? 'openai')) ?>"></label>
+                        <label>Model<input readonly value="<?= htmlspecialchars((string) ($ccAi['model'] ?? 'gpt-4o-mini')) ?>"></label>
+                        <label>لغة الرد<input readonly value="<?= htmlspecialchars((string) ($ccAi['language'] ?? 'ar')) ?>"></label>
+                        <label>لهجة الرد<input readonly value="<?= htmlspecialchars((string) ($ccAi['tone'] ?? 'professional')) ?>"></label>
+                    </div>
+                    <a class="primary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/chatbot-builder#chatbotAiAssistant">فتح إعدادات AI</a>
+                </section>
+
+                <section class="panel control-section" id="settings-backup" data-control-section>
+                    <div class="panel-head"><div><h2>النسخ الاحتياطي والاستعادة</h2><span>Backup Database، Backup Files، Restore Point، Retention Policy، Export وImport.</span></div></div>
+                    <div class="control-metrics">
+                        <article><strong><?= count((array) ($ccBackup['jobs'] ?? [])) ?></strong><span>عمليات نسخ</span></article>
+                        <article><strong><?= !empty($ccBackup['schedule']['enabled']) ? 'مفعل' : 'معطل' ?></strong><span>الجدولة</span></article>
+                        <article><strong><?= htmlspecialchars((string) ($ccBackup['schedule']['retention_days'] ?? 30)) ?></strong><span>أيام الاحتفاظ</span></article>
+                    </div>
+                </section>
+
+                <section class="panel control-section" id="settings-launch" data-control-section>
+                    <div class="panel-head"><div><h2>إعدادات الإطلاق</h2><span>Environment، Security، Database، Queue، Webhook، Build، Production Mode.</span></div><span class="status-pill <?= (int) ($ccLaunch['score'] ?? 0) >= 80 ? 'ok' : 'pending' ?>"><?= (int) ($ccLaunch['score'] ?? 0) ?>%</span></div>
+                    <div class="launch-score-card"><strong><?= htmlspecialchars((string) ($ccLaunch['status'] ?? 'غير جاهز')) ?></strong><div class="progress"><span style="width: <?= max(0, min(100, (int) ($ccLaunch['score'] ?? 0))) ?>%"></span></div></div>
+                    <a class="primary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/setup-checklist">فتح جاهزية الإطلاق</a>
+                </section>
+            </div>
+        </section>
+        <div class="settings-save-bar" aria-live="polite">
+            <span>لديك تغييرات غير محفوظة داخل مركز التحكم.</span>
+            <button class="primary settings-save-trigger" type="button">حفظ الآن</button>
+            <button class="ghost-btn settings-discard" type="button">تجاهل</button>
+        </div>
     <?php endif; ?>
 </main>
 

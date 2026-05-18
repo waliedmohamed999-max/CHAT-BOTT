@@ -506,3 +506,23 @@ DemoPass123!
 These accounts are for local testing only. Change or remove them before production.
 
 For preview deployments without a database, the app can use the same demo logins when `DEMO_LOGIN_ENABLED=true` or when `APP_ENV` is not `production` and `DATABASE_URL` is not configured. For a real production launch, set `APP_ENV=production`, configure `DATABASE_URL`, and keep `DEMO_LOGIN_ENABLED=false`.
+
+## Platform Control Center
+
+تم تحويل صفحة الإعدادات إلى مركز تحكم مركزي للمنصة عبر:
+
+- الصفحة: `/marketing-center/settings`
+- API overview: `GET /api/settings/overview`
+- فحص الصحة: `GET /api/settings/health`
+- جاهزية الإطلاق: `GET /api/settings/launch-readiness`
+- Migration: `database/platform_control_center_migration.sql`
+
+يشمل مركز التحكم أقسام الإعدادات العامة، واتساب، حدود الحملات، الردود السريعة، المستخدمين، الأدوار والصلاحيات، الشركات والمتاجر، الأقسام، الاشتراكات، الأمان، Webhooks/API، المستندات، التنبيهات، السجلات، White Label، الذكاء الاصطناعي، النسخ الاحتياطي، وجاهزية الإطلاق.
+
+لتجهيز قاعدة البيانات محلياً:
+
+```bash
+mysql -u root marketing_center < database/platform_control_center_migration.sql
+```
+
+قبل الإطلاق الحقيقي يجب ضبط المتغيرات الحساسة في بيئة الاستضافة، خصوصاً `DATABASE_URL` و`JWT_SECRET` و`ENCRYPTION_KEY` وأسرار Meta و`QUEUE_REDIS_URL`. لن يعتبر فحص الجاهزية النظام جاهزاً إذا كانت هذه الأسرار ناقصة أو إذا لم يكن رابط التطبيق HTTPS.

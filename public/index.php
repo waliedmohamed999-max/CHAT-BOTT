@@ -20,6 +20,7 @@ use MarketingCenter\Controllers\EnterpriseController;
 use MarketingCenter\Controllers\AiCommerceOsController;
 use MarketingCenter\Controllers\LaunchReadinessController;
 use MarketingCenter\Controllers\PlatformRoadmapController;
+use MarketingCenter\Controllers\SettingsController;
 use MarketingCenter\Support\RateLimiter;
 use MarketingCenter\Support\Response;
 use MarketingCenter\Support\Security;
@@ -56,6 +57,7 @@ $enterprise = new EnterpriseController();
 $commerceOs = new AiCommerceOsController();
 $launchReadiness = new LaunchReadinessController();
 $platformRoadmap = new PlatformRoadmapController();
+$settings = new SettingsController();
 
 try {
     if ($method === 'GET' && ($path === '/' || $path === '/login')) { $auth->showLogin(); return; }
@@ -190,6 +192,43 @@ try {
     if ($method === 'POST' && $path === '/api/development-execution/tasks/run') { $platformRoadmap->runExecutionTask(); return; }
     if ($method === 'POST' && $path === '/api/development-execution/tasks/retry') { $platformRoadmap->runExecutionTask(); return; }
     if ($method === 'POST' && $path === '/api/development-execution/tasks/run-all') { $platformRoadmap->runAutoFixes(); return; }
+    if ($method === 'GET' && $path === '/api/settings/overview') { $settings->overview(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && $path === '/api/settings/general') { $settings->updateGeneral(); return; }
+    if ($method === 'GET' && $path === '/api/settings/whatsapp') { $settings->whatsapp(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && $path === '/api/settings/whatsapp') { $settings->updateWhatsapp(); return; }
+    if ($method === 'GET' && $path === '/api/settings/campaign-limits') { $settings->campaignLimits(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && $path === '/api/settings/campaign-limits') { $settings->updateCampaignLimits(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && $path === '/api/settings/quick-replies') { $settings->updateQuickReplies(); return; }
+    if ($method === 'GET' && $path === '/api/settings/users') { $settings->users(); return; }
+    if ($method === 'POST' && $path === '/api/settings/users') { $settings->createUser(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && preg_match('#^/api/settings/users/(\d+)$#', $path, $m)) { $settings->updateUser((int) $m[1]); return; }
+    if ($method === 'DELETE' && preg_match('#^/api/settings/users/(\d+)$#', $path, $m)) { $settings->deleteUser((int) $m[1]); return; }
+    if ($method === 'GET' && $path === '/api/settings/roles') { $settings->roles(); return; }
+    if ($method === 'POST' && $path === '/api/settings/roles') { $settings->createRole(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && preg_match('#^/api/settings/roles/(\d+)$#', $path, $m)) { $settings->updateRole((int) $m[1]); return; }
+    if ($method === 'GET' && $path === '/api/settings/permissions') { $settings->permissions(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && preg_match('#^/api/settings/roles/(\d+)/permissions$#', $path, $m)) { $settings->updateRolePermissions((int) $m[1]); return; }
+    if ($method === 'GET' && $path === '/api/settings/companies') { $settings->companies(); return; }
+    if ($method === 'POST' && $path === '/api/settings/companies') { $settings->createCompany(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && preg_match('#^/api/settings/companies/(\d+)$#', $path, $m)) { $settings->updateCompany((int) $m[1]); return; }
+    if ($method === 'GET' && $path === '/api/settings/stores') { $settings->stores(); return; }
+    if ($method === 'POST' && $path === '/api/settings/stores') { $settings->createStore(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && preg_match('#^/api/settings/stores/(\d+)$#', $path, $m)) { $settings->updateStore((int) $m[1]); return; }
+    if ($method === 'GET' && $path === '/api/settings/departments') { $settings->departments(); return; }
+    if ($method === 'POST' && $path === '/api/settings/departments') { $settings->createDepartment(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && preg_match('#^/api/settings/departments/(\d+)$#', $path, $m)) { $settings->updateDepartment((int) $m[1]); return; }
+    if ($method === 'GET' && $path === '/api/settings/security') { $settings->security(); return; }
+    if (in_array($method, ['PUT', 'POST'], true) && $path === '/api/settings/security') { $settings->updateSecurity(); return; }
+    if ($method === 'GET' && $path === '/api/settings/api-keys') { $settings->apiKeys(); return; }
+    if ($method === 'POST' && $path === '/api/settings/api-keys') { $settings->createApiKey(); return; }
+    if ($method === 'DELETE' && preg_match('#^/api/settings/api-keys/(\d+)$#', $path, $m)) { $settings->deleteApiKey((int) $m[1]); return; }
+    if ($method === 'GET' && $path === '/api/settings/webhooks') { $settings->webhooks(); return; }
+    if ($method === 'POST' && $path === '/api/settings/webhooks/test') { $settings->testWebhook(); return; }
+    if ($method === 'GET' && $path === '/api/settings/documents') { $settings->documents(); return; }
+    if ($method === 'POST' && $path === '/api/settings/documents/upload') { $settings->uploadDocument(); return; }
+    if ($method === 'GET' && $path === '/api/settings/logs') { $settings->logs(); return; }
+    if ($method === 'GET' && $path === '/api/settings/health') { $settings->health(); return; }
+    if ($method === 'GET' && $path === '/api/settings/launch-readiness') { $settings->launchReadiness(); return; }
     if ($method === 'POST' && $path === '/api/whatsapp-qr/session/create') { $qr->create(); return; }
     if ($method === 'GET' && $path === '/api/whatsapp-qr/session/status') { $qr->status(); return; }
     if ($method === 'GET' && $path === '/api/whatsapp-qr/session/qr') { $qr->qr(); return; }
