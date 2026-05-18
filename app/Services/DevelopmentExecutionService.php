@@ -380,6 +380,8 @@ final class DevelopmentExecutionService
 
     private function applyDevelopmentExecutionMigration(): array
     {
+        $this->assertWriteEnabled();
+
         if (!$this->databaseAvailable()) {
             throw new \RuntimeException('manual_intervention_required');
         }
