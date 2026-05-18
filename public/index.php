@@ -27,9 +27,14 @@ use MarketingCenter\Support\Env;
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
-$scriptDir = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
-if ($scriptDir && str_starts_with($path, $scriptDir)) {
-    $path = substr($path, strlen($scriptDir)) ?: '/';
+$vercelPath = $_GET['__mc_path'] ?? null;
+if (is_string($vercelPath) && $vercelPath !== '') {
+    $path = '/' . ltrim($vercelPath, '/');
+} else {
+    $scriptDir = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
+    if ($scriptDir && str_starts_with($path, $scriptDir)) {
+        $path = substr($path, strlen($scriptDir)) ?: '/';
+    }
 }
 
 Security::applyHeaders();

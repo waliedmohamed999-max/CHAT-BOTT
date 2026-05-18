@@ -1,5 +1,9 @@
 <?php
-$appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/')), '/');
+$scriptBase = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
+if (isset($_GET['__mc_path'])) {
+    $scriptBase = '';
+}
+$appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
 $csrfToken = \MarketingCenter\Support\Security::csrfToken();
 ?>
 <!doctype html>

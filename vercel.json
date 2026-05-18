@@ -18,7 +18,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/api/index.php"
+      "dest": "/api?__mc_path=/$1"
     }
   ]
 }
