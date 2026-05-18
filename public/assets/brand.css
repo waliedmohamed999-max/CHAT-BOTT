@@ -3332,3 +3332,95 @@ body.page-chatbot-builder:not(.sidebar-collapsed) .shell {
 body.page-chatbot-builder.sidebar-collapsed .shell {
     margin-right: 122px !important;
 }
+
+/* Campaign builder viewport cleanup */
+body.page-campaign-builder {
+    overflow-x: hidden !important;
+}
+
+body.page-campaign-builder .bottom-nav,
+body.page-campaign-builder .mobile-install-app {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+body.page-campaign-builder .command-palette:not(.open),
+body.page-campaign-builder .ai-widget:not(.open) {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+body.page-campaign-builder .command-palette.open {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 1000 !important;
+    display: grid !important;
+    place-items: start center !important;
+    padding: 12vh 18px 18px !important;
+    background: rgba(15,23,42,.46) !important;
+    backdrop-filter: blur(16px) !important;
+}
+
+body.page-campaign-builder .ai-widget.open {
+    position: fixed !important;
+    z-index: 1001 !important;
+    left: 22px !important;
+    bottom: 92px !important;
+    width: min(380px, calc(100vw - 44px)) !important;
+    max-height: min(520px, calc(100vh - 140px)) !important;
+    overflow: auto !important;
+}
+
+body.page-campaign-builder .campaign-command {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    display: grid !important;
+    grid-template-columns: minmax(300px, 370px) minmax(0, 1fr) !important;
+    gap: 18px !important;
+    align-items: start !important;
+}
+
+body.page-campaign-builder .campaign-preview-rail,
+body.page-campaign-builder .campaign-workbench {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+body.page-campaign-builder .campaign-workbench {
+    overflow: hidden !important;
+}
+
+body.page-campaign-builder .campaign-form-grid,
+body.page-campaign-builder .campaign-kpi-strip,
+body.page-campaign-builder .campaign-tool-panels,
+body.page-campaign-builder .campaign-compliance-grid,
+body.page-campaign-builder .campaign-actions {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+body.page-campaign-builder .campaign-field,
+body.page-campaign-builder .campaign-field input,
+body.page-campaign-builder .campaign-field select,
+body.page-campaign-builder .campaign-field textarea {
+    min-width: 0 !important;
+}
+
+@media (max-width: 1280px) {
+    body.page-campaign-builder .campaign-command {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.page-campaign-builder .campaign-preview-rail {
+        position: static !important;
+        order: 2 !important;
+    }
+
+    body.page-campaign-builder .campaign-workbench {
+        order: 1 !important;
+    }
+}
