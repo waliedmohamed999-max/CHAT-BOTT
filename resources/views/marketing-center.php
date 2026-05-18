@@ -2523,7 +2523,7 @@ $labelText = static function (?string $value): string {
                 </div>
             </section>
 
-            <section class="settings-hub-grid settings-route-grid" aria-label="أقسام مركز تحكم المنصة">
+            <section class="settings-control-card-grid" aria-label="أقسام مركز تحكم المنصة">
                 <?php foreach ($settingSections as $key => $label): ?>
                     <?php
                         $routePath = '/marketing-center/settings/' . $key;
@@ -2531,24 +2531,29 @@ $labelText = static function (?string $value): string {
                         $category = $settingCategories[$key] ?? 'core';
                         $categoryLabel = $settingCategoryLabels[$category] ?? 'تشغيل';
                     ?>
-                    <a class="settings-hub-card settings-route-card"
+                    <a class="settings-control-card"
                        href="<?= htmlspecialchars($appUrl) . htmlspecialchars($routePath) ?>"
                        data-settings-card
                        data-category="<?= htmlspecialchars($category) ?>"
                        data-search="<?= htmlspecialchars($label . ' ' . ($settingDescriptions[$key] ?? '') . ' ' . $routePath . ' ' . ($settingStats[$key] ?? '')) ?>">
-                        <span class="settings-card-accent"></span>
-                        <span class="settings-hub-icon"><?= htmlspecialchars($settingIcons[$key] ?? 'ST') ?></span>
-                        <span class="settings-route-main">
-                            <span class="settings-route-kicker"><?= htmlspecialchars($categoryLabel) ?></span>
-                            <strong><?= htmlspecialchars($label) ?></strong>
-                            <p><?= htmlspecialchars($settingDescriptions[$key] ?? 'إدارة هذا القسم من مركز التحكم.') ?></p>
-                        </span>
-                        <span class="settings-route-side">
+                        <span class="settings-control-card-glow"></span>
+                        <span class="settings-control-card-head">
+                            <span class="settings-control-card-icon"><?= htmlspecialchars($settingIcons[$key] ?? 'ST') ?></span>
+                            <span class="settings-control-card-title">
+                                <small><?= htmlspecialchars($categoryLabel) ?></small>
+                                <strong><?= htmlspecialchars($label) ?></strong>
+                            </span>
                             <span class="status-pill <?= htmlspecialchars($health['class']) ?>"><?= htmlspecialchars($health['label']) ?></span>
+                        </span>
+                        <p><?= htmlspecialchars($settingDescriptions[$key] ?? 'إدارة هذا القسم من مركز التحكم.') ?></p>
+                        <span class="settings-control-card-meta">
                             <em><?= htmlspecialchars((string) ($settingStats[$key] ?? 'جاهز')) ?></em>
-                            <span class="settings-route-progress" aria-hidden="true"><i style="width: <?= (int) $health['progress'] ?>%"></i></span>
-                            <span class="settings-route-path"><?= htmlspecialchars($routePath) ?></span>
-                            <b>فتح القسم <span>←</span></b>
+                            <code><?= htmlspecialchars($routePath) ?></code>
+                        </span>
+                        <span class="settings-control-card-progress" aria-hidden="true"><i style="width: <?= (int) $health['progress'] ?>%"></i></span>
+                        <span class="settings-control-card-footer">
+                            <b>فتح القسم</b>
+                            <span>إعدادات سريعة ←</span>
                         </span>
                     </a>
                 <?php endforeach; ?>

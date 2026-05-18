@@ -1413,6 +1413,169 @@ label { display: grid; gap: 8px; color: var(--muted); }
 .settings-hub-card[hidden] {
     display: none;
 }
+.settings-control-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(360px, 1fr));
+    gap: 18px;
+}
+.settings-control-card {
+    position: relative;
+    min-height: 265px;
+    display: grid !important;
+    grid-template-rows: auto minmax(72px, 1fr) auto auto auto;
+    gap: 16px;
+    padding: 24px;
+    border: 1px solid rgba(51,74,145,.14);
+    border-radius: 28px;
+    overflow: hidden;
+    color: var(--text);
+    text-align: start;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(51,74,145,.12), transparent 34%),
+        radial-gradient(circle at 100% 0%, rgba(90,169,184,.12), transparent 32%),
+        linear-gradient(145deg, rgba(255,255,255,.96), rgba(246,250,253,.92));
+    box-shadow: 0 18px 50px rgba(31,42,68,.10);
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.settings-control-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(51,74,145,.28);
+    box-shadow: 0 28px 70px rgba(31,42,68,.15);
+}
+.settings-control-card[hidden] {
+    display: none !important;
+}
+.settings-control-card-glow {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: 22px;
+    width: 6px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--primary-3), var(--cyan));
+    box-shadow: 0 0 26px rgba(90,169,184,.36);
+}
+.settings-control-card-head {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 68px minmax(0, 1fr) auto;
+    gap: 14px;
+    align-items: center;
+}
+.settings-control-card-icon {
+    width: 68px;
+    height: 68px;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--primary-3));
+    box-shadow: 0 18px 34px rgba(51,74,145,.24);
+    font-weight: 950;
+    letter-spacing: .02em;
+}
+.settings-control-card-title {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+.settings-control-card-title small {
+    width: max-content;
+    max-width: 100%;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: var(--primary-3);
+    background: rgba(90,169,184,.08);
+    border: 1px solid rgba(90,169,184,.16);
+    font-size: 11px;
+    font-weight: 950;
+}
+.settings-control-card-title strong {
+    color: var(--text);
+    font-size: clamp(21px, 2vw, 28px);
+    line-height: 1.25;
+}
+.settings-control-card p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.75;
+    font-size: 14px;
+}
+.settings-control-card-meta {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+}
+.settings-control-card-meta em,
+.settings-control-card-meta code {
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid rgba(51,74,145,.10);
+    background: rgba(255,255,255,.72);
+}
+.settings-control-card-meta em {
+    padding: 0 12px;
+    color: var(--primary);
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 950;
+}
+.settings-control-card-meta code {
+    direction: ltr;
+    justify-content: flex-start;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 12px;
+    color: var(--muted);
+    font-size: 11px;
+}
+.settings-control-card-progress {
+    position: relative;
+    z-index: 1;
+    height: 9px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(31,42,68,.08);
+}
+.settings-control-card-progress i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--primary), var(--cyan), var(--ok));
+}
+.settings-control-card-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 4px;
+}
+.settings-control-card-footer b {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+    border-radius: 15px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-3), var(--primary));
+    box-shadow: 0 16px 30px rgba(51,74,145,.20);
+}
+.settings-control-card-footer span {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 900;
+}
 .executive-bottom-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.28fr) minmax(300px, .72fr);
@@ -4095,7 +4258,7 @@ body.safe-mode * {
     .portal-security-grid { grid-template-columns: 1fr; }
     .shell, body.sidebar-collapsed .shell { margin-right: 0; padding: 16px 16px 92px; }
     .bottom-nav { display: grid; }
-    .metric-grid, .workspace-grid, .panel-grid, .builder, .inbox, .qr-layout, .setup-center-hero, .readiness-board, .chatbot-hero, .chatbot-health-grid, .chatbot-diagnostics-grid, .advanced-settings, .settings-deck, .omni-hero, .omni-inbox-grid, .channel-grid, .mini-channel-grid, .wa-builder-layout, .department-grid, .chatbot-bottom-grid, .flow-status-cards, .ai-agent-grid, .knowledge-layout, .revenue-flow-grid, .revenue-engine-hero, .saas-hero, .plans-grid, .ai-bi-hero, .ai-bi-grid, .marketplace-hero, .marketplace-grid, .app-store-grid, .enterprise-hero, .enterprise-grid, .commerce-os-hero, .commerce-os-grid, .os-agent-grid, .env-grid, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .login-portal-grid, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .control-center-hero, .control-center-layout, .executive-overview-grid, .settings-quick-actions, .quick-action-strip, .settings-command-panel, .settings-hub-grid, .settings-route-toolbar, .executive-bottom-grid, .system-health-grid, .control-grid, .permission-layout, .control-split, .control-metrics { grid-template-columns: 1fr; }
+    .metric-grid, .workspace-grid, .panel-grid, .builder, .inbox, .qr-layout, .setup-center-hero, .readiness-board, .chatbot-hero, .chatbot-health-grid, .chatbot-diagnostics-grid, .advanced-settings, .settings-deck, .omni-hero, .omni-inbox-grid, .channel-grid, .mini-channel-grid, .wa-builder-layout, .department-grid, .chatbot-bottom-grid, .flow-status-cards, .ai-agent-grid, .knowledge-layout, .revenue-flow-grid, .revenue-engine-hero, .saas-hero, .plans-grid, .ai-bi-hero, .ai-bi-grid, .marketplace-hero, .marketplace-grid, .app-store-grid, .enterprise-hero, .enterprise-grid, .commerce-os-hero, .commerce-os-grid, .os-agent-grid, .env-grid, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .login-portal-grid, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .control-center-hero, .control-center-layout, .executive-overview-grid, .settings-quick-actions, .quick-action-strip, .settings-command-panel, .settings-hub-grid, .settings-control-card-grid, .settings-route-toolbar, .executive-bottom-grid, .system-health-grid, .control-grid, .permission-layout, .control-split, .control-metrics { grid-template-columns: 1fr; }
     .settings-route-grid { grid-template-columns: 1fr; }
     .settings-hub-card {
         grid-template-columns: 70px minmax(0, 1fr);
@@ -4145,6 +4308,30 @@ body.safe-mode * {
     .settings-hub-icon { width: 54px; height: 54px; }
     .settings-hub-card strong { font-size: 19px; }
     .settings-hub-card p { font-size: 13px; -webkit-line-clamp: 3; }
+    .settings-control-card {
+        min-height: 280px;
+        padding: 18px;
+        border-radius: 22px;
+    }
+    .settings-control-card-head {
+        grid-template-columns: 56px minmax(0, 1fr);
+    }
+    .settings-control-card-head .status-pill {
+        grid-column: 1 / -1;
+        width: max-content;
+    }
+    .settings-control-card-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 18px;
+    }
+    .settings-control-card-meta {
+        grid-template-columns: 1fr;
+    }
+    .settings-control-card-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
     .settings-route-side {
         grid-column: 1 / -1;
         grid-template-columns: 1fr;
