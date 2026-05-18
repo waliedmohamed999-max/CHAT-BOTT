@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260518-control-center-v11';
+$assetVersion = '20260518-control-center-v12';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -2494,6 +2494,146 @@ $labelText = static function (?string $value): string {
                 $permissionGroups[$groupKey][] = $permission;
             }
             $systemRolesCount = count(array_filter($rolesList, static fn (array $role): bool => !empty($role['is_system'])));
+            $verifiedCompaniesCount = count(array_filter((array) $ccCompanies, static fn (array $company): bool => in_array(($company['verification_status'] ?? ''), ['verified', 'approved', 'active'], true)));
+            $activeDepartmentsCount = count(array_filter((array) $ccDepartments, static fn (array $department): bool => !isset($department['is_active']) || !empty($department['is_active'])));
+            $enabledNotificationCount = count(array_filter((array) ($ccNotifications['settings'] ?? []), static fn ($enabled): bool => !empty($enabled)));
+            $controlSuites = [
+                'whatsapp' => [
+                    'kicker' => 'WhatsApp Operations',
+                    'summary' => 'تحكم في Meta Cloud API، جلسة QR، Webhooks، القوالب، الالتزام، وحدود جودة الرقم.',
+                    'score' => $connectedWhatsapp > 0 ? 'متصل' : 'بانتظار الربط',
+                    'score_label' => 'مصدر واتساب',
+                    'tools' => [['META', 'فحص Meta', 'تحقق من WABA، Phone Number ID، القوالب، وحالة التوكن.'], ['QR', 'مراقبة QR', 'متابعة الجلسة، آخر اتصال، وحدود الإرسال الآمن.'], ['OPT', 'الالتزام', 'Opt-in، إلغاء الاشتراك، نافذة 24 ساعة، وتحذيرات الجودة.']],
+                ],
+                'campaigns' => [
+                    'kicker' => 'Campaign Safety Engine',
+                    'summary' => 'إدارة الدفعات، التهدئة، إعادة المحاولة، منع التكرار، وإيقاف الحملات عند ارتفاع الفشل.',
+                    'score' => (string) ($ccLimits['daily_messages'] ?? 0),
+                    'score_label' => 'رسالة/يوم',
+                    'tools' => [['BATCH', 'Batch Control', 'حجم الدفعة والفاصل الزمني لتقليل الضغط على مزود الإرسال.'], ['RETRY', 'Smart Retry', 'إعادة محاولة الرسائل الفاشلة مع حماية من التكرار.'], ['SAFE', 'QR Safe Mode', 'تأخير عشوائي وحدود آمنة عند استخدام جلسة QR.']],
+                ],
+                'quick-replies' => [
+                    'kicker' => 'Response Library',
+                    'summary' => 'مكتبة ردود جاهزة للترحيب، خارج الدوام، التحويل، الشكاوى، والمتابعة داخل Inbox والبوت.',
+                    'score' => '6',
+                    'score_label' => 'ردود أساسية',
+                    'tools' => [['WELCOME', 'ترحيب ذكي', 'ضبط أول رسالة للعميل حسب القناة والقسم.'], ['AWAY', 'خارج الدوام', 'رد تلقائي محترف حسب ساعات العمل.'], ['TAGS', 'تصنيف الردود', 'ربط الردود بالأقسام والوسوم لتسريع التشغيل.']],
+                ],
+                'companies' => [
+                    'kicker' => 'Tenant Registry',
+                    'summary' => 'إدارة الشركات والمتاجر والدومينات وحالة التوثيق وعزل البيانات لكل Tenant.',
+                    'score' => (string) count((array) $ccStores),
+                    'score_label' => 'متاجر',
+                    'tools' => [['CO', 'ملفات الشركات', 'السجل التجاري، الرقم الضريبي، الدولة، وحالة التوثيق.'], ['STORE', 'Workspaces', 'مالك المتجر، slug، الدومين، وحدود الاستخدام.'], ['WL', 'White Label', 'تحضير الدومين والشعار والألوان لكل متجر.']],
+                ],
+                'departments' => [
+                    'kicker' => 'Routing & SLA',
+                    'summary' => 'تنظيم فرق المبيعات والدعم والحسابات مع قواعد تحويل، SLA، Round Robin، وساعات عمل.',
+                    'score' => (string) $activeDepartmentsCount,
+                    'score_label' => 'أقسام نشطة',
+                    'tools' => [['SLA', 'SLA Rules', 'تحديد زمن الرد وأولوية القسم.'], ['RR', 'Round Robin', 'توزيع المحادثات تلقائياً بين الموظفين.'], ['QUEUE', 'Department Queue', 'طوابير عمل منفصلة لكل قسم وتحويل آمن.']],
+                ],
+                'billing' => [
+                    'kicker' => 'Billing & Usage',
+                    'summary' => 'إدارة الباقات، الفواتير، حدود الرسائل، AI Credits، المستخدمين، وقياس الاستهلاك.',
+                    'score' => $labelText($ccSubscriptions['current']['plan_key'] ?? 'free'),
+                    'score_label' => 'الباقة الحالية',
+                    'tools' => [['PLAN', 'Plans', 'Free / Starter / Professional / Enterprise وحدود كل باقة.'], ['USAGE', 'Usage Tracking', 'تتبع الرسائل، AI، التخزين، وأعضاء الفريق.'], ['INV', 'Invoices', 'الفواتير، الدفع، التجديد، والترقية.']],
+                ],
+                'security' => [
+                    'kicker' => 'Security Center',
+                    'summary' => 'تأمين الجلسات، CSRF، CSP، Secure Cookies، Rate Limit، الأسرار، وسياسة كلمات المرور.',
+                    'score' => $securityReady ? 'محمي' : 'حرج',
+                    'score_label' => 'حالة الأسرار',
+                    'tools' => [['2FA', 'Two Factor', 'فرض التحقق الثنائي للحسابات الحساسة.'], ['JWT', 'Secrets Guard', 'فحص JWT_SECRET وENCRYPTION_KEY قبل الإطلاق.'], ['IP', 'IP & Sessions', 'قائمة IP، مهلة الجلسات، ومحاولات الدخول.']],
+                ],
+                'developer' => [
+                    'kicker' => 'Developer Console',
+                    'summary' => 'إدارة API Keys، Webhook URLs، Verify Tokens، Callback URLs، وسجلات آخر Payload.',
+                    'score' => (string) (count((array) $ccApiKeys) + count((array) $ccWebhooks)),
+                    'score_label' => 'تكاملات',
+                    'tools' => [['KEY', 'API Keys', 'إنشاء مفاتيح وتحديد Scopes وتدوير الأسرار.'], ['HOOK', 'Webhook Lab', 'اختبار الروابط، التوقيع، وإعادة المحاولة.'], ['LOG', 'Payload Viewer', 'قراءة آخر Payload وحالة التنفيذ.']],
+                ],
+                'documents' => [
+                    'kicker' => 'Secure Documents',
+                    'summary' => 'رفع ومراجعة مستندات الشركات والتوثيق والخصوصية واللوجوهات مع تحقق نوع الملف.',
+                    'score' => (string) count((array) $ccDocuments),
+                    'score_label' => 'ملفات',
+                    'tools' => [['UPLOAD', 'Upload Guard', 'PDF/PNG/JPG/DOCX فقط مع حماية من الملفات الخطيرة.'], ['REVIEW', 'Review Queue', 'مراجعة وقبول/رفض المستندات.'], ['STORAGE', 'Storage Usage', 'متابعة استخدام التخزين وصلاحيات الوصول.']],
+                ],
+                'notifications' => [
+                    'kicker' => 'Notification Rules',
+                    'summary' => 'تنبيهات Webhook، انخفاض جودة الرقم، فشل الحملات، انتهاء الاشتراك، الدخول الجديد، وأخطاء Queue.',
+                    'score' => (string) $enabledNotificationCount,
+                    'score_label' => 'قنوات مفعلة',
+                    'tools' => [['MAIL', 'Email Alerts', 'إرسال التنبيهات الحرجة للبريد.'], ['APP', 'In-App Alerts', 'إشعارات داخل لوحة التحكم.'], ['OPS', 'Ops Webhook', 'ربط Slack أو Webhook خارجي للتشغيل.']],
+                ],
+                'logs' => [
+                    'kicker' => 'Monitoring Center',
+                    'summary' => 'مراقبة Audit Logs، Login Logs، Campaign Logs، Webhook Logs، Queue Logs، Error Logs وAPI Logs.',
+                    'score' => (string) count((array) ($ccLogs['audit'] ?? [])),
+                    'score_label' => 'Audit Logs',
+                    'tools' => [['AUDIT', 'Audit Trail', 'كل تعديل حساس مسجل وقابل للمراجعة.'], ['WEB', 'Webhook Logs', 'فشل ونجاح أحداث Webhook.'], ['EXPORT', 'Export & Filter', 'تصفية وتصدير السجلات للتدقيق.']],
+                ],
+                'branding' => [
+                    'kicker' => 'White Label Studio',
+                    'summary' => 'الشعار، الألوان، صفحة الدخول، الدومين المخصص، البريد، Favicon، وPWA Theme.',
+                    'score' => $ccBranding['product_name'] ?? 'MC',
+                    'score_label' => 'اسم المنتج',
+                    'tools' => [['LOGO', 'Brand Assets', 'الشعار والألوان والخطوط.'], ['LOGIN', 'Login Theme', 'تخصيص بوابات الدخول لكل متجر.'], ['PWA', 'Mobile Theme', 'Splash Screen وأيقونات التطبيق.']],
+                ],
+                'ai' => [
+                    'kicker' => 'AI Governance',
+                    'summary' => 'إعداد مزود الذكاء والموديل واللغة واللهجة وحدود الاستخدام وقواعد السلامة وقاعدة المعرفة.',
+                    'score' => !empty($ccAi['enabled']) ? 'مفعل' : 'معطل',
+                    'score_label' => 'AI Status',
+                    'tools' => [['MODEL', 'Model Provider', 'ضبط المزود والموديل ومفاتيح الاستخدام.'], ['SAFE', 'Safety Rules', 'ممنوعات الرد والحدود والتحويل لموظف.'], ['KB', 'Knowledge Base', 'مصادر المعرفة وسجلات AI.']],
+                ],
+                'backup' => [
+                    'kicker' => 'Backup & Recovery',
+                    'summary' => 'نسخ قاعدة البيانات والملفات، Restore Points، Export/Import، وسياسة الاحتفاظ.',
+                    'score' => (string) count((array) ($ccBackup['jobs'] ?? [])),
+                    'score_label' => 'عمليات نسخ',
+                    'tools' => [['DB', 'Database Backup', 'نسخ قاعدة البيانات وجدولة التشغيل.'], ['FILES', 'File Backup', 'حماية المستندات والمرفقات.'], ['RESTORE', 'Restore Point', 'نقاط استعادة وسياسة احتفاظ.']],
+                ],
+                'launch' => [
+                    'kicker' => 'Production Readiness',
+                    'summary' => 'فحص Environment، Security، Database، Queue، Webhook، Build، وProduction Mode قبل الإطلاق.',
+                    'score' => ((int) ($ccLaunch['score'] ?? 0)) . '%',
+                    'score_label' => 'Launch Score',
+                    'tools' => [['ENV', 'Environment Check', 'الدومين، HTTPS، الأسرار، ومفاتيح Meta.'], ['BUILD', 'Build Check', 'اختبار البناء والمسارات الأساسية.'], ['GO', 'Go Live Gate', 'منع الجاهزية عند وجود عناصر حرجة.']],
+                ],
+            ];
+            $renderControlSuite = static function (string $key) use ($controlSuites, $settingSections): void {
+                $suite = $controlSuites[$key] ?? null;
+                if (!$suite) {
+                    return;
+                }
+                ?>
+                <div class="ops-suite-hero">
+                    <div>
+                        <span class="premium-pill"><?= htmlspecialchars((string) ($suite['kicker'] ?? 'Control Suite')) ?></span>
+                        <h2><?= htmlspecialchars((string) ($settingSections[$key] ?? 'قسم التحكم')) ?></h2>
+                        <p><?= htmlspecialchars((string) ($suite['summary'] ?? 'إدارة متقدمة لهذا القسم من مركز التحكم.')) ?></p>
+                    </div>
+                    <div class="ops-suite-score">
+                        <strong><?= htmlspecialchars((string) ($suite['score'] ?? 'جاهز')) ?></strong>
+                        <span><?= htmlspecialchars((string) ($suite['score_label'] ?? 'الحالة')) ?></span>
+                    </div>
+                </div>
+                <div class="ops-tool-grid">
+                    <?php foreach ((array) ($suite['tools'] ?? []) as $tool): ?>
+                        <article class="ops-tool-card">
+                            <span><?= htmlspecialchars((string) ($tool[0] ?? 'TOOL')) ?></span>
+                            <div>
+                                <strong><?= htmlspecialchars((string) ($tool[1] ?? 'أداة تشغيل')) ?></strong>
+                                <p><?= htmlspecialchars((string) ($tool[2] ?? 'أداة احترافية لإدارة القسم.')) ?></p>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
+                </div>
+                <?php
+            };
         ?>
         <section class="panel wide control-center-hero executive-control-hero">
             <div>
@@ -2797,6 +2937,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-whatsapp" data-control-section>
+                    <?php $renderControlSuite('whatsapp'); ?>
                     <div class="panel-head"><div><h2>إعدادات واتساب</h2><span>الربط الرسمي، جلسة QR، Webhooks، الجودة، الاشتراك وحدود الإرسال.</span></div><span class="status-pill <?= ($ccWhatsapp['meta_status'] ?? '') === 'connected' ? 'ok' : 'pending' ?>">Meta: <?= htmlspecialchars($labelText($ccWhatsapp['meta_status'] ?? 'disconnected')) ?></span></div>
                     <form class="ajax-form control-form" data-endpoint="/api/settings/whatsapp" data-method="PUT">
                         <div class="control-grid">
@@ -2821,6 +2962,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-campaigns" data-control-section>
+                    <?php $renderControlSuite('campaigns'); ?>
                     <div class="panel-head"><div><h2>الحملات والحدود</h2><span>تحكم في الدفعات، التهدئة، التكرار، QR Safe Mode، وإيقاف الحملات الضعيفة.</span></div></div>
                     <form class="ajax-form control-form" data-endpoint="/api/settings/campaign-limits" data-method="PUT">
                         <div class="control-grid">
@@ -2840,6 +2982,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-quick-replies" data-control-section>
+                    <?php $renderControlSuite('quick-replies'); ?>
                     <div class="panel-head"><div><h2>الردود السريعة</h2><span>ردود جاهزة حسب القسم والموقف داخل Inbox والشات بوت.</span></div></div>
                     <form class="ajax-form control-form" data-endpoint="/api/settings/quick-replies" data-method="PUT">
                         <div class="control-grid">
@@ -3029,6 +3172,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-companies" data-control-section>
+                    <?php $renderControlSuite('companies'); ?>
                     <div class="panel-head"><div><h2>الشركات والمتاجر</h2><span>ملفات الشركات، المتاجر التابعة، التوثيق، الدومينات والربط.</span></div></div>
                     <div class="control-split">
                         <div class="control-card"><h3>الشركات</h3><?php foreach (array_slice((array) $ccCompanies, 0, 8) as $company): ?><div class="setting-row"><strong><?= htmlspecialchars((string) ($company['name'] ?? 'شركة')) ?></strong><span><?= htmlspecialchars($labelText($company['verification_status'] ?? 'pending')) ?></span></div><?php endforeach; ?></div>
@@ -3037,6 +3181,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-departments" data-control-section>
+                    <?php $renderControlSuite('departments'); ?>
                     <div class="panel-head"><div><h2>الفرق والأقسام</h2><span>قواعد التحويل، SLA، ساعات العمل، Round Robin والحد الأقصى للمحادثات لكل موظف.</span></div></div>
                     <form class="ajax-form compact-control-form" data-endpoint="/api/settings/departments" data-method="POST">
                         <input name="name" placeholder="اسم القسم">
@@ -3054,6 +3199,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-billing" data-control-section>
+                    <?php $renderControlSuite('billing'); ?>
                     <div class="panel-head"><div><h2>الاشتراكات والباقات</h2><span>الباقة الحالية، حدود الاستخدام، الفواتير، وسائل الدفع والترقية.</span></div><span class="status-pill active"><?= htmlspecialchars($labelText($ccSubscriptions['current']['plan_key'] ?? 'free')) ?></span></div>
                     <div class="control-metrics">
                         <article><strong><?= htmlspecialchars((string) ($ccSubscriptions['usage']['messages'] ?? 0)) ?></strong><span>رسائل مستخدمة</span></article>
@@ -3064,6 +3210,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-security" data-control-section>
+                    <?php $renderControlSuite('security'); ?>
                     <div class="panel-head"><div><h2>الأمان والجلسات</h2><span>2FA، سياسة كلمة المرور، CSRF، CSP، مفاتيح التشفير، الجلسات ومحاولات الدخول.</span></div><span class="status-pill <?= !empty($ccSecurity['jwt_secret_present']) && !empty($ccSecurity['encryption_key_present']) ? 'ok' : 'danger-state' ?>">Secrets</span></div>
                     <form class="ajax-form control-form" data-endpoint="/api/settings/security" data-method="PUT">
                         <div class="control-grid">
@@ -3081,6 +3228,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-developer" data-control-section>
+                    <?php $renderControlSuite('developer'); ?>
                     <div class="panel-head"><div><h2>Webhooks & API</h2><span>API Keys، Webhook URLs، Verify Tokens، Callback URLs، وسجلات آخر Payload.</span></div></div>
                     <div class="control-split">
                         <form class="ajax-form control-card" data-endpoint="/api/settings/api-keys" data-method="POST"><h3>إنشاء API Key</h3><label>الاسم<input name="name" value="Production API Key"></label><label>Scopes<input name="scopes" value="read:contacts, write:webhooks"></label><button class="primary" type="submit">إنشاء مفتاح</button></form>
@@ -3094,6 +3242,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-documents" data-control-section>
+                    <?php $renderControlSuite('documents'); ?>
                     <div class="panel-head"><div><h2>الملفات والمستندات</h2><span>مستندات الشركات، التوثيق، الخصوصية، الشروط، اللوجوهات والمرفقات.</span></div><span class="status-pill active"><?= count((array) $ccDocuments) ?> ملف</span></div>
                     <form class="control-upload-form" action="<?= htmlspecialchars($appUrl) ?>/api/settings/documents/upload" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars(\MarketingCenter\Support\Security::csrfToken()) ?>">
@@ -3108,6 +3257,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-notifications" data-control-section>
+                    <?php $renderControlSuite('notifications'); ?>
                     <div class="panel-head"><div><h2>التنبيهات والإشعارات</h2><span>Webhook failures، انخفاض الجودة، فشل الحملات، انتهاء الاشتراك، دخول جديد وأخطاء Queue.</span></div></div>
                     <div class="control-metrics">
                         <?php foreach (($ccNotifications['settings'] ?? []) as $key => $enabled): ?>
@@ -3117,6 +3267,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-logs" data-control-section>
+                    <?php $renderControlSuite('logs'); ?>
                     <div class="panel-head"><div><h2>السجلات والمراقبة</h2><span>Audit Logs، Login Logs، Campaign Logs، Webhook Logs، Queue Logs، Error Logs وAPI Logs.</span></div></div>
                     <div class="control-split">
                         <div class="control-card"><h3>Audit Logs</h3><?php foreach (array_slice((array) ($ccLogs['audit'] ?? []), 0, 6) as $log): ?><div class="setting-row"><strong><?= htmlspecialchars((string) ($log['action'] ?? 'حدث')) ?></strong><span><?= htmlspecialchars((string) ($log['created_at'] ?? '')) ?></span></div><?php endforeach; ?></div>
@@ -3125,6 +3276,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-branding" data-control-section>
+                    <?php $renderControlSuite('branding'); ?>
                     <div class="panel-head"><div><h2>الهوية والـ White Label</h2><span>الشعار، الألوان، الخطوط، صفحة الدخول، الدومين المخصص، البريد وPWA Theme.</span></div></div>
                     <div class="control-grid readonly-grid">
                         <label>اسم المنتج<input readonly value="<?= htmlspecialchars((string) ($ccBranding['product_name'] ?? 'Marketing Center')) ?>"></label>
@@ -3136,6 +3288,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-ai" data-control-section>
+                    <?php $renderControlSuite('ai'); ?>
                     <div class="panel-head"><div><h2>إعدادات الذكاء الاصطناعي</h2><span>المزود، الموديل، اللغة، اللهجة، حدود الاستخدام، قواعد السلامة وKnowledge Base.</span></div><span class="status-pill <?= !empty($ccAi['enabled']) ? 'ok' : 'muted' ?>"><?= !empty($ccAi['enabled']) ? 'مفعل' : 'معطل' ?></span></div>
                     <div class="control-grid readonly-grid">
                         <label>Provider<input readonly value="<?= htmlspecialchars((string) ($ccAi['provider'] ?? 'openai')) ?>"></label>
@@ -3147,6 +3300,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-backup" data-control-section>
+                    <?php $renderControlSuite('backup'); ?>
                     <div class="panel-head"><div><h2>النسخ الاحتياطي والاستعادة</h2><span>Backup Database، Backup Files، Restore Point، Retention Policy، Export وImport.</span></div></div>
                     <div class="control-metrics">
                         <article><strong><?= count((array) ($ccBackup['jobs'] ?? [])) ?></strong><span>عمليات نسخ</span></article>
@@ -3156,6 +3310,7 @@ $labelText = static function (?string $value): string {
                 </section>
 
                 <section class="panel control-section" id="settings-launch" data-control-section>
+                    <?php $renderControlSuite('launch'); ?>
                     <div class="panel-head"><div><h2>إعدادات الإطلاق</h2><span>Environment، Security، Database، Queue، Webhook، Build، Production Mode.</span></div><span class="status-pill <?= (int) ($ccLaunch['score'] ?? 0) >= 80 ? 'ok' : 'pending' ?>"><?= (int) ($ccLaunch['score'] ?? 0) ?>%</span></div>
                     <div class="launch-score-card"><strong><?= htmlspecialchars((string) ($ccLaunch['status'] ?? 'غير جاهز')) ?></strong><div class="progress"><span style="width: <?= max(0, min(100, (int) ($ccLaunch['score'] ?? 0))) ?>%"></span></div></div>
                     <a class="primary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/setup-checklist">فتح جاهزية الإطلاق</a>
