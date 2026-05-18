@@ -3287,3 +3287,48 @@ textarea {
     margin-top: 0 !important;
     margin-bottom: 18px !important;
 }
+
+/* Restore full sidebar on chatbot builder unless the user explicitly collapses it */
+body.page-chatbot-builder .sidebar:not(.collapsed) {
+    width: var(--sidebar) !important;
+    padding: 18px !important;
+}
+
+body.page-chatbot-builder .sidebar:not(.collapsed) .brand {
+    justify-content: flex-start !important;
+    padding: 6px !important;
+}
+
+body.page-chatbot-builder .sidebar:not(.collapsed) .brand-copy,
+body.page-chatbot-builder .sidebar:not(.collapsed) .sidebar-card,
+body.page-chatbot-builder .sidebar:not(.collapsed) .side-nav .nav-label {
+    display: block !important;
+}
+
+body.page-chatbot-builder .sidebar:not(.collapsed) .side-nav {
+    gap: 8px !important;
+    overflow-y: auto !important;
+    padding-inline-end: 3px !important;
+}
+
+body.page-chatbot-builder .sidebar:not(.collapsed) .side-nav a {
+    width: auto !important;
+    min-height: 50px !important;
+    margin: 0 !important;
+    padding: 10px 12px !important;
+    display: flex !important;
+    place-items: unset !important;
+    justify-content: flex-start !important;
+}
+
+body.page-chatbot-builder .sidebar:not(.collapsed) .side-nav a::after {
+    display: none !important;
+}
+
+body.page-chatbot-builder:not(.sidebar-collapsed) .shell {
+    margin-right: calc(var(--sidebar) + 30px) !important;
+}
+
+body.page-chatbot-builder.sidebar-collapsed .shell {
+    margin-right: 122px !important;
+}
