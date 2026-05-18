@@ -1128,8 +1128,12 @@ textarea {
 
 .page-chatbot-builder .bot-node-settings .component-palette {
     flex: 0 0 auto !important;
-    min-height: 142px !important;
+    min-height: 232px !important;
     max-height: none !important;
+    grid-auto-rows: minmax(42px, auto) !important;
+    align-items: stretch !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 14px !important;
     overflow: visible !important;
     opacity: 1 !important;
     transform: none !important;
@@ -1138,9 +1142,15 @@ textarea {
 .page-chatbot-builder .bot-node-settings .component-palette button {
     display: inline-flex !important;
     align-items: center !important;
+    justify-content: center !important;
+    min-height: 42px !important;
     min-width: 0 !important;
     white-space: normal !important;
     overflow: visible !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(#nodeTitleInput) {
+    margin-top: 4px !important;
 }
 
 .page-chatbot-builder .bot-node-settings > label,
