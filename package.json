@@ -6,10 +6,7 @@
     "node": "22.x"
   },
   "scripts": {
-    "build": "vite build",
-    "vercel-build": "vite build"
-  },
-  "devDependencies": {
-    "vite": "^6.4.2"
+    "build": "node scripts/vercel-build.mjs",
+    "vercel-build": "node scripts/vercel-build.mjs"
   }
 }
