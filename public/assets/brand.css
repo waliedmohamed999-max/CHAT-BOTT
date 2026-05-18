@@ -771,6 +771,69 @@ textarea {
     }
 }
 
+/* Chatbot inspector final ordering fix */
+.page-chatbot-builder .bot-node-settings .settings-title {
+    order: 0 !important;
+}
+
+.page-chatbot-builder .bot-node-settings .component-palette {
+    order: 1 !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(#nodeTitleInput) {
+    order: 2 !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(#nodeTypeInput) {
+    order: 3 !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(#nodeMessageInput) {
+    order: 4 !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(#nodeButtonsInput) {
+    order: 5 !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(#nodeDepartmentInput) {
+    order: 6 !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(#nodeTagInput) {
+    order: 7 !important;
+}
+
+.page-chatbot-builder .bot-node-settings .settings-checks {
+    order: 8 !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(#nodeNextInput) {
+    order: 9 !important;
+}
+
+.page-chatbot-builder .bot-node-settings .bot-settings-menu {
+    order: 10 !important;
+    margin-bottom: 0 !important;
+}
+
+.page-chatbot-builder .bot-node-settings .bot-settings-menu a {
+    min-height: 40px !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    line-height: 1.35 !important;
+}
+
+.page-chatbot-builder .bot-node-settings .autosave-state {
+    order: 11 !important;
+}
+
+.page-chatbot-builder .bot-node-settings .button-row {
+    order: 12 !important;
+    margin-top: 0 !important;
+}
+
 /* WhatsApp preview panel - focused polish */
 .page-chatbot-builder .wa-preview-phone {
     align-self: stretch !important;
