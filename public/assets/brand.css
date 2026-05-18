@@ -1108,6 +1108,63 @@ textarea {
     }
 }
 
+/* Chatbot inspector field spacing hardening */
+.page-chatbot-builder .bot-node-settings .component-palette {
+    min-height: 272px !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(44px, auto) !important;
+    row-gap: 9px !important;
+    column-gap: 9px !important;
+    padding: 14px !important;
+    margin-bottom: 14px !important;
+}
+
+.page-chatbot-builder .bot-node-settings .component-palette::before {
+    min-height: 22px !important;
+    line-height: 1.35 !important;
+}
+
+.page-chatbot-builder .bot-node-settings .component-palette button {
+    min-height: 44px !important;
+    box-sizing: border-box !important;
+}
+
+.page-chatbot-builder .bot-node-settings > label {
+    position: relative !important;
+    z-index: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 9px !important;
+    min-height: auto !important;
+    padding: 0 0 6px !important;
+    background: transparent !important;
+    overflow: visible !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(select),
+.page-chatbot-builder .bot-node-settings label:has(input) {
+    min-height: 72px !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(textarea) {
+    min-height: 136px !important;
+}
+
+.page-chatbot-builder .bot-node-settings label:has(#nodeButtonsInput) {
+    min-height: 154px !important;
+}
+
+.page-chatbot-builder .bot-node-settings > label > input,
+.page-chatbot-builder .bot-node-settings > label > select,
+.page-chatbot-builder .bot-node-settings > label > textarea {
+    position: static !important;
+    display: block !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+}
+
 /* Chatbot inspector visibility fix */
 .page-chatbot-builder .bot-node-settings {
     align-content: start !important;
