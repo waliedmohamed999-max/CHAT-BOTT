@@ -1108,6 +1108,43 @@ textarea {
     }
 }
 
+/* Structured inspector fields */
+.page-chatbot-builder .bot-node-settings .inspector-field {
+    display: grid !important;
+    grid-template-rows: auto auto !important;
+    gap: 8px !important;
+    min-height: auto !important;
+    padding: 0 0 8px !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-field > span {
+    display: block !important;
+    min-height: 18px !important;
+    color: #667085 !important;
+    font-size: 12px !important;
+    font-weight: 950 !important;
+    line-height: 1.45 !important;
+    text-align: right !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-field > input,
+.page-chatbot-builder .bot-node-settings .inspector-field > select {
+    height: 46px !important;
+    min-height: 46px !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-field > textarea {
+    min-height: 98px !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-field:has(#nodeMessageInput) {
+    min-height: 132px !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-field:has(#nodeButtonsInput) {
+    min-height: 158px !important;
+}
+
 /* Chatbot inspector field spacing hardening */
 .page-chatbot-builder .bot-node-settings .component-palette {
     min-height: 272px !important;

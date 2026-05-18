@@ -4,7 +4,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v28';
+$assetVersion = '20260519-premium-brand-v29';
 $csrfToken = \MarketingCenter\Support\Security::csrfToken();
 $config = $config ?? [];
 $portal = (string) ($config['portal'] ?? 'store');
