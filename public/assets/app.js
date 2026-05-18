@@ -335,6 +335,267 @@ if (campaignStudio) {
     });
 }
 
+const templateStudio = document.querySelector('.templates-command');
+if (templateStudio) {
+    const form = document.getElementById('templateComposer');
+    const fields = {
+        name: templateStudio.querySelector('[data-template-name]'),
+        category: templateStudio.querySelector('[data-template-category-select]'),
+        language: templateStudio.querySelector('[data-template-language]'),
+        header: templateStudio.querySelector('[data-template-header]'),
+        body: templateStudio.querySelector('[data-template-body]'),
+        footer: templateStudio.querySelector('[data-template-footer]'),
+        buttons: templateStudio.querySelector('[data-template-buttons]'),
+    };
+    const preview = {
+        category: document.getElementById('templatePreviewCategory'),
+        header: document.getElementById('templatePreviewHeader'),
+        body: document.getElementById('templatePreviewBody'),
+        footer: document.getElementById('templatePreviewFooter'),
+        buttons: document.getElementById('templatePreviewButtons'),
+        json: document.getElementById('templateJsonPreview'),
+        quality: document.getElementById('templateQualityPill'),
+    };
+    const presets = {
+        offer: {
+            name: 'welcome_offer',
+            category: 'MARKETING',
+            language: 'ar',
+            header: 'عرض حصري لك',
+            body: 'مرحباً {{1}}، عرضك جاهز. استخدم الكود {{2}} قبل نهاية اليوم للحصول على خصم خاص.',
+            footer: 'اكتب STOP لإلغاء الاشتراك',
+            buttons: 'عرض العرض, تواصل معنا',
+        },
+        order: {
+            name: 'order_follow_up',
+            category: 'UTILITY',
+            language: 'ar',
+            header: 'متابعة طلبك',
+            body: 'مرحباً {{1}}، طلبك رقم {{3}} قيد المتابعة وسنرسل لك تحديث الشحن فور توفره.',
+            footer: 'شكراً لاختيارك متجرنا',
+            buttons: 'تتبع الطلب, تواصل مع الدعم',
+        },
+        otp: {
+            name: 'otp_login',
+            category: 'AUTHENTICATION',
+            language: 'ar',
+            header: 'رمز التحقق',
+            body: 'رمز التحقق الخاص بك هو {{1}}. لا تشاركه مع أي شخص.',
+            footer: 'ينتهي الرمز خلال دقائق',
+            buttons: '',
+        },
+    };
+
+    function normalizedTemplateName(value) {
+        return String(value || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '_').replace(/_+/g, '_');
+    }
+
+    function templateButtons() {
+        return String(fields.buttons?.value || '')
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean)
+            .slice(0, 3);
+    }
+
+    function templateComponents() {
+        const components = [];
+        if (fields.header?.value.trim()) {
+            components.push({type: 'HEADER', format: 'TEXT', text: fields.header.value.trim()});
+        }
+        components.push({type: 'BODY', text: fields.body?.value.trim() || 'مرحباً {{1}}، كيف يمكننا مساعدتك؟'});
+        if (fields.footer?.value.trim()) {
+            components.push({type: 'FOOTER', text: fields.footer.value.trim()});
+        }
+        const buttons = templateButtons();
+        if (buttons.length) {
+            components.push({
+                type: 'BUTTONS',
+                buttons: buttons.map((text) => ({type: 'QUICK_REPLY', text})),
+            });
+        }
+        return components;
+    }
+
+    function templateQuality() {
+        const bodyText = fields.body?.value.trim() || '';
+        const category = fields.category?.value || 'MARKETING';
+        const hasName = normalizedTemplateName(fields.name?.value).length >= 3;
+        const hasBody = bodyText.length >= 16;
+        const hasVariable = /\{\{\d+\}\}/.test(bodyText);
+        const hasOptOut = category !== 'MARKETING' || /(stop|توقف|إلغاء|الغاء)/i.test(`${bodyText} ${fields.footer?.value || ''}`);
+        const score = [hasName, hasBody, hasVariable, hasOptOut].filter(Boolean).length;
+        return {score, hasName, hasBody, hasVariable, hasOptOut};
+    }
+
+    function updateTemplatePreview() {
+        const category = fields.category?.value || 'MARKETING';
+        const header = fields.header?.value.trim() || (category === 'AUTHENTICATION' ? 'رمز التحقق' : 'عرض خاص');
+        const bodyText = fields.body?.value.trim() || 'مرحباً {{1}}، لديك عرض خاص بكود {{2}} حتى نهاية اليوم.';
+        const footer = fields.footer?.value.trim() || (category === 'MARKETING' ? 'اكتب STOP لإلغاء الاشتراك' : 'شكراً لاختيارك متجرنا');
+        const buttons = templateButtons();
+
+        if (preview.category) preview.category.textContent = category;
+        if (preview.header) preview.header.textContent = header;
+        if (preview.body) preview.body.innerHTML = escapeHtml(bodyText).replace(/\n/g, '<br>');
+        if (preview.footer) preview.footer.textContent = footer;
+        if (preview.buttons) {
+            preview.buttons.innerHTML = buttons.length
+                ? buttons.map((text) => `<button type="button">${escapeHtml(text)}</button>`).join('')
+                : '';
+        }
+        if (preview.json) {
+            preview.json.textContent = JSON.stringify({
+                name: normalizedTemplateName(fields.name?.value || 'new_template'),
+                category,
+                language: fields.language?.value || 'ar',
+                components: templateComponents(),
+            }, null, 2);
+        }
+        if (preview.quality) {
+            const quality = templateQuality();
+            preview.quality.classList.remove('ok', 'pending', 'danger-state');
+            if (quality.score >= 4) {
+                preview.quality.classList.add('ok');
+                preview.quality.textContent = 'جاهز للمراجعة';
+            } else if (quality.score >= 2) {
+                preview.quality.classList.add('pending');
+                preview.quality.textContent = 'يحتاج تحسين';
+            } else {
+                preview.quality.classList.add('danger-state');
+                preview.quality.textContent = 'غير مكتمل';
+            }
+        }
+    }
+
+    Object.values(fields).forEach((field) => {
+        field?.addEventListener('input', updateTemplatePreview);
+        field?.addEventListener('change', updateTemplatePreview);
+    });
+
+    templateStudio.querySelectorAll('.template-category-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+            templateStudio.querySelectorAll('.template-category-btn').forEach((item) => item.classList.toggle('active', item === button));
+            if (fields.category) {
+                fields.category.value = button.dataset.templateCategory || 'MARKETING';
+                fields.category.dispatchEvent(new Event('change', {bubbles: true}));
+            }
+        });
+    });
+
+    templateStudio.querySelectorAll('[data-template-preset]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const preset = presets[button.dataset.templatePreset || 'offer'];
+            if (!preset) return;
+            Object.entries(preset).forEach(([key, value]) => {
+                if (fields[key]) fields[key].value = value;
+            });
+            templateStudio.querySelectorAll('.template-category-btn').forEach((item) => {
+                item.classList.toggle('active', item.dataset.templateCategory === preset.category);
+            });
+            updateTemplatePreview();
+            form?.scrollIntoView({behavior: 'smooth', block: 'start'});
+            showToast('تم تجهيز القالب المختار داخل المنشئ');
+        });
+    });
+
+    templateStudio.querySelectorAll('[data-insert-variable]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const variable = button.dataset.insertVariable || '{{1}}';
+            const bodyField = fields.body;
+            if (!bodyField) return;
+            const start = bodyField.selectionStart || bodyField.value.length;
+            const end = bodyField.selectionEnd || bodyField.value.length;
+            bodyField.value = `${bodyField.value.slice(0, start)}${variable}${bodyField.value.slice(end)}`;
+            bodyField.focus();
+            bodyField.setSelectionRange(start + variable.length, start + variable.length);
+            updateTemplatePreview();
+        });
+    });
+
+    templateStudio.querySelector('.template-ai-polish')?.addEventListener('click', () => {
+        const category = fields.category?.value || 'MARKETING';
+        if (!fields.body?.value.trim()) {
+            fields.body.value = category === 'UTILITY'
+                ? 'مرحباً {{1}}، نود إبلاغك أن طلبك رقم {{3}} تم تحديثه. يمكنك التواصل معنا عند الحاجة.'
+                : category === 'AUTHENTICATION'
+                    ? 'رمز التحقق الخاص بك هو {{1}}. لا تشاركه مع أي شخص.'
+                    : 'مرحباً {{1}}، جهزنا لك عرضاً خاصاً بكود {{2}} لفترة محدودة.';
+        }
+        if (category === 'MARKETING' && !/(stop|توقف|إلغاء|الغاء)/i.test(`${fields.body.value} ${fields.footer?.value || ''}`) && fields.footer) {
+            fields.footer.value = 'اكتب STOP لإلغاء الاشتراك';
+        }
+        if (!/\{\{\d+\}\}/.test(fields.body.value)) {
+            fields.body.value = `مرحباً {{1}}، ${fields.body.value}`;
+        }
+        updateTemplatePreview();
+        showToast('تم تحسين القالب مع مراعاة المتغيرات والامتثال');
+    });
+
+    templateStudio.querySelector('.template-validate-btn')?.addEventListener('click', () => {
+        const quality = templateQuality();
+        if (quality.score >= 4) {
+            showToast('القالب جاهز مبدئياً للمراجعة في Meta');
+            return;
+        }
+        const missing = [];
+        if (!quality.hasName) missing.push('اسم القالب');
+        if (!quality.hasBody) missing.push('نص الرسالة');
+        if (!quality.hasVariable) missing.push('متغير واحد على الأقل');
+        if (!quality.hasOptOut) missing.push('كلمة إلغاء الاشتراك');
+        showToast(`أكمل: ${missing.join('، ')}`);
+    });
+
+    templateStudio.querySelector('.template-copy-json')?.addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(preview.json?.textContent || '[]');
+            showToast('تم نسخ JSON القالب');
+        } catch {
+            showToast('تعذر نسخ JSON من المتصفح الحالي');
+        }
+    });
+
+    templateStudio.querySelector('.template-review-jump')?.addEventListener('click', () => {
+        form?.scrollIntoView({behavior: 'smooth', block: 'start'});
+        templateStudio.querySelector('.template-validate-btn')?.click();
+    });
+
+    function filterTemplateLibrary() {
+        const term = String(templateStudio.querySelector('[data-template-search]')?.value || '').trim().toLowerCase();
+        const status = templateStudio.querySelector('[data-template-status-filter]')?.value || 'all';
+        templateStudio.querySelectorAll('[data-template-row]').forEach((row) => {
+            const matchesStatus = status === 'all' || row.dataset.templateStatus === status;
+            const matchesTerm = !term || String(row.dataset.templateSearch || row.textContent).toLowerCase().includes(term);
+            row.hidden = !(matchesStatus && matchesTerm);
+        });
+    }
+
+    templateStudio.querySelector('[data-template-search]')?.addEventListener('input', filterTemplateLibrary);
+    templateStudio.querySelector('[data-template-status-filter]')?.addEventListener('change', filterTemplateLibrary);
+
+    templateStudio.querySelectorAll('.template-open-card').forEach((button) => {
+        button.addEventListener('click', () => {
+            const card = button.closest('[data-template-row]');
+            if (!card) return;
+            fields.name.value = card.dataset.templateNameValue || '';
+            fields.category.value = card.dataset.templateCategoryValue || 'MARKETING';
+            fields.language.value = card.dataset.templateLanguageValue || 'ar';
+            fields.body.value = card.dataset.templateBodyValue || '';
+            fields.header.value = '';
+            fields.footer.value = '';
+            fields.buttons.value = '';
+            templateStudio.querySelectorAll('.template-category-btn').forEach((item) => {
+                item.classList.toggle('active', item.dataset.templateCategory === fields.category.value);
+            });
+            updateTemplatePreview();
+            form?.scrollIntoView({behavior: 'smooth', block: 'start'});
+            showToast('تم فتح القالب داخل المنشئ');
+        });
+    });
+
+    updateTemplatePreview();
+}
+
 document.querySelectorAll('.api-post').forEach((button) => {
     button.addEventListener('click', async () => {
         button.classList.add('loading');

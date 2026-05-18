@@ -1032,22 +1032,136 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'templates'): ?>
-        <section class="panel-grid">
-            <article class="panel wide form-panel">
-                <div class="panel-head"><div><h2>إدارة القوالب الذكية</h2><span>إنشاء ومزامنة قوالب Meta</span></div><button type="button" data-api="/api/whatsapp/templates/sync" class="secondary api-post">مزامنة القوالب</button></div>
-                <form class="stack ajax-form compact-form" data-endpoint="/api/whatsapp/templates">
-                    <input name="name" placeholder="اسم_القالب">
-                    <select name="category"><option value="MARKETING">تسويقي</option><option value="UTILITY">خدمي</option><option value="AUTHENTICATION">توثيق</option></select>
-                    <input name="language" value="ar">
-                    <textarea name="body" placeholder="نص الرسالة مع المتغيرات مثل {{1}}"></textarea>
-                    <input name="footer" placeholder="التذييل">
-                    <button class="primary">إرسال للمراجعة</button>
+        <?php
+            $templateRows = $templates ?? [];
+            $templateTotal = count($templateRows);
+            $templateApproved = count(array_filter($templateRows, static fn (array $row): bool => strtolower((string) ($row['status'] ?? '')) === 'approved'));
+            $templatePending = count(array_filter($templateRows, static fn (array $row): bool => in_array(strtolower((string) ($row['status'] ?? '')), ['pending', 'in_review', 'submitted'], true)));
+            $templateRejected = count(array_filter($templateRows, static fn (array $row): bool => strtolower((string) ($row['status'] ?? '')) === 'rejected'));
+        ?>
+        <section class="templates-command">
+            <article class="panel template-hero">
+                <div>
+                    <span class="premium-pill">Meta Template Command Center</span>
+                    <h2>إدارة القوالب الذكية</h2>
+                    <p>أنشئ قوالب WhatsApp الرسمية، راقب الموافقات، اختبر المتغيرات، وامنع إطلاق الحملات بقالب غير جاهز.</p>
+                </div>
+                <div class="template-hero-actions">
+                    <button type="button" data-api="/api/whatsapp/templates/sync" class="secondary api-post">مزامنة القوالب</button>
+                    <button type="button" class="secondary template-fill-btn" data-template-preset="offer">قالب عرض سريع</button>
+                    <button type="button" class="primary template-review-jump">تجهيز للمراجعة</button>
+                </div>
+            </article>
+
+            <section class="template-status-strip">
+                <article><span>إجمالي القوالب</span><strong><?= (int) $templateTotal ?></strong><small>متزامنة محلياً</small></article>
+                <article><span>معتمدة</span><strong><?= (int) $templateApproved ?></strong><small>جاهزة للحملات</small></article>
+                <article><span>قيد المراجعة</span><strong><?= (int) $templatePending ?></strong><small>تحتاج متابعة Meta</small></article>
+                <article><span>مرفوضة</span><strong><?= (int) $templateRejected ?></strong><small>راجع السياسة والنص</small></article>
+            </section>
+
+            <section class="template-workspace">
+                <form class="panel ajax-form template-composer" data-endpoint="/api/whatsapp/templates" id="templateComposer">
+                    <div class="panel-head">
+                        <div><h2>منشئ القالب</h2><span>حقول متوافقة مع Meta Cloud API وMessage Templates</span></div>
+                        <span class="status-pill pending" id="templateQualityPill">فحص مبدئي</span>
+                    </div>
+                    <div class="template-type-switch">
+                        <button type="button" class="active template-category-btn" data-template-category="MARKETING">Marketing</button>
+                        <button type="button" class="template-category-btn" data-template-category="UTILITY">Utility</button>
+                        <button type="button" class="template-category-btn" data-template-category="AUTHENTICATION">Authentication</button>
+                    </div>
+                    <div class="template-smart-tools">
+                        <button type="button" class="template-tool-btn template-ai-polish"><b>AI</b><span>تحسين النص</span></button>
+                        <button type="button" class="template-tool-btn template-validate-btn"><b>✓</b><span>فحص السياسة</span></button>
+                        <button type="button" class="template-tool-btn template-copy-json"><b>{}</b><span>نسخ JSON</span></button>
+                        <button type="button" class="template-tool-btn" data-insert-variable="{{1}}"><b>{{1}}</b><span>إدراج متغير</span></button>
+                    </div>
+                    <div class="template-form-grid">
+                        <label><span>اسم القالب</span><input name="name" data-template-name placeholder="welcome_offer"></label>
+                        <label><span>التصنيف</span><select name="category" data-template-category-select><option value="MARKETING">تسويقي</option><option value="UTILITY">خدمي</option><option value="AUTHENTICATION">توثيق</option></select></label>
+                        <label><span>اللغة</span><input name="language" data-template-language value="ar"></label>
+                        <label><span>Header اختياري</span><input name="header" data-template-header placeholder="عرض خاص"></label>
+                        <label class="wide"><span>نص الرسالة</span><textarea name="body" data-template-body placeholder="مرحباً {{1}}، لديك عرض خاص بكود {{2}} حتى نهاية اليوم."></textarea></label>
+                        <label><span>التذييل</span><input name="footer" data-template-footer placeholder="اكتب STOP لإلغاء الاشتراك"></label>
+                        <label><span>الأزرار</span><input name="buttons" data-template-buttons placeholder="عرض العرض, تواصل معنا"></label>
+                    </div>
+                    <div class="template-variable-lab">
+                        <article><b>{{1}}</b><span>اسم العميل</span><button type="button" data-insert-variable="{{1}}">إدراج</button></article>
+                        <article><b>{{2}}</b><span>كود الخصم</span><button type="button" data-insert-variable="{{2}}">إدراج</button></article>
+                        <article><b>{{3}}</b><span>رقم الطلب</span><button type="button" data-insert-variable="{{3}}">إدراج</button></article>
+                    </div>
+                    <div class="template-policy-grid">
+                        <label><input type="checkbox" checked> النص واضح ولا يحتوي وعوداً مضللة</label>
+                        <label><input type="checkbox" checked> يوجد Opt-out عند القوالب التسويقية</label>
+                        <label><input type="checkbox" checked> المتغيرات معرفة وقابلة للاختبار</label>
+                        <label><input type="checkbox" checked> القالب لا يستخدم في QR Session</label>
+                    </div>
+                    <div class="template-json-box">
+                        <div><b>Meta Components JSON</b><span>معاينة تقنية قبل الإرسال للمراجعة</span></div>
+                        <pre id="templateJsonPreview">[]</pre>
+                    </div>
+                    <div class="template-actions">
+                        <button type="button" class="secondary template-fill-btn" data-template-preset="order">قالب متابعة طلب</button>
+                        <button type="button" class="secondary template-fill-btn" data-template-preset="otp">قالب OTP</button>
+                        <button class="primary" type="submit">إرسال للمراجعة في Meta</button>
+                    </div>
                 </form>
-            </article>
-            <article class="panel">
-                <div class="panel-head"><div><h2>حالات القوالب</h2><span>مزامنة مباشرة</span></div></div>
-                <div class="table-like premium-table"><span>القالب</span><span>الحالة</span><span>النوع</span><span>welcome_offer</span><span class="status-pill ok">معتمد</span><span>تسويقي</span><span>otp_login</span><span class="status-pill pending">قيد المراجعة</span><span>توثيق</span></div>
-            </article>
+
+                <aside class="panel template-preview-card">
+                    <div class="panel-head"><div><h2>معاينة واتساب</h2><span>تحديث مباشر قبل الإرسال</span></div></div>
+                    <div class="template-phone">
+                        <div class="template-phone-head"><span>MC</span><div><b>مركز التسويق</b><small>Business Account</small></div></div>
+                        <div class="template-phone-body">
+                            <article class="template-preview-message">
+                                <small id="templatePreviewCategory">MARKETING</small>
+                                <h3 id="templatePreviewHeader">عرض خاص</h3>
+                                <p id="templatePreviewBody">مرحباً {{1}}، لديك عرض خاص بكود {{2}} حتى نهاية اليوم.</p>
+                                <em id="templatePreviewFooter">اكتب STOP لإلغاء الاشتراك</em>
+                                <div id="templatePreviewButtons" class="template-preview-buttons"><button type="button">عرض العرض</button><button type="button">تواصل معنا</button></div>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="template-review-checks">
+                        <div><b>✓</b><span>يدعم المتغيرات</span></div>
+                        <div><b>✓</b><span>جاهز للمراجعة</span></div>
+                        <div><b>!</b><span>يتطلب ربط Meta فعلي للإرسال</span></div>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="panel template-library">
+                <div class="panel-head">
+                    <div><h2>مكتبة القوالب</h2><span>فلترة حسب الحالة والتصنيف مع إجراءات تشغيل سريعة</span></div>
+                    <div class="template-filters">
+                        <input data-template-search placeholder="ابحث عن قالب">
+                        <select data-template-status-filter><option value="all">كل الحالات</option><option value="approved">معتمدة</option><option value="pending">قيد المراجعة</option><option value="rejected">مرفوضة</option></select>
+                    </div>
+                </div>
+                <div class="template-library-grid">
+                    <?php if ($templateRows): ?>
+                        <?php foreach ($templateRows as $template): ?>
+                            <?php
+                                $status = strtolower((string) ($template['status'] ?? 'pending'));
+                                $statusClass = $status === 'approved' ? 'ok' : ($status === 'rejected' ? 'danger-state' : 'pending');
+                                $templateBody = (string) ($template['body'] ?? 'لا يوجد نص محفوظ');
+                                $templatePreviewText = function_exists('mb_substr') ? mb_substr($templateBody, 0, 120, 'UTF-8') : substr($templateBody, 0, 240);
+                            ?>
+                            <article class="template-library-card" data-template-row data-template-status="<?= htmlspecialchars($status) ?>" data-template-name-value="<?= htmlspecialchars((string) ($template['name'] ?? '')) ?>" data-template-category-value="<?= htmlspecialchars((string) ($template['category'] ?? 'MARKETING')) ?>" data-template-language-value="<?= htmlspecialchars((string) ($template['language'] ?? 'ar')) ?>" data-template-body-value="<?= htmlspecialchars($templateBody) ?>" data-template-search="<?= htmlspecialchars(($template['name'] ?? '') . ' ' . ($template['category'] ?? '') . ' ' . ($template['body'] ?? '')) ?>">
+                                <div><span class="status-pill <?= $statusClass ?>"><?= htmlspecialchars($labelText($status)) ?></span><b><?= htmlspecialchars((string) ($template['name'] ?? 'template')) ?></b></div>
+                                <p><?= htmlspecialchars($templatePreviewText) ?></p>
+                                <footer><span><?= htmlspecialchars((string) ($template['category'] ?? 'MARKETING')) ?></span><span><?= htmlspecialchars((string) ($template['language'] ?? 'ar')) ?></span><button type="button" class="secondary template-open-card">فتح</button></footer>
+                            </article>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <article class="template-empty-state">
+                            <b>لا توجد قوالب متزامنة بعد</b>
+                            <span>ابدأ بإنشاء قالب أو نفذ مزامنة من Meta بعد إكمال الربط الرسمي.</span>
+                            <button type="button" data-api="/api/whatsapp/templates/sync" class="secondary api-post">مزامنة الآن</button>
+                        </article>
+                    <?php endif; ?>
+                </div>
+            </section>
         </section>
     <?php endif; ?>
 

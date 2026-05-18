@@ -50,6 +50,7 @@ final class MarketingController
         $platformRoadmap = ['name' => 'Platform Development Roadmap', 'progress' => 0, 'current_phase' => [], 'completed_sections' => [], 'in_development_sections' => [], 'upcoming_sections' => [], 'open_issues' => [], 'phase_tests' => [], 'phases' => []];
         $developmentExecution = ['stats' => [], 'findings' => [], 'tasks' => [], 'logs' => [], 'recommendations' => [], 'config' => []];
         $controlCenter = ['system_status' => [], 'general' => [], 'whatsapp' => [], 'campaign_limits' => [], 'quick_replies' => [], 'users' => [], 'roles' => [], 'permissions' => [], 'companies' => [], 'stores' => [], 'departments' => [], 'subscriptions' => [], 'security' => [], 'api_keys' => [], 'webhooks' => [], 'documents' => [], 'notifications' => [], 'logs' => [], 'branding' => [], 'ai' => [], 'backup' => [], 'launch' => []];
+        $templates = [];
         $loginPortalSessions = [];
         $loginPortalAttempts = [];
         $loginPortalStores = [];
@@ -82,6 +83,9 @@ final class MarketingController
             $platformRoadmap = (new PlatformDevelopmentRoadmapService())->overview($storeId);
             $developmentExecution = (new DevelopmentExecutionService())->dashboard($storeId);
             $controlCenter = (new PlatformControlCenterService())->overview($storeId);
+            $templatesStmt = Database::pdo()->prepare('SELECT id, name, category, language, status, body, updated_at FROM whatsapp_templates WHERE store_id = ? ORDER BY updated_at DESC, id DESC LIMIT 80');
+            $templatesStmt->execute([$storeId]);
+            $templates = $templatesStmt->fetchAll();
             $portalService = new \MarketingCenter\Services\AuthPortalService();
             $loginPortalSessions = $portalService->sessions();
             $loginPortalAttempts = $portalService->loginAttempts(40);
