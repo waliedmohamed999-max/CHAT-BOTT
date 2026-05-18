@@ -1,4 +1,4 @@
-const CACHE_NAME = 'marketing-center-mobile-v11';
+const CACHE_NAME = 'marketing-center-mobile-v12';
 const STATIC_ASSETS = [
   '/assets/app.css',
   '/assets/brand.css',
