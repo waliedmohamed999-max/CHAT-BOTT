@@ -1,10 +1,20 @@
 INSERT INTO stores (id, name, slug, plan, status, created_at, updated_at)
 VALUES (1, 'المتجر الرئيسي', 'main-store', 'professional', 'active', NOW(), NOW())
-ON DUPLICATE KEY UPDATE name = VALUES(name), plan = VALUES(plan), status = VALUES(status), updated_at = NOW();
+ON DUPLICATE KEY UPDATE name = VALUES(name), slug = VALUES(slug), plan = VALUES(plan), status = VALUES(status), updated_at = NOW();
 
 INSERT INTO users (id, store_id, name, email, password_hash, role, created_at, updated_at)
-VALUES (1, 1, 'مدير المنصة', 'admin@marketing-center.local', '$2y$10$CS/mXb7Liocsmpxm5KR0eO7cDkczJkMcVmQyJ0d7U8jLp3HbJ8QSC', 'owner', NOW(), NOW())
+VALUES (1, 1, 'مدير المنصة', 'admin@marketing-center.local', '$2y$10$VKE7iv2aGEGityvnfJE.P./feZ/sWjIBvgeU4HNVWYWB5iWWWAKdi', 'owner', NOW(), NOW())
 ON DUPLICATE KEY UPDATE store_id = VALUES(store_id), name = VALUES(name), role = VALUES(role), updated_at = NOW();
+
+INSERT INTO platform_users (name, email, password_hash, role, status, created_at, updated_at)
+VALUES ('مدير المنصة', 'platform@marketing-center.local', '$2y$10$VKE7iv2aGEGityvnfJE.P./feZ/sWjIBvgeU4HNVWYWB5iWWWAKdi', 'super_admin', 'active', NOW(), NOW())
+ON DUPLICATE KEY UPDATE name = VALUES(name), password_hash = VALUES(password_hash), role = VALUES(role), status = VALUES(status), updated_at = NOW();
+
+INSERT INTO store_users (store_id, name, email, password_hash, role, status, created_at, updated_at) VALUES
+(1, 'مالك المتجر', 'owner@main-store.local', '$2y$10$VKE7iv2aGEGityvnfJE.P./feZ/sWjIBvgeU4HNVWYWB5iWWWAKdi', 'owner', 'active', NOW(), NOW()),
+(1, 'موظف الدعم', 'agent@main-store.local', '$2y$10$VKE7iv2aGEGityvnfJE.P./feZ/sWjIBvgeU4HNVWYWB5iWWWAKdi', 'support_agent', 'active', NOW(), NOW()),
+(1, 'مدير بوابة المتجر', 'tenant@main-store.local', '$2y$10$VKE7iv2aGEGityvnfJE.P./feZ/sWjIBvgeU4HNVWYWB5iWWWAKdi', 'admin', 'active', NOW(), NOW())
+ON DUPLICATE KEY UPDATE name = VALUES(name), password_hash = VALUES(password_hash), role = VALUES(role), status = VALUES(status), updated_at = NOW();
 
 INSERT INTO workspaces (id, store_id, name, slug, status, created_at, updated_at)
 VALUES (1, 1, 'مساحة العمل الرئيسية', 'main-workspace', 'active', NOW(), NOW())

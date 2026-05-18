@@ -109,12 +109,34 @@ $labelText = static function (?string $value): string {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?= htmlspecialchars(\MarketingCenter\Support\Security::csrfToken()) ?>">
+    <meta name="theme-color" content="#334a91">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Marketing Center">
     <title><?= htmlspecialchars($title) ?></title>
+    <link rel="manifest" href="<?= htmlspecialchars($appUrl) ?>/manifest.webmanifest">
     <link rel="stylesheet" href="<?= htmlspecialchars($appUrl) ?>/assets/app.css">
 </head>
 <body>
 <div class="ambient ambient-one"></div>
 <div class="ambient ambient-two"></div>
+
+<header class="mobile-app-header">
+    <button class="mobile-header-btn" data-mobile-menu type="button" aria-label="فتح القائمة">☰</button>
+    <div class="mobile-brand">
+        <span>MC</span>
+        <div>
+            <strong><?= htmlspecialchars($currentLabel) ?></strong>
+            <small>منصة تسويق ذكية</small>
+        </div>
+    </div>
+    <div class="mobile-header-actions">
+        <button class="mobile-header-btn" id="mobileSearch" type="button" aria-label="البحث">⌕</button>
+        <button class="mobile-header-btn notification-dot" type="button" aria-label="التنبيهات">N</button>
+        <button class="mobile-avatar" type="button" aria-label="الملف الشخصي">MC</button>
+    </div>
+</header>
+<div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop"></div>
 
 <aside class="sidebar" id="sidebar">
     <div class="brand">
@@ -2096,12 +2118,23 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 </main>
 
-<nav class="bottom-nav">
-    <?php foreach (['overview', 'campaign-builder', 'inbox', 'analytics'] as $key): ?>
-        <a class="<?= $page === $key ? 'active' : '' ?>" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/<?= $key ?>"><span><?= htmlspecialchars($nav[$key]['icon']) ?></span><?= htmlspecialchars($nav[$key]['label']) ?></a>
+<nav class="bottom-nav" aria-label="تنقل الجوال">
+    <?php
+    $mobileNav = [
+        'overview' => ['label' => 'الرئيسية', 'icon' => '⌂'],
+        'inbox' => ['label' => 'المحادثات', 'icon' => 'IN', 'badge' => '3'],
+        'chatbot-builder' => ['label' => 'البوت', 'icon' => 'BOT'],
+        'campaign-builder' => ['label' => 'الحملات', 'icon' => 'CA'],
+        'contacts' => ['label' => 'العملاء', 'icon' => 'CRM'],
+    ];
+    ?>
+    <?php foreach ($mobileNav as $key => $item): ?>
+        <a class="<?= $page === $key ? 'active' : '' ?>" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/<?= $key ?>" <?= isset($item['badge']) ? 'data-badge="' . htmlspecialchars($item['badge']) . '"' : '' ?>><span><?= htmlspecialchars($item['icon']) ?></span><?= htmlspecialchars($item['label']) ?></a>
     <?php endforeach; ?>
+    <button class="mobile-more" id="mobileMore" type="button"><span>•••</span>المزيد</button>
 </nav>
 
+<button class="mobile-install-app" data-install-pwa type="button">تثبيت التطبيق</button>
 <button class="fab" id="aiFab" type="button">AI</button>
 <section class="ai-widget" id="aiWidget">
     <div class="panel-head"><div><h2>المساعد الذكي</h2><span>مساعد التسويق الذكي</span></div><button class="ghost-btn" id="closeAi" type="button">إغلاق</button></div>

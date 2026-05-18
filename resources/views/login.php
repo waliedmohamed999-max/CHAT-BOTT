@@ -61,7 +61,11 @@ $csrfToken = \MarketingCenter\Support\Security::csrfToken();
         });
         const payload = await response.json().catch(() => ({}));
         if (!response.ok) {
-            errorBox.textContent = payload.message || 'تعذر تسجيل الدخول. تأكد من البيانات.';
+            const messages = {
+                invalid_credentials: 'بيانات الدخول غير صحيحة.',
+                auth_database_unavailable: 'قاعدة البيانات غير متاحة حالياً. فعّل DATABASE_URL أو وضع الدخول التجريبي.',
+            };
+            errorBox.textContent = messages[payload.error] || payload.message || 'تعذر تسجيل الدخول. تأكد من البيانات.';
             return;
         }
         window.location.href = '<?= htmlspecialchars($appUrl) ?>/marketing-center';

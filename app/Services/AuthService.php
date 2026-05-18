@@ -18,9 +18,18 @@ final class AuthService
             throw new \RuntimeException('invalid_credentials');
         }
 
-        $stmt = Database::pdo()->prepare('SELECT * FROM users WHERE email = ? LIMIT 1');
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
+        $demoIdentity = (new DemoAuthService())->legacyIdentity($email, $password);
+        if ($demoIdentity) {
+            return $this->startDemoSession($demoIdentity);
+        }
+
+        try {
+            $stmt = Database::pdo()->prepare('SELECT * FROM users WHERE email = ? LIMIT 1');
+            $stmt->execute([$email]);
+            $user = $stmt->fetch();
+        } catch (\Throwable) {
+            throw new \RuntimeException('auth_database_unavailable');
+        }
 
         if (!$user || !password_verify($password, (string) $user['password_hash'])) {
             $this->logLogin(null, null, $email, 'failed');
@@ -73,6 +82,11 @@ final class AuthService
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
+        }
+
+        $demoUser = (new DemoAuthService())->sessionUser();
+        if ($demoUser) {
+            return $demoUser;
         }
 
         $userId = (int) ($_SESSION['user_id'] ?? 0);
@@ -170,6 +184,36 @@ final class AuthService
             'email' => (string) ($user['email'] ?? ''),
             'role' => (string) ($user['role'] ?? 'viewer'),
             'last_login_at' => $user['last_login_at'] ?? null,
+        ];
+    }
+
+    private function startDemoSession(array $identity): array
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        session_regenerate_id(true);
+
+        $_SESSION['user_id'] = (int) $identity['id'];
+        $_SESSION['role'] = (string) $identity['role'];
+        $_SESSION['portal_type'] = 'legacy';
+        $_SESSION['portal_user_type'] = (string) $identity['user_type'];
+        $_SESSION['active_store_id'] = (int) ($identity['store_id'] ?? Env::get('DEFAULT_STORE_ID', '1'));
+        $_SESSION['authenticated_at'] = time();
+        $_SESSION['demo_user'] = $this->sanitizeDemoIdentity($identity);
+
+        return $this->sanitizeUser($identity, (int) $_SESSION['active_store_id'], null);
+    }
+
+    private function sanitizeDemoIdentity(array $identity): array
+    {
+        return [
+            'id' => (int) $identity['id'],
+            'store_id' => isset($identity['store_id']) ? (int) $identity['store_id'] : null,
+            'user_type' => (string) $identity['user_type'],
+            'name' => (string) $identity['name'],
+            'email' => (string) $identity['email'],
+            'role' => (string) $identity['role'],
         ];
     }
 

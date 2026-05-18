@@ -13,6 +13,14 @@
   },
   "routes": [
     {
+      "src": "/manifest.webmanifest",
+      "dest": "/manifest.webmanifest"
+    },
+    {
+      "src": "/sw.js",
+      "dest": "/sw.js"
+    },
+    {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },

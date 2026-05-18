@@ -6,6 +6,7 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 const sourceAssets = join(root, 'public', 'assets');
 const dist = join(root, 'dist');
 const distAssets = join(dist, 'assets');
+const rootFiles = ['manifest.webmanifest', 'sw.js'];
 
 function copyDirectory(source, destination) {
   mkdirSync(destination, { recursive: true });
@@ -32,6 +33,13 @@ mkdirSync(distAssets, { recursive: true });
 
 if (existsSync(sourceAssets)) {
   copyDirectory(sourceAssets, distAssets);
+}
+
+for (const file of rootFiles) {
+  const sourcePath = join(root, 'public', file);
+  if (existsSync(sourcePath)) {
+    copyFileSync(sourcePath, join(dist, file));
+  }
 }
 
 writeFileSync(

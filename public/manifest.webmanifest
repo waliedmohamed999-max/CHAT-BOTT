@@ -1,0 +1,39 @@
+{
+  "name": "Marketing Center",
+  "short_name": "Marketing",
+  "description": "Mobile-first SaaS dashboard for marketing, inbox, WhatsApp, CRM, chatbot, and analytics.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/marketing-center",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f6f7f9",
+  "theme_color": "#334a91",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/assets/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Inbox",
+      "short_name": "Inbox",
+      "url": "/marketing-center/inbox"
+    },
+    {
+      "name": "Chatbot Builder",
+      "short_name": "Bot",
+      "url": "/marketing-center/chatbot-builder"
+    },
+    {
+      "name": "Campaigns",
+      "short_name": "Campaigns",
+      "url": "/marketing-center/campaign-builder"
+    }
+  ]
+}

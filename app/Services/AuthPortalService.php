@@ -108,7 +108,12 @@ final class AuthPortalService
 
         $this->assertNotLocked($email, $portal);
 
+        $demoAuth = new DemoAuthService();
         $identity = $this->identityForPortal($portal, $email, $storeCode);
+        if (!$identity) {
+            $identity = $demoAuth->portalIdentity($portal, $email, $storeCode);
+        }
+
         if (!$identity || !password_verify($password, (string) $identity['password_hash'])) {
             $this->recordAttempt($email, $portal, $identity['store_id'] ?? null, false, 'invalid_credentials');
             throw new \RuntimeException('invalid_credentials');
@@ -356,6 +361,11 @@ final class AuthPortalService
         $_SESSION['active_store_id'] = isset($identity['store_id']) ? (int) $identity['store_id'] : null;
         $_SESSION['authenticated_at'] = time();
         $_SESSION['remember_login'] = $remember;
+        if (!empty($identity['is_demo'])) {
+            $_SESSION['demo_user'] = $this->demoSessionIdentity($identity);
+        } else {
+            unset($_SESSION['demo_user']);
+        }
     }
 
     private function touchLastLogin(array $identity): void
@@ -435,6 +445,18 @@ final class AuthPortalService
             'type' => (string) $identity['user_type'],
             'store_id' => isset($identity['store_id']) ? (int) $identity['store_id'] : null,
             'store_slug' => $identity['store_slug'] ?? null,
+            'name' => (string) ($identity['name'] ?? ''),
+            'email' => (string) ($identity['email'] ?? ''),
+            'role' => (string) ($identity['role'] ?? 'viewer'),
+        ];
+    }
+
+    private function demoSessionIdentity(array $identity): array
+    {
+        return [
+            'id' => (int) $identity['id'],
+            'store_id' => isset($identity['store_id']) ? (int) $identity['store_id'] : null,
+            'user_type' => (string) $identity['user_type'],
             'name' => (string) ($identity['name'] ?? ''),
             'email' => (string) ($identity['email'] ?? ''),
             'role' => (string) ($identity['role'] ?? 'viewer'),

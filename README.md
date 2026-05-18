@@ -481,3 +481,28 @@ META_WEBHOOK_SECRET=...
 ```
 
 استخدم قاعدة بيانات MySQL خارجية لأن Vercel Serverless لا يوفر MySQL محلياً ولا تخزين دائم للملفات. خدمة `bridge/` الخاصة بـ WhatsApp QR Session يجب تشغيلها كخدمة Node منفصلة على VPS أو Railway أو Render لأنها تحتاج جلسة طويلة واتصال WebSocket دائم.
+## Demo Login Accounts
+
+Create or refresh local test accounts with:
+
+```bash
+php bin/create-demo-logins.php
+```
+
+Default demo password for all accounts:
+
+```text
+DemoPass123!
+```
+
+| Portal | URL | Email | Extra field |
+| --- | --- | --- | --- |
+| Internal system | `/login` | `admin@marketing-center.local` | - |
+| Platform admin | `/platform/login` | `platform@marketing-center.local` | - |
+| Store owner | `/store/login` | `owner@main-store.local` | store code optional: `main-store` |
+| Agent | `/agent/login` | `agent@main-store.local` | store code: `main-store` |
+| White label tenant | `/tenant/main-store/login` | `tenant@main-store.local` | tenant slug: `main-store` |
+
+These accounts are for local testing only. Change or remove them before production.
+
+For preview deployments without a database, the app can use the same demo logins when `DEMO_LOGIN_ENABLED=true` or when `APP_ENV` is not `production` and `DATABASE_URL` is not configured. For a real production launch, set `APP_ENV=production`, configure `DATABASE_URL`, and keep `DEMO_LOGIN_ENABLED=false`.

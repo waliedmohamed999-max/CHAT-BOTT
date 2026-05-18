@@ -5,7 +5,15 @@ const commandPalette = document.getElementById('commandPalette');
 const commandSearch = document.getElementById('commandSearch');
 const aiWidget = document.getElementById('aiWidget');
 const sidebar = document.getElementById('sidebar');
+const drawerBackdrop = document.getElementById('mobileDrawerBackdrop');
 const nativeFetch = window.fetch.bind(window);
+
+function syncViewportHeight() {
+    root.style.setProperty('--app-vh', `${window.innerHeight * 0.01}px`);
+}
+
+syncViewportHeight();
+window.addEventListener('resize', syncViewportHeight, {passive: true});
 
 function currentCsrfToken() {
     return window.MC_CSRF_TOKEN || document.querySelector('meta[name="csrf-token"]')?.content || '';
@@ -54,6 +62,16 @@ function closeCommandPalette() {
     commandPalette?.setAttribute('aria-hidden', 'true');
 }
 
+function openMobileDrawer() {
+    sidebar?.classList.add('open');
+    body.classList.add('mobile-drawer-open');
+}
+
+function closeMobileDrawer() {
+    sidebar?.classList.remove('open');
+    body.classList.remove('mobile-drawer-open');
+}
+
 document.getElementById('themeToggle')?.addEventListener('click', () => {
     root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
     localStorage.setItem('marketing_center_theme', root.dataset.theme);
@@ -74,6 +92,7 @@ document.addEventListener('keydown', (event) => {
     }
     if (event.key === 'Escape') {
         closeCommandPalette();
+        closeMobileDrawer();
         aiWidget?.classList.remove('open');
     }
 });
@@ -91,13 +110,53 @@ document.getElementById('collapseSidebar')?.addEventListener('click', () => {
     localStorage.setItem('marketing_center_sidebar', sidebar?.classList.contains('collapsed') ? 'collapsed' : 'open');
 });
 
-document.getElementById('mobileMenu')?.addEventListener('click', () => {
-    sidebar?.classList.toggle('open');
+document.querySelectorAll('[data-mobile-menu], #mobileMenu').forEach((button) => {
+    button.addEventListener('click', () => {
+        if (sidebar?.classList.contains('open')) {
+            closeMobileDrawer();
+            return;
+        }
+        openMobileDrawer();
+    });
 });
 
 document.querySelectorAll('.side-nav a').forEach((link) => {
-    link.addEventListener('click', () => sidebar?.classList.remove('open'));
+    link.addEventListener('click', closeMobileDrawer);
 });
+
+drawerBackdrop?.addEventListener('click', closeMobileDrawer);
+document.getElementById('mobileSearch')?.addEventListener('click', openCommandPalette);
+document.getElementById('mobileMore')?.addEventListener('click', openCommandPalette);
+
+let touchStartX = 0;
+let touchStartY = 0;
+let edgeSwipeStarted = false;
+
+window.addEventListener('touchstart', (event) => {
+    const touch = event.touches[0];
+    if (!touch || window.innerWidth > 760) return;
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    edgeSwipeStarted = touchStartX > window.innerWidth - 28;
+}, {passive: true});
+
+window.addEventListener('touchend', (event) => {
+    if (window.innerWidth > 760) return;
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = Math.abs(touch.clientY - touchStartY);
+
+    if (edgeSwipeStarted && deltaX < -48 && deltaY < 70) {
+        openMobileDrawer();
+    }
+
+    if (body.classList.contains('mobile-drawer-open') && deltaX > 56 && deltaY < 70) {
+        closeMobileDrawer();
+    }
+
+    edgeSwipeStarted = false;
+}, {passive: true});
 
 if (localStorage.getItem('marketing_center_sidebar') === 'collapsed') {
     sidebar?.classList.add('collapsed');
@@ -106,6 +165,53 @@ if (localStorage.getItem('marketing_center_sidebar') === 'collapsed') {
 
 document.getElementById('aiFab')?.addEventListener('click', () => aiWidget?.classList.toggle('open'));
 document.getElementById('closeAi')?.addEventListener('click', () => aiWidget?.classList.remove('open'));
+
+function addMobileTableLabels() {
+    document.querySelectorAll('.data-table, .table-like').forEach((table) => {
+        const headers = Array.from(table.querySelectorAll(':scope > b')).map((header) => header.textContent.trim());
+        if (!headers.length) return;
+
+        Array.from(table.children).forEach((cell) => {
+            if (cell.tagName === 'B') return;
+            const cells = Array.from(table.children).filter((item) => item.tagName !== 'B');
+            const index = cells.indexOf(cell);
+            const header = headers[index % headers.length] || '';
+            cell.dataset.label = header;
+            cell.classList.toggle('mobile-row-start', index % headers.length === 0);
+            cell.classList.toggle('mobile-row-end', index % headers.length === headers.length - 1);
+        });
+    });
+}
+
+addMobileTableLabels();
+
+let installPromptEvent = null;
+window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    installPromptEvent = event;
+    body.classList.add('pwa-install-ready');
+});
+
+document.addEventListener('click', async (event) => {
+    const installButton = event.target.closest('[data-install-pwa]');
+    if (!installButton || !installPromptEvent) return;
+    installPromptEvent.prompt();
+    await installPromptEvent.userChoice.catch(() => null);
+    installPromptEvent = null;
+    body.classList.remove('pwa-install-ready');
+});
+
+window.addEventListener('appinstalled', () => {
+    installPromptEvent = null;
+    body.classList.remove('pwa-install-ready');
+    showToast('تم تثبيت التطبيق بنجاح');
+});
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register(`${window.MC_APP_URL || ''}/sw.js`).catch(() => {});
+    });
+}
 
 document.querySelectorAll('.counter').forEach((counter) => {
     const target = Number(counter.dataset.count || counter.textContent.replace(/[^\d]/g, '') || 0);

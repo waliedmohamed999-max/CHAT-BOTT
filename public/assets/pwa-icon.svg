@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Marketing Center">
+  <rect width="512" height="512" rx="112" fill="#334a91"/>
+  <path d="M96 332V164h58l43 78 43-78h58v168h-47V239l-37 67h-35l-37-67v93H96Zm235 0V164h91c46 0 78 28 78 69 0 42-32 70-78 70h-44v29h-47Zm47-69h39c22 0 35-11 35-30 0-18-13-29-35-29h-39v59Z" fill="#fff"/>
+  <circle cx="404" cy="108" r="38" fill="#5aa9b8"/>
+</svg>

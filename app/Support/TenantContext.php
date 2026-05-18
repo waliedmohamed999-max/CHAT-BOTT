@@ -28,9 +28,15 @@ final class TenantContext
 
     public static function assertStoreAccess(int $storeId): void
     {
-        if (Rbac::role() === 'owner' || Rbac::role() === 'admin') {
+        $role = Rbac::role();
+        if (in_array($role, ['owner', 'admin', 'super_admin', 'platform_admin', 'operations_team'], true)) {
             return;
         }
+
+        if ((int) ($_SESSION['active_store_id'] ?? 0) === $storeId) {
+            return;
+        }
+
         try {
             $stmt = Database::pdo()->prepare("SELECT id FROM workspace_members WHERE store_id = ? AND user_id = ? AND status = 'active' LIMIT 1");
             $stmt->execute([$storeId, Rbac::userId()]);
