@@ -1108,6 +1108,49 @@ textarea {
     }
 }
 
+/* Chatbot inspector visibility fix */
+.page-chatbot-builder .bot-node-settings {
+    align-content: start !important;
+}
+
+.page-chatbot-builder .bot-node-settings .settings-title {
+    position: relative !important;
+    top: auto !important;
+    z-index: 1 !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding: 14px 14px 12px !important;
+    border: 1px solid rgba(16,24,40,.08) !important;
+    border-radius: 20px !important;
+    background: rgba(255,255,255,.92) !important;
+    backdrop-filter: none !important;
+}
+
+.page-chatbot-builder .bot-node-settings .component-palette {
+    flex: 0 0 auto !important;
+    min-height: 142px !important;
+    max-height: none !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.page-chatbot-builder .bot-node-settings .component-palette button {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-width: 0 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+}
+
+.page-chatbot-builder .bot-node-settings > label,
+.page-chatbot-builder .bot-node-settings .settings-checks,
+.page-chatbot-builder .bot-node-settings .bot-settings-menu,
+.page-chatbot-builder .bot-node-settings .autosave-state,
+.page-chatbot-builder .bot-node-settings .button-row {
+    flex: 0 0 auto !important;
+}
+
 /* Chatbot bottom status and floating chrome cleanup */
 .page-chatbot-builder .bottom-nav,
 .page-chatbot-builder .mobile-install-app {
