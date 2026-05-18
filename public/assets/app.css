@@ -1255,34 +1255,36 @@ label { display: grid; gap: 8px; color: var(--muted); }
 }
 .settings-hub-grid {
     display: grid;
-    gap: 12px;
+    gap: 16px;
 }
 .settings-route-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
 }
 .settings-hub-card {
     position: relative;
-    min-height: 164px;
+    min-height: 158px;
     display: grid;
-    grid-template-columns: 64px minmax(0, 1fr) minmax(148px, auto);
-    align-items: center;
-    gap: 16px;
-    padding: 20px;
+    grid-template-columns: 78px minmax(0, 1fr) minmax(230px, 280px);
+    align-items: stretch;
+    gap: 20px;
+    padding: 22px;
     border: 1px solid rgba(51,74,145,.12);
-    border-radius: 22px;
+    border-radius: 24px;
     background:
-        radial-gradient(circle at 100% 0%, rgba(90,169,184,.10), transparent 34%),
+        radial-gradient(circle at 100% 0%, rgba(90,169,184,.12), transparent 32%),
+        radial-gradient(circle at 0% 100%, rgba(51,74,145,.08), transparent 34%),
         linear-gradient(90deg, rgba(255,255,255,.94), rgba(250,252,255,.88)),
         var(--surface);
     box-shadow: var(--shadow-soft);
     color: var(--text);
+    text-align: start;
     overflow: hidden;
     transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
 .settings-hub-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     border-color: rgba(51,74,145,.24);
-    box-shadow: 0 18px 45px rgba(31, 42, 68, .11);
+    box-shadow: 0 22px 56px rgba(31, 42, 68, .13);
     background:
         radial-gradient(circle at 0% 50%, rgba(90,169,184,.08), transparent 28%),
         linear-gradient(90deg, rgba(255,255,255,.98), rgba(246,249,255,.94));
@@ -1297,29 +1299,36 @@ label { display: grid; gap: 8px; color: var(--muted); }
     opacity: .85;
 }
 .settings-hub-icon {
-    width: 62px;
-    height: 62px;
+    width: 70px;
+    height: 70px;
     display: grid;
     place-items: center;
     border-radius: 50%;
     color: #fff;
     background: linear-gradient(135deg, var(--primary-3), var(--primary));
     font-weight: 900;
-    box-shadow: 0 14px 28px rgba(51,74,145,.18);
+    box-shadow: 0 18px 34px rgba(51,74,145,.20);
+    align-self: center;
 }
 .settings-route-main {
     display: grid;
-    gap: 9px;
+    align-content: center;
+    gap: 10px;
     min-width: 0;
 }
-.settings-route-topline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+.settings-route-kicker {
+    width: max-content;
+    max-width: 100%;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: var(--primary-3);
+    background: rgba(90,169,184,.08);
+    border: 1px solid rgba(90,169,184,.16);
+    font-size: 11px;
+    font-weight: 950;
 }
 .settings-hub-card strong {
-    font-size: 19px;
+    font-size: clamp(20px, 2vw, 25px);
     line-height: 1.4;
 }
 .settings-hub-card p {
@@ -1327,10 +1336,14 @@ label { display: grid; gap: 8px; color: var(--muted); }
     margin: 0;
     color: var(--muted);
     line-height: 1.65;
-    font-size: 13px;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 .settings-route-path {
-    width: max-content;
+    width: 100%;
     max-width: 100%;
     direction: ltr;
     text-align: left;
@@ -1346,7 +1359,8 @@ label { display: grid; gap: 8px; color: var(--muted); }
     font-size: 11px;
 }
 .settings-route-progress {
-    height: 6px;
+    width: 100%;
+    height: 8px;
     overflow: hidden;
     border-radius: 999px;
     background: rgba(31,42,68,.08);
@@ -1359,39 +1373,42 @@ label { display: grid; gap: 8px; color: var(--muted); }
 }
 .settings-route-side {
     display: grid;
-    gap: 12px;
-    justify-items: end;
-    align-self: stretch;
-    padding-inline-start: 12px;
+    align-content: center;
+    gap: 10px;
+    justify-items: stretch;
+    padding: 14px;
     border-inline-start: 1px solid rgba(31,42,68,.08);
+    border-radius: 18px;
+    background: rgba(255,255,255,.66);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.84);
+}
+.settings-route-side .status-pill {
+    justify-content: center;
+    text-align: center;
 }
 .settings-hub-card em {
-    width: max-content;
+    width: 100%;
     padding: 7px 10px;
-    border-radius: 999px;
+    border-radius: 12px;
     color: var(--primary);
     background: rgba(51,74,145,.08);
     font-style: normal;
     font-size: 12px;
     font-weight: 900;
+    text-align: center;
 }
 .settings-hub-card b {
-    margin-top: auto;
-    color: var(--primary-3);
+    min-height: 40px;
+    justify-content: center;
+    padding: 0 12px;
+    border-radius: 14px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-3), var(--primary));
     font-size: 13px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-}
-.settings-route-side small {
-    width: max-content;
-    padding: 7px 10px;
-    border: 1px solid rgba(90,169,184,.18);
-    border-radius: 999px;
-    color: var(--muted);
-    background: rgba(90,169,184,.06);
-    font-size: 11px;
-    font-weight: 900;
+    box-shadow: 0 14px 26px rgba(51,74,145,.18);
 }
 .settings-hub-card[hidden] {
     display: none;
@@ -4078,7 +4095,22 @@ body.safe-mode * {
     .portal-security-grid { grid-template-columns: 1fr; }
     .shell, body.sidebar-collapsed .shell { margin-right: 0; padding: 16px 16px 92px; }
     .bottom-nav { display: grid; }
-    .metric-grid, .workspace-grid, .panel-grid, .builder, .inbox, .qr-layout, .setup-center-hero, .readiness-board, .chatbot-hero, .chatbot-health-grid, .chatbot-diagnostics-grid, .advanced-settings, .settings-deck, .omni-hero, .omni-inbox-grid, .channel-grid, .mini-channel-grid, .wa-builder-layout, .department-grid, .chatbot-bottom-grid, .flow-status-cards, .ai-agent-grid, .knowledge-layout, .revenue-flow-grid, .revenue-engine-hero, .saas-hero, .plans-grid, .ai-bi-hero, .ai-bi-grid, .marketplace-hero, .marketplace-grid, .app-store-grid, .enterprise-hero, .enterprise-grid, .commerce-os-hero, .commerce-os-grid, .os-agent-grid, .env-grid, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .login-portal-grid, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .control-center-hero, .control-center-layout, .executive-overview-grid, .settings-quick-actions, .quick-action-strip, .settings-command-panel, .settings-hub-grid, .settings-route-grid, .settings-route-toolbar, .executive-bottom-grid, .system-health-grid, .control-grid, .permission-layout, .control-split, .control-metrics { grid-template-columns: 1fr; }
+    .metric-grid, .workspace-grid, .panel-grid, .builder, .inbox, .qr-layout, .setup-center-hero, .readiness-board, .chatbot-hero, .chatbot-health-grid, .chatbot-diagnostics-grid, .advanced-settings, .settings-deck, .omni-hero, .omni-inbox-grid, .channel-grid, .mini-channel-grid, .wa-builder-layout, .department-grid, .chatbot-bottom-grid, .flow-status-cards, .ai-agent-grid, .knowledge-layout, .revenue-flow-grid, .revenue-engine-hero, .saas-hero, .plans-grid, .ai-bi-hero, .ai-bi-grid, .marketplace-hero, .marketplace-grid, .app-store-grid, .enterprise-hero, .enterprise-grid, .commerce-os-hero, .commerce-os-grid, .os-agent-grid, .env-grid, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .login-portal-grid, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact, .control-center-hero, .control-center-layout, .executive-overview-grid, .settings-quick-actions, .quick-action-strip, .settings-command-panel, .settings-hub-grid, .settings-route-toolbar, .executive-bottom-grid, .system-health-grid, .control-grid, .permission-layout, .control-split, .control-metrics { grid-template-columns: 1fr; }
+    .settings-route-grid { grid-template-columns: 1fr; }
+    .settings-hub-card {
+        grid-template-columns: 70px minmax(0, 1fr);
+    }
+    .settings-route-side {
+        grid-column: 1 / -1;
+        grid-template-columns: minmax(120px, .65fr) minmax(0, 1fr) minmax(150px, auto);
+        align-items: center;
+        border-inline-start: 0;
+        border-top: 1px solid rgba(31,42,68,.08);
+    }
+    .settings-route-path {
+        order: 4;
+        grid-column: 1 / -1;
+    }
     .control-sidebar { position: relative; top: auto; }
     .settings-save-bar { right: 16px; left: 16px; bottom: 92px; }
     .flow-library-item { grid-template-columns: 1fr; }
@@ -4104,24 +4136,26 @@ body.safe-mode * {
     .executive-control-hero { min-height: auto; }
     .launch-radar { width: 126px; }
     .settings-hub-card {
-        grid-template-columns: 48px minmax(0, 1fr);
+        grid-template-columns: 56px minmax(0, 1fr);
         align-items: start;
-        min-height: auto;
+        min-height: 190px;
+        padding: 16px;
+        gap: 14px;
     }
-    .settings-hub-icon { width: 48px; height: 48px; }
+    .settings-hub-icon { width: 54px; height: 54px; }
+    .settings-hub-card strong { font-size: 19px; }
+    .settings-hub-card p { font-size: 13px; -webkit-line-clamp: 3; }
     .settings-route-side {
         grid-column: 1 / -1;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr;
         align-items: center;
         justify-items: stretch;
         border-inline-start: 0;
         border-top: 1px solid rgba(31,42,68,.08);
-        padding: 12px 0 0;
+        padding: 12px;
     }
-    .settings-route-topline {
-        align-items: flex-start;
-        flex-direction: column;
-    }
+    .settings-route-kicker { font-size: 10px; }
+    .settings-route-path { order: unset; grid-column: auto; }
     .activity-timeline article { grid-template-columns: 12px minmax(0, 1fr); }
     .activity-timeline time { grid-column: 2; }
     .fab { width: 52px; height: 52px; left: 16px; }

@@ -2529,6 +2529,7 @@ $labelText = static function (?string $value): string {
                         $routePath = '/marketing-center/settings/' . $key;
                         $health = $settingHealth[$key] ?? ['class' => 'pending', 'label' => 'قيد المراجعة', 'progress' => 50];
                         $category = $settingCategories[$key] ?? 'core';
+                        $categoryLabel = $settingCategoryLabels[$category] ?? 'تشغيل';
                     ?>
                     <a class="settings-hub-card settings-route-card"
                        href="<?= htmlspecialchars($appUrl) . htmlspecialchars($routePath) ?>"
@@ -2538,18 +2539,16 @@ $labelText = static function (?string $value): string {
                         <span class="settings-card-accent"></span>
                         <span class="settings-hub-icon"><?= htmlspecialchars($settingIcons[$key] ?? 'ST') ?></span>
                         <span class="settings-route-main">
-                            <span class="settings-route-topline">
-                                <strong><?= htmlspecialchars($label) ?></strong>
-                                <span class="status-pill <?= htmlspecialchars($health['class']) ?>"><?= htmlspecialchars($health['label']) ?></span>
-                            </span>
+                            <span class="settings-route-kicker"><?= htmlspecialchars($categoryLabel) ?></span>
+                            <strong><?= htmlspecialchars($label) ?></strong>
                             <p><?= htmlspecialchars($settingDescriptions[$key] ?? 'إدارة هذا القسم من مركز التحكم.') ?></p>
-                            <span class="settings-route-path"><?= htmlspecialchars($routePath) ?></span>
-                            <span class="settings-route-progress" aria-hidden="true"><i style="width: <?= (int) $health['progress'] ?>%"></i></span>
                         </span>
-                            <span class="settings-route-side">
-                                <em><?= htmlspecialchars((string) ($settingStats[$key] ?? 'جاهز')) ?></em>
+                        <span class="settings-route-side">
+                            <span class="status-pill <?= htmlspecialchars($health['class']) ?>"><?= htmlspecialchars($health['label']) ?></span>
+                            <em><?= htmlspecialchars((string) ($settingStats[$key] ?? 'جاهز')) ?></em>
+                            <span class="settings-route-progress" aria-hidden="true"><i style="width: <?= (int) $health['progress'] ?>%"></i></span>
+                            <span class="settings-route-path"><?= htmlspecialchars($routePath) ?></span>
                             <b>فتح القسم <span>←</span></b>
-                            <small>إعداد سريع</small>
                         </span>
                     </a>
                 <?php endforeach; ?>
