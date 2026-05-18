@@ -299,6 +299,28 @@ document.querySelector('.control-search')?.addEventListener('input', (event) => 
         section.style.display = !term || section.textContent.toLowerCase().includes(term) ? '' : 'none';
     });
 });
+const settingsCards = Array.from(document.querySelectorAll('[data-settings-card]'));
+const settingsSearchInput = document.querySelector('[data-settings-search]');
+let activeSettingsFilter = 'all';
+function normalizeSettingsText(value) {
+    return String(value || '').toLowerCase().trim();
+}
+function filterSettingsCards() {
+    const term = normalizeSettingsText(settingsSearchInput?.value);
+    settingsCards.forEach((card) => {
+        const matchesFilter = activeSettingsFilter === 'all' || card.dataset.category === activeSettingsFilter;
+        const matchesSearch = !term || normalizeSettingsText(card.dataset.search || card.textContent).includes(term);
+        card.hidden = !(matchesFilter && matchesSearch);
+    });
+}
+document.querySelectorAll('[data-settings-filter]').forEach((button) => {
+    button.addEventListener('click', () => {
+        activeSettingsFilter = button.dataset.settingsFilter || 'all';
+        document.querySelectorAll('[data-settings-filter]').forEach((item) => item.classList.toggle('active', item === button));
+        filterSettingsCards();
+    });
+});
+settingsSearchInput?.addEventListener('input', filterSettingsCards);
 document.querySelectorAll('[data-control-link]').forEach((link) => {
     link.addEventListener('click', () => {
         document.querySelectorAll('[data-control-link]').forEach((item) => item.classList.remove('active'));

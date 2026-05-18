@@ -2351,6 +2351,42 @@ $labelText = static function (?string $value): string {
                 'notifications' => 'NO', 'logs' => 'LG', 'branding' => 'BR', 'ai' => 'AI',
                 'backup' => 'BK', 'launch' => 'GO',
             ];
+            $settingCategories = [
+                'general' => 'core', 'whatsapp' => 'messaging', 'campaigns' => 'messaging', 'quick-replies' => 'messaging',
+                'users' => 'access', 'roles' => 'access', 'security' => 'access',
+                'companies' => 'operations', 'departments' => 'operations', 'billing' => 'operations',
+                'developer' => 'governance', 'documents' => 'governance', 'notifications' => 'governance', 'logs' => 'governance',
+                'branding' => 'experience', 'ai' => 'experience', 'backup' => 'governance', 'launch' => 'governance',
+            ];
+            $settingCategoryLabels = [
+                'all' => 'كل المسارات',
+                'core' => 'الأساس',
+                'messaging' => 'واتساب والحملات',
+                'access' => 'الوصول والأمان',
+                'operations' => 'التشغيل',
+                'governance' => 'الحوكمة',
+                'experience' => 'التجربة والذكاء',
+            ];
+            $settingHealth = [
+                'general' => ['class' => 'ok', 'label' => 'جاهز', 'progress' => 92],
+                'whatsapp' => ['class' => (($ccWhatsapp['meta_status'] ?? '') === 'connected' || ($ccWhatsapp['qr_status'] ?? '') === 'connected') ? 'ok' : 'pending', 'label' => (($ccWhatsapp['meta_status'] ?? '') === 'connected' || ($ccWhatsapp['qr_status'] ?? '') === 'connected') ? 'متصل' : 'يحتاج ربط', 'progress' => (($ccWhatsapp['meta_status'] ?? '') === 'connected' || ($ccWhatsapp['qr_status'] ?? '') === 'connected') ? 86 : 54],
+                'campaigns' => ['class' => ((int) ($ccLimits['daily_messages'] ?? 0) > 0) ? 'ok' : 'pending', 'label' => ((int) ($ccLimits['daily_messages'] ?? 0) > 0) ? 'محددة' : 'اضبط الحدود', 'progress' => ((int) ($ccLimits['daily_messages'] ?? 0) > 0) ? 88 : 58],
+                'quick-replies' => ['class' => 'ok', 'label' => 'جاهزة', 'progress' => 84],
+                'users' => ['class' => count((array) $ccUsers) > 0 ? 'ok' : 'pending', 'label' => count((array) $ccUsers) > 0 ? 'نشط' : 'أضف مستخدمين', 'progress' => count((array) $ccUsers) > 0 ? 82 : 45],
+                'roles' => ['class' => count((array) $ccRoles) > 0 ? 'ok' : 'pending', 'label' => count((array) $ccRoles) > 0 ? 'مكتمل' : 'راجع RBAC', 'progress' => count((array) $ccRoles) > 0 ? 90 : 50],
+                'companies' => ['class' => count((array) $ccStores) > 0 ? 'ok' : 'pending', 'label' => count((array) $ccStores) > 0 ? 'متاجر فعالة' : 'أضف متجر', 'progress' => count((array) $ccStores) > 0 ? 84 : 48],
+                'departments' => ['class' => count((array) $ccDepartments) > 0 ? 'ok' : 'pending', 'label' => count((array) $ccDepartments) > 0 ? 'مهيأ' : 'أضف أقسام', 'progress' => count((array) $ccDepartments) > 0 ? 80 : 44],
+                'billing' => ['class' => 'pending', 'label' => 'يحتاج مراجعة', 'progress' => 64],
+                'security' => ['class' => (!empty($ccSecurity['jwt_secret_present']) && !empty($ccSecurity['encryption_key_present'])) ? 'ok' : 'danger', 'label' => (!empty($ccSecurity['jwt_secret_present']) && !empty($ccSecurity['encryption_key_present'])) ? 'محمي' : 'أسرار ناقصة', 'progress' => (!empty($ccSecurity['jwt_secret_present']) && !empty($ccSecurity['encryption_key_present'])) ? 90 : 38],
+                'developer' => ['class' => count((array) $ccWebhooks) > 0 ? 'ok' : 'pending', 'label' => count((array) $ccWebhooks) > 0 ? 'Webhooks نشطة' : 'اختبر الربط', 'progress' => count((array) $ccWebhooks) > 0 ? 78 : 52],
+                'documents' => ['class' => count((array) $ccDocuments) > 0 ? 'ok' : 'pending', 'label' => count((array) $ccDocuments) > 0 ? 'مرفوعة' : 'بانتظار ملفات', 'progress' => count((array) $ccDocuments) > 0 ? 76 : 42],
+                'notifications' => ['class' => 'ok', 'label' => 'مضبوطة', 'progress' => 78],
+                'logs' => ['class' => count((array) ($ccLogs['audit'] ?? [])) > 0 ? 'ok' : 'pending', 'label' => count((array) ($ccLogs['audit'] ?? [])) > 0 ? 'يسجل' : 'قليل السجلات', 'progress' => count((array) ($ccLogs['audit'] ?? [])) > 0 ? 82 : 56],
+                'branding' => ['class' => 'ok', 'label' => 'متناسقة', 'progress' => 74],
+                'ai' => ['class' => !empty($ccAi['enabled']) ? 'ok' : 'pending', 'label' => !empty($ccAi['enabled']) ? 'AI مفعل' : 'AI معطل', 'progress' => !empty($ccAi['enabled']) ? 82 : 50],
+                'backup' => ['class' => count((array) ($ccBackup['jobs'] ?? [])) > 0 ? 'ok' : 'pending', 'label' => count((array) ($ccBackup['jobs'] ?? [])) > 0 ? 'مجدول' : 'أنشئ نسخة', 'progress' => count((array) ($ccBackup['jobs'] ?? [])) > 0 ? 80 : 46],
+                'launch' => ['class' => ((int) ($ccLaunch['score'] ?? 0) >= 80) ? 'ok' : (((int) ($ccLaunch['score'] ?? 0) >= 60) ? 'pending' : 'danger'), 'label' => ((int) ($ccLaunch['score'] ?? 0) >= 80) ? 'جاهز' : 'قيد المراجعة', 'progress' => max(0, min(100, (int) ($ccLaunch['score'] ?? 0)))],
+            ];
         ?>
         <section class="panel wide control-center-hero">
             <div>
@@ -2371,14 +2407,52 @@ $labelText = static function (?string $value): string {
         </section>
 
         <?php if ($settingsOverview): ?>
-            <section class="settings-hub-grid" aria-label="أقسام مركز تحكم المنصة">
+            <section class="settings-command-panel panel" aria-label="أدوات مركز تحكم المنصة">
+                <div>
+                    <span class="premium-pill">Control Routes</span>
+                    <h3>مسارات التحكم التشغيلية</h3>
+                    <p>اختر القسم المطلوب لإدارته. كل بطاقة تفتح مساراً مستقلاً وتعرض حالة القسم الحالية قبل الدخول.</p>
+                </div>
+                <div class="settings-hub-tools">
+                    <label class="settings-hub-search">
+                        <span>بحث سريع</span>
+                        <input type="search" placeholder="ابحث عن مسار، صلاحية، واتساب، Webhook..." data-settings-search>
+                    </label>
+                    <div class="settings-filter-pills" role="list" aria-label="تصفية أقسام الإعدادات">
+                        <?php foreach ($settingCategoryLabels as $categoryKey => $categoryLabel): ?>
+                            <button class="<?= $categoryKey === 'all' ? 'active' : '' ?>" type="button" data-settings-filter="<?= htmlspecialchars($categoryKey) ?>"><?= htmlspecialchars($categoryLabel) ?></button>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </section>
+
+            <section class="settings-hub-grid settings-route-grid" aria-label="أقسام مركز تحكم المنصة">
                 <?php foreach ($settingSections as $key => $label): ?>
-                    <a class="settings-hub-card" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/settings/<?= htmlspecialchars($key) ?>">
+                    <?php
+                        $routePath = '/marketing-center/settings/' . $key;
+                        $health = $settingHealth[$key] ?? ['class' => 'pending', 'label' => 'قيد المراجعة', 'progress' => 50];
+                        $category = $settingCategories[$key] ?? 'core';
+                    ?>
+                    <a class="settings-hub-card settings-route-card"
+                       href="<?= htmlspecialchars($appUrl) . htmlspecialchars($routePath) ?>"
+                       data-settings-card
+                       data-category="<?= htmlspecialchars($category) ?>"
+                       data-search="<?= htmlspecialchars($label . ' ' . ($settingDescriptions[$key] ?? '') . ' ' . $routePath . ' ' . ($settingStats[$key] ?? '')) ?>">
+                        <span class="settings-card-accent"></span>
                         <span class="settings-hub-icon"><?= htmlspecialchars($settingIcons[$key] ?? 'ST') ?></span>
-                        <strong><?= htmlspecialchars($label) ?></strong>
-                        <p><?= htmlspecialchars($settingDescriptions[$key] ?? 'إدارة هذا القسم من مركز التحكم.') ?></p>
-                        <em><?= htmlspecialchars((string) ($settingStats[$key] ?? 'جاهز')) ?></em>
-                        <b>فتح المسار</b>
+                        <span class="settings-route-main">
+                            <span class="settings-route-topline">
+                                <strong><?= htmlspecialchars($label) ?></strong>
+                                <span class="status-pill <?= htmlspecialchars($health['class']) ?>"><?= htmlspecialchars($health['label']) ?></span>
+                            </span>
+                            <p><?= htmlspecialchars($settingDescriptions[$key] ?? 'إدارة هذا القسم من مركز التحكم.') ?></p>
+                            <span class="settings-route-path"><?= htmlspecialchars($routePath) ?></span>
+                            <span class="settings-route-progress" aria-hidden="true"><i style="width: <?= (int) $health['progress'] ?>%"></i></span>
+                        </span>
+                        <span class="settings-route-side">
+                            <em><?= htmlspecialchars((string) ($settingStats[$key] ?? 'جاهز')) ?></em>
+                            <b>فتح المسار <span>←</span></b>
+                        </span>
                     </a>
                 <?php endforeach; ?>
             </section>
