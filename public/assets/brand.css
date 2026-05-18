@@ -3424,3 +3424,45 @@ body.page-campaign-builder .campaign-field textarea {
         order: 1 !important;
     }
 }
+
+/* Global route chrome cleanup */
+body[class*="page-"] {
+    overflow-x: hidden !important;
+}
+
+@media (min-width: 761px) {
+    body[class*="page-"] .bottom-nav,
+    body[class*="page-"] .mobile-install-app {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+}
+
+body[class*="page-"] .command-palette:not(.open),
+body[class*="page-"] .ai-widget:not(.open) {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+body[class*="page-"] .command-palette.open {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 1000 !important;
+    display: grid !important;
+    place-items: start center !important;
+    padding: 12vh 18px 18px !important;
+    background: rgba(15,23,42,.46) !important;
+    backdrop-filter: blur(16px) !important;
+}
+
+body[class*="page-"] .ai-widget.open {
+    position: fixed !important;
+    z-index: 1001 !important;
+    left: 22px !important;
+    bottom: 92px !important;
+    width: min(380px, calc(100vw - 44px)) !important;
+    max-height: min(520px, calc(100vh - 140px)) !important;
+    overflow: auto !important;
+}
