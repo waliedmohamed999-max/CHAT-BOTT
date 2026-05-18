@@ -9,8 +9,8 @@ final class Rbac
     private const PERMISSIONS = [
         'owner' => ['*'],
         'super_admin' => ['*'],
-        'platform_admin' => ['saas.admin', 'enterprise.manage', 'marketplace.manage', 'analytics.view'],
-        'operations_team' => ['analytics.view', 'inbox.reply', 'enterprise.manage'],
+        'platform_admin' => ['saas.admin', 'enterprise.manage', 'marketplace.manage', 'developer.manage', 'analytics.view'],
+        'operations_team' => ['analytics.view', 'inbox.reply', 'enterprise.manage', 'developer.manage'],
         'admin' => ['meta.connect', 'campaign.create', 'campaign.launch', 'analytics.view', 'inbox.reply', 'templates.manage', 'workspace.manage', 'billing.manage', 'saas.admin', 'marketplace.manage', 'developer.manage', 'enterprise.manage', 'commerce_os.manage'],
         'marketing_manager' => ['campaign.create', 'campaign.launch', 'analytics.view', 'templates.manage'],
         'sales_agent' => ['inbox.reply'],

@@ -1439,10 +1439,26 @@ $labelText = static function (?string $value): string {
                     default => 'muted',
                 };
             };
+            $devExecution = $developmentExecution ?? [];
+            $devStats = $devExecution['stats'] ?? [];
+            $devConfig = $devExecution['config'] ?? [];
+            $devFindings = array_slice($devExecution['findings'] ?? [], 0, 12);
+            $devTasks = array_slice($devExecution['tasks'] ?? [], 0, 12);
+            $devLogs = array_slice($devExecution['logs'] ?? [], 0, 10);
+            $devRecommendations = array_slice($devExecution['recommendations'] ?? [], 0, 8);
+            $taskStatusClass = static function (string $status): string {
+                return match ($status) {
+                    'completed', 'fixed', 'complete' => 'ok',
+                    'running', 'fixing' => 'active',
+                    'failed', 'critical', 'missing' => 'critical',
+                    'manual_required', 'warning' => 'pending',
+                    default => 'muted',
+                };
+            };
         ?>
         <section class="panel wide roadmap-hero">
             <div>
-                <span class="premium-pill">Platform Development Roadmap</span>
+                <span class="premium-pill">AI Development & Completion Center</span>
                 <h2>تطوير تدريجي منظم يمنع الانتقال للمرحلة التالية قبل اكتمال الحالية بجاهزية إنتاجية.</h2>
                 <p>كل مرحلة تحتوي على الهدف، الصفحات، APIs، النماذج، مراجعة الأمان، اختبارات التشغيل، وقائمة إطلاق مستقلة قابلة للمراجعة.</p>
             </div>
@@ -1451,6 +1467,100 @@ $labelText = static function (?string $value): string {
                 <span>نسبة الإنجاز الإجمالية</span>
                 <div class="readiness-meter"><i style="width: <?= max(0, min(100, $roadmapProgress)) ?>%"></i></div>
                 <small><?= htmlspecialchars($platformRoadmap['launch_status'] ?? 'غير جاهز') ?></small>
+            </div>
+        </section>
+
+        <section class="panel wide dev-execution-center">
+            <div class="panel-head">
+                <div>
+                    <h2>مركز التنفيذ والإصلاح الذكي</h2>
+                    <span>يفحص ملفات المشروع، المسارات، قاعدة البيانات، البيئة، الأمان، الاختبارات، والـ Workers ثم يحول النواقص إلى مهام قابلة للتنفيذ.</span>
+                </div>
+                <div class="dev-exec-toolbar">
+                    <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/api/development-execution">عرض API</a>
+                    <button class="secondary" type="button" onclick="window.location.reload()">تحديث الفحص</button>
+                    <button class="primary dev-exec-run-all" type="button">تشغيل الإصلاحات الآمنة</button>
+                </div>
+            </div>
+
+            <div class="dev-exec-status-grid">
+                <article><span>النواقص المكتشفة</span><strong><?= (int) ($devStats['missing'] ?? 0) ?></strong><small>من <?= (int) ($devStats['total_findings'] ?? 0) ?> عنصر مفحوص</small></article>
+                <article><span>حرجة</span><strong><?= (int) ($devStats['critical'] ?? 0) ?></strong><small>تمنع الجاهزية إن لم تعالج</small></article>
+                <article><span>مهام معلقة</span><strong><?= (int) ($devStats['pending_tasks'] ?? 0) ?></strong><small>جاهزة للتنفيذ الآمن</small></article>
+                <article><span>تم إصلاحها</span><strong><?= (int) ($devStats['completed_tasks'] ?? 0) ?></strong><small>آخر تشغيلات ناجحة</small></article>
+                <article><span>وضع الكتابة</span><strong><?= !empty($devConfig['write_enabled']) ? 'مفعل' : 'مغلق' ?></strong><small><?= !empty($devConfig['write_enabled']) ? 'يسمح بمهام محددة مسبقاً' : 'فحص فقط لحماية الإنتاج' ?></small></article>
+                <article><span>أوامر النظام</span><strong><?= !empty($devConfig['shell_enabled']) ? 'مفعلة' : 'مغلقة' ?></strong><small>تظل مغلقة افتراضياً في الإنتاج</small></article>
+            </div>
+
+            <div class="dev-exec-grid">
+                <article class="dev-exec-card">
+                    <div class="dev-exec-card-head">
+                        <b>قائمة النواقص</b>
+                        <span><?= (int) ($devStats['fixable'] ?? 0) ?> قابلة للإصلاح</span>
+                    </div>
+                    <div class="dev-exec-findings">
+                        <?php if ($devFindings === []): ?>
+                            <div class="dev-exec-empty">لا توجد نواقص حالياً. شغّل الفحص بعد أي تعديل كبير للتأكد.</div>
+                        <?php endif; ?>
+                        <?php foreach ($devFindings as $finding): ?>
+                            <div class="dev-exec-finding <?= htmlspecialchars($taskStatusClass((string) ($finding['severity'] ?? $finding['status'] ?? 'muted'))) ?>">
+                                <div>
+                                    <b><?= htmlspecialchars($finding['title'] ?? '') ?></b>
+                                    <span><?= htmlspecialchars($finding['recommendation'] ?? $finding['description'] ?? '') ?></span>
+                                    <small><?= htmlspecialchars($finding['category'] ?? '') ?> · <?= htmlspecialchars($finding['status'] ?? '') ?></small>
+                                </div>
+                                <?php if (!empty($finding['fixable']) && !empty($finding['task_key'])): ?>
+                                    <button class="ghost-btn dev-exec-run" type="button" data-task-key="<?= htmlspecialchars((string) $finding['task_key']) ?>">إصلاح</button>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </article>
+
+                <article class="dev-exec-card">
+                    <div class="dev-exec-card-head">
+                        <b>Execution Queue</b>
+                        <span><?= (int) ($devStats['running_tasks'] ?? 0) ?> قيد التشغيل</span>
+                    </div>
+                    <div class="dev-exec-task-queue">
+                        <?php if ($devTasks === []): ?>
+                            <div class="dev-exec-empty">لا توجد مهام تنفيذ مسجلة بعد. سيتم إنشاؤها تلقائياً من نتائج الفحص.</div>
+                        <?php endif; ?>
+                        <?php foreach ($devTasks as $task): ?>
+                            <div class="dev-exec-task <?= htmlspecialchars($taskStatusClass((string) ($task['status'] ?? 'pending'))) ?>">
+                                <div>
+                                    <b><?= htmlspecialchars($task['title'] ?? $task['task_key'] ?? '') ?></b>
+                                    <span><?= htmlspecialchars($task['description'] ?? '') ?></span>
+                                    <small><?= htmlspecialchars($task['category'] ?? '') ?> · <?= htmlspecialchars($task['status'] ?? '') ?> · أولوية <?= htmlspecialchars((string) ($task['priority'] ?? 'normal')) ?></small>
+                                </div>
+                                <?php if (!empty($task['task_key']) && in_array(($task['status'] ?? 'pending'), ['pending', 'failed', 'manual_required'], true)): ?>
+                                    <button class="ghost-btn dev-exec-run" type="button" data-task-key="<?= htmlspecialchars((string) $task['task_key']) ?>">تشغيل</button>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </article>
+            </div>
+
+            <div class="dev-exec-grid compact">
+                <article class="dev-exec-card">
+                    <div class="dev-exec-card-head"><b>سجل الإصلاح</b><span>آخر الأحداث</span></div>
+                    <div class="dev-exec-logs">
+                        <?php if ($devLogs === []): ?><div class="dev-exec-empty">لا توجد سجلات تنفيذ بعد.</div><?php endif; ?>
+                        <?php foreach ($devLogs as $log): ?>
+                            <span><b><?= htmlspecialchars($log['created_at'] ?? '') ?></b><?= htmlspecialchars(($log['task_key'] ?? 'scan') . ' - ' . ($log['message'] ?? '')) ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                </article>
+                <article class="dev-exec-card">
+                    <div class="dev-exec-card-head"><b>توصيات AI</b><span>قرارات تحتاج مراجعة</span></div>
+                    <div class="dev-exec-recommendations">
+                        <?php if ($devRecommendations === []): ?><div class="dev-exec-empty">لا توجد توصيات جديدة.</div><?php endif; ?>
+                        <?php foreach ($devRecommendations as $recommendation): ?>
+                            <span><?= htmlspecialchars((string) $recommendation) ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                </article>
             </div>
         </section>
 

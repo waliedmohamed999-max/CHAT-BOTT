@@ -6,6 +6,7 @@ namespace MarketingCenter\Controllers;
 
 use MarketingCenter\Services\MetaOAuthService;
 use MarketingCenter\Services\ConnectionService;
+use MarketingCenter\Services\DevelopmentExecutionService;
 use MarketingCenter\Services\LaunchReadinessService;
 use MarketingCenter\Services\PlatformDevelopmentRoadmapService;
 use MarketingCenter\Services\SaasPlatformService;
@@ -45,6 +46,7 @@ final class MarketingController
         $commerceOsOverview = ['agents' => [], 'memory' => [], 'decision_engine' => ['decisions' => []], 'command_center' => [], 'commerce_os' => [], 'generated_experiences' => [], 'voice_ai' => [], 'marketplace' => [], 'infrastructure' => [], 'self_improving' => [], 'future_ready' => [], 'readiness_score' => 0];
         $launchReadiness = ['score' => 0, 'status' => 'غير جاهز', 'items' => [], 'sections' => [], 'operations' => [], 'environment' => []];
         $platformRoadmap = ['name' => 'Platform Development Roadmap', 'progress' => 0, 'current_phase' => [], 'completed_sections' => [], 'in_development_sections' => [], 'upcoming_sections' => [], 'open_issues' => [], 'phase_tests' => [], 'phases' => []];
+        $developmentExecution = ['stats' => [], 'findings' => [], 'tasks' => [], 'logs' => [], 'recommendations' => [], 'config' => []];
         $loginPortalSessions = [];
         $loginPortalAttempts = [];
         $loginPortalStores = [];
@@ -75,6 +77,7 @@ final class MarketingController
             $commerceOsOverview = (new \MarketingCenter\Services\AiCommerceOsService())->overview($storeId);
             $launchReadiness = (new LaunchReadinessService())->overview($storeId);
             $platformRoadmap = (new PlatformDevelopmentRoadmapService())->overview($storeId);
+            $developmentExecution = (new DevelopmentExecutionService())->dashboard($storeId);
             $portalService = new \MarketingCenter\Services\AuthPortalService();
             $loginPortalSessions = $portalService->sessions();
             $loginPortalAttempts = $portalService->loginAttempts(40);
@@ -84,9 +87,11 @@ final class MarketingController
             try {
                 $launchReadiness = (new LaunchReadinessService())->overview($storeId);
                 $platformRoadmap = (new PlatformDevelopmentRoadmapService())->overview($storeId);
+                $developmentExecution = (new DevelopmentExecutionService())->dashboard($storeId);
             } catch (\Throwable) {
                 $launchReadiness = ['score' => 0, 'status' => 'غير جاهز', 'items' => [], 'sections' => [], 'operations' => [], 'environment' => []];
                 $platformRoadmap = ['name' => 'Platform Development Roadmap', 'progress' => 0, 'current_phase' => [], 'completed_sections' => [], 'in_development_sections' => [], 'upcoming_sections' => [], 'open_issues' => [], 'phase_tests' => [], 'phases' => []];
+                $developmentExecution = ['stats' => [], 'findings' => [], 'tasks' => [], 'logs' => [], 'recommendations' => [], 'config' => []];
             }
         }
 

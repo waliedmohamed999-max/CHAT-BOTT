@@ -2510,6 +2510,162 @@ label { display: grid; gap: 8px; color: var(--muted); }
     color: var(--primary);
     font-weight: 800;
 }
+.dev-execution-center {
+    display: grid;
+    gap: 18px;
+    border-color: rgba(51,74,145,.16);
+    background:
+        radial-gradient(circle at 12% 10%, rgba(51,74,145,.10), transparent 28%),
+        radial-gradient(circle at 85% 0%, rgba(90,169,184,.10), transparent 24%),
+        var(--surface-strong);
+}
+.dev-exec-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+.dev-exec-status-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
+}
+.dev-exec-status-grid article {
+    display: grid;
+    gap: 6px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(255,255,255,.62);
+    box-shadow: var(--shadow-soft);
+}
+.dev-exec-status-grid span,
+.dev-exec-status-grid small {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.55;
+}
+.dev-exec-status-grid strong {
+    color: var(--text);
+    font-size: 22px;
+    line-height: 1;
+}
+.dev-exec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+.dev-exec-grid.compact {
+    grid-template-columns: 1.2fr .8fr;
+}
+.dev-exec-card {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+}
+.dev-exec-card-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+}
+.dev-exec-card-head b {
+    color: var(--text);
+    font-size: 15px;
+}
+.dev-exec-card-head span {
+    color: var(--muted);
+    font-size: 12px;
+}
+.dev-exec-findings,
+.dev-exec-task-queue,
+.dev-exec-logs,
+.dev-exec-recommendations {
+    display: grid;
+    gap: 8px;
+    max-height: 420px;
+    overflow: auto;
+    padding-inline-end: 3px;
+}
+.dev-exec-finding,
+.dev-exec-task {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 11px;
+    border: 1px solid var(--line);
+    border-inline-start-width: 4px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.7);
+}
+.dev-exec-finding b,
+.dev-exec-task b {
+    display: block;
+    color: var(--text);
+    font-size: 13px;
+}
+.dev-exec-finding span,
+.dev-exec-task span {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.65;
+}
+.dev-exec-finding small,
+.dev-exec-task small {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+}
+.dev-exec-finding.ok,
+.dev-exec-task.ok {
+    border-inline-start-color: var(--emerald);
+    background: rgba(47,155,117,.055);
+}
+.dev-exec-finding.active,
+.dev-exec-task.active {
+    border-inline-start-color: var(--primary);
+    background: rgba(51,74,145,.06);
+}
+.dev-exec-finding.pending,
+.dev-exec-task.pending {
+    border-inline-start-color: var(--warning);
+    background: rgba(183,121,31,.055);
+}
+.dev-exec-finding.critical,
+.dev-exec-task.critical {
+    border-inline-start-color: var(--danger);
+    background: rgba(201,75,85,.06);
+}
+.dev-exec-logs span,
+.dev-exec-recommendations span,
+.dev-exec-empty {
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--muted);
+    background: rgba(255,255,255,.55);
+    font-size: 12px;
+    line-height: 1.7;
+}
+.dev-exec-logs b {
+    display: block;
+    color: var(--primary);
+    font-size: 11px;
+}
+.dev-exec-run.loading,
+.dev-exec-run-all.loading {
+    opacity: .72;
+    pointer-events: none;
+}
 .legacy-chatbot-tabs { margin-top: 16px; }
 .launch-readiness-hero {
     background:
@@ -3070,7 +3226,7 @@ label { display: grid; gap: 8px; color: var(--muted); }
     .portal-security-grid { grid-template-columns: 1fr; }
     .shell, body.sidebar-collapsed .shell { margin-right: 0; padding: 16px 16px 92px; }
     .bottom-nav { display: grid; }
-    .metric-grid, .workspace-grid, .panel-grid, .builder, .inbox, .qr-layout, .setup-center-hero, .readiness-board, .chatbot-hero, .chatbot-health-grid, .chatbot-diagnostics-grid, .advanced-settings, .settings-deck, .omni-hero, .omni-inbox-grid, .channel-grid, .mini-channel-grid, .wa-builder-layout, .department-grid, .chatbot-bottom-grid, .flow-status-cards, .ai-agent-grid, .knowledge-layout, .revenue-flow-grid, .revenue-engine-hero, .saas-hero, .plans-grid, .ai-bi-hero, .ai-bi-grid, .marketplace-hero, .marketplace-grid, .app-store-grid, .enterprise-hero, .enterprise-grid, .commerce-os-hero, .commerce-os-grid, .os-agent-grid, .env-grid, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .login-portal-grid { grid-template-columns: 1fr; }
+    .metric-grid, .workspace-grid, .panel-grid, .builder, .inbox, .qr-layout, .setup-center-hero, .readiness-board, .chatbot-hero, .chatbot-health-grid, .chatbot-diagnostics-grid, .advanced-settings, .settings-deck, .omni-hero, .omni-inbox-grid, .channel-grid, .mini-channel-grid, .wa-builder-layout, .department-grid, .chatbot-bottom-grid, .flow-status-cards, .ai-agent-grid, .knowledge-layout, .revenue-flow-grid, .revenue-engine-hero, .saas-hero, .plans-grid, .ai-bi-hero, .ai-bi-grid, .marketplace-hero, .marketplace-grid, .app-store-grid, .enterprise-hero, .enterprise-grid, .commerce-os-hero, .commerce-os-grid, .os-agent-grid, .env-grid, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .login-portal-grid, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact { grid-template-columns: 1fr; }
     .flow-library-item { grid-template-columns: 1fr; }
     .department-flow-map { min-width: 820px; }
     .hero-command, .chart-stage { grid-template-columns: 1fr; }
@@ -3084,7 +3240,7 @@ label { display: grid; gap: 8px; color: var(--muted); }
     .portal-auth-visual { min-height: auto; }
     .top-actions, .button-row, .toolbar { align-items: stretch; flex-direction: column; }
     .search-trigger, .primary, .secondary, .danger, .ghost-btn, .icon-btn { width: 100%; }
-    .metric-grid, .step-row, .setup-grid, .workflow, .checklist, .launch-grid, .compact-form, .progress-steps, .connect-choice, .wizard-steps, .method-cards, .setup-connect-grid, .test-grid, .setup-profile-form, .upload-grid, .capability-list, .ai-meta-grid, .ai-feature-list, .ai-agent-mini, .memory-orbit, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns { grid-template-columns: 1fr; }
+    .metric-grid, .step-row, .setup-grid, .workflow, .checklist, .launch-grid, .compact-form, .progress-steps, .connect-choice, .wizard-steps, .method-cards, .setup-connect-grid, .test-grid, .setup-profile-form, .upload-grid, .capability-list, .ai-meta-grid, .ai-feature-list, .ai-agent-mini, .memory-orbit, .roadmap-hero, .roadmap-phase-grid, .roadmap-list-grid, .roadmap-detail-columns, .dev-exec-status-grid, .dev-exec-grid, .dev-exec-grid.compact { grid-template-columns: 1fr; }
     .table-like, .data-table { grid-template-columns: 1fr; }
     .hero-command h2 { font-size: 32px; }
     .panel { padding: 16px; }

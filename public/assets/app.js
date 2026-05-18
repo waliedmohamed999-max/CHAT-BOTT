@@ -268,6 +268,44 @@ document.querySelectorAll('.api-post').forEach((button) => {
     });
 });
 
+async function runDevelopmentExecution(endpoint, body, button) {
+    button?.classList.add('loading');
+    try {
+        const response = await fetch(`${window.MC_APP_URL || ''}${endpoint}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body || {}),
+        });
+        const payload = await response.json().catch(() => ({}));
+        const message = response.ok
+            ? (payload.message || payload.data?.message || 'تم تنفيذ مهمة التطوير بنجاح')
+            : (payload.message || payload.detail || payload.error || payload.data?.message || 'تعذر تنفيذ مهمة التطوير');
+        showToast(message);
+        if (response.ok) {
+            window.setTimeout(() => window.location.reload(), 650);
+        }
+    } catch {
+        showToast('تعذر الاتصال بمحرك التطوير');
+    } finally {
+        button?.classList.remove('loading');
+    }
+}
+
+document.querySelectorAll('.dev-exec-run').forEach((button) => {
+    button.addEventListener('click', () => {
+        const taskKey = button.dataset.taskKey;
+        if (!taskKey) {
+            showToast('لم يتم تحديد مهمة صالحة');
+            return;
+        }
+        runDevelopmentExecution('/api/development-execution/tasks/run', {task_key: taskKey}, button);
+    });
+});
+
+document.querySelector('.dev-exec-run-all')?.addEventListener('click', (event) => {
+    runDevelopmentExecution('/api/development-execution/tasks/run-all', {}, event.currentTarget);
+});
+
 document.querySelectorAll('[data-scroll-target]').forEach((button) => {
     button.addEventListener('click', () => {
         document.querySelector(button.dataset.scrollTarget || '')?.scrollIntoView({behavior: 'smooth', block: 'start'});

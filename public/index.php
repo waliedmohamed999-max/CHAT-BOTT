@@ -186,6 +186,10 @@ try {
     if ($method === 'GET' && $path === '/api/launch-readiness') { $launchReadiness->overview(); return; }
     if ($method === 'GET' && $path === '/api/platform-roadmap') { $platformRoadmap->overview(); return; }
     if ($method === 'GET' && $path === '/api/development-roadmap') { $platformRoadmap->overview(); return; }
+    if ($method === 'GET' && $path === '/api/development-execution') { $platformRoadmap->executionOverview(); return; }
+    if ($method === 'POST' && $path === '/api/development-execution/tasks/run') { $platformRoadmap->runExecutionTask(); return; }
+    if ($method === 'POST' && $path === '/api/development-execution/tasks/retry') { $platformRoadmap->runExecutionTask(); return; }
+    if ($method === 'POST' && $path === '/api/development-execution/tasks/run-all') { $platformRoadmap->runAutoFixes(); return; }
     if ($method === 'POST' && $path === '/api/whatsapp-qr/session/create') { $qr->create(); return; }
     if ($method === 'GET' && $path === '/api/whatsapp-qr/session/status') { $qr->status(); return; }
     if ($method === 'GET' && $path === '/api/whatsapp-qr/session/qr') { $qr->qr(); return; }
