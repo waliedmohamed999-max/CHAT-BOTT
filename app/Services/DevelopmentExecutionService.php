@@ -357,8 +357,7 @@ final class DevelopmentExecutionService
         $created = [];
         foreach (['storage', 'storage/development-execution', 'storage/logs', 'storage/uploads', 'storage/queue', 'storage/framework/views'] as $dir) {
             $path = $this->path($dir);
-            if (!is_dir($path)) {
-                mkdir($path, 0775, true);
+            if ($this->ensureDirectory($path)) {
                 $created[] = $dir;
             }
         }
@@ -405,7 +404,7 @@ final class DevelopmentExecutionService
     {
         $this->assertWriteEnabled();
         $path = $this->path('.env.example');
-        $content = is_file($path) ? (string) file_get_contents($path) : '';
+        $content = is_file($path) ? (string) @file_get_contents($path) : '';
         $required = [
             'DEVELOPMENT_EXECUTION_WRITE_ENABLED=false',
             'DEVELOPMENT_EXECUTION_SHELL_ENABLED=false',
@@ -572,7 +571,7 @@ final class DevelopmentExecutionService
             return [];
         }
 
-        $decoded = json_decode((string) file_get_contents($this->tasksFile), true);
+        $decoded = json_decode((string) @file_get_contents($this->tasksFile), true);
         if (!is_array($decoded)) {
             return [];
         }
@@ -609,7 +608,7 @@ final class DevelopmentExecutionService
                 'message' => $message,
                 'context' => $context,
             ];
-            file_put_contents($this->logsFile, json_encode($entry, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL, FILE_APPEND);
+            @file_put_contents($this->logsFile, json_encode($entry, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . PHP_EOL, FILE_APPEND);
         } catch (\Throwable) {
         }
     }
@@ -620,7 +619,7 @@ final class DevelopmentExecutionService
             return [];
         }
 
-        $lines = array_slice(file($this->logsFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [], -30);
+        $lines = array_slice(@file($this->logsFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [], -30);
         return array_values(array_filter(array_map(static function (string $line): ?array {
             $decoded = json_decode($line, true);
             return is_array($decoded) ? $decoded : null;
@@ -768,7 +767,8 @@ SQL;
     private function runtimeWritable(): bool
     {
         if (!is_dir($this->runtimeDir)) {
-            return is_writable(dirname($this->runtimeDir));
+            $parent = dirname($this->runtimeDir);
+            return is_dir($parent) && is_writable($parent);
         }
 
         return is_writable($this->runtimeDir);
@@ -777,7 +777,7 @@ SQL;
     private function assertRuntimeWritable(): void
     {
         if (!is_dir($this->runtimeDir)) {
-            mkdir($this->runtimeDir, 0775, true);
+            $this->ensureDirectory($this->runtimeDir);
         }
 
         if (!is_writable($this->runtimeDir)) {
@@ -806,17 +806,17 @@ SQL;
     private function read(string $relative): string
     {
         $path = $this->path($relative);
-        return is_file($path) ? (string) file_get_contents($path) : '';
+        return is_file($path) ? (string) @file_get_contents($path) : '';
     }
 
     private function write(string $path, string $content): void
     {
         $this->assertInsideProject($path);
         $dir = dirname($path);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0775, true);
+        $this->ensureDirectory($dir);
+        if (@file_put_contents($path, $content) === false) {
+            throw new \RuntimeException('manual_intervention_required');
         }
-        file_put_contents($path, $content);
     }
 
     private function path(string $relative): string
@@ -831,5 +831,27 @@ SQL;
         if (!str_starts_with(str_replace('\\', '/', $dir), str_replace('\\', '/', $root))) {
             throw new \RuntimeException('manual_intervention_required');
         }
+    }
+
+    private function ensureDirectory(string $path): bool
+    {
+        if (is_dir($path)) {
+            if (!is_writable($path)) {
+                throw new \RuntimeException('manual_intervention_required');
+            }
+
+            return false;
+        }
+
+        $parent = dirname($path);
+        if ($parent === $path || !is_dir($parent) || !is_writable($parent)) {
+            throw new \RuntimeException('manual_intervention_required');
+        }
+
+        if (!@mkdir($path, 0775, true) && !is_dir($path)) {
+            throw new \RuntimeException('manual_intervention_required');
+        }
+
+        return true;
     }
 }
