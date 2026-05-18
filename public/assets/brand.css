@@ -3238,3 +3238,52 @@ textarea {
         grid-template-columns: 1fr !important;
     }
 }
+
+/* Final override: prevent inspector field overlap */
+.page-chatbot-builder .bot-node-settings .inspector-field {
+    display: block !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 0 16px !important;
+    padding: 0 !important;
+    color: transparent !important;
+    overflow: visible !important;
+    clear: both !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-field > span {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 8px !important;
+    color: #667085 !important;
+    font-size: 12px !important;
+    font-weight: 950 !important;
+    line-height: 18px !important;
+    text-align: right !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-field > input,
+.page-chatbot-builder .bot-node-settings .inspector-field > select {
+    display: block !important;
+    width: 100% !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    margin: 0 !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-field > textarea {
+    display: block !important;
+    width: 100% !important;
+    min-height: 112px !important;
+    margin: 0 !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-field:has(#nodeTypeInput) {
+    margin-bottom: 18px !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-field:has(#nodeMessageInput) {
+    margin-top: 0 !important;
+    margin-bottom: 18px !important;
+}

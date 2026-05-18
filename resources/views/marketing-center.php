@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v29';
+$assetVersion = '20260519-premium-brand-v30';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
