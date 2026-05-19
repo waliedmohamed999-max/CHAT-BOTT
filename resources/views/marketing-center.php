@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v51';
+$assetVersion = '20260519-premium-brand-v52';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -2149,6 +2149,40 @@ $labelText = static function (?string $value): string {
                 <span>نسبة الإنجاز الإجمالية</span>
                 <div class="readiness-meter"><i style="width: <?= max(0, min(100, $roadmapProgress)) ?>%"></i></div>
                 <small><?= htmlspecialchars($platformRoadmap['launch_status'] ?? 'غير جاهز') ?></small>
+            </div>
+        </section>
+        <section class="roadmap-command-grid" aria-label="ملخص خارطة التطوير">
+            <article>
+                <span>المرحلة الحالية</span>
+                <strong><?= (int) ($roadmapCurrent['number'] ?? 1) ?></strong>
+                <small><?= htmlspecialchars($roadmapCurrent['title_ar'] ?? 'قيد التخطيط') ?></small>
+            </article>
+            <article class="<?= $roadmapProgress >= 75 ? 'ok' : 'pending' ?>">
+                <span>إنجاز الخطة</span>
+                <strong><?= $roadmapProgress ?>%</strong>
+                <small><?= htmlspecialchars($platformRoadmap['launch_status'] ?? 'غير جاهز') ?></small>
+            </article>
+            <article>
+                <span>مكتمل</span>
+                <strong><?= count($roadmapCompleted) ?></strong>
+                <small>أقسام جاهزة أو منشورة.</small>
+            </article>
+            <article class="<?= count($roadmapIssues) === 0 ? 'ok' : 'danger' ?>">
+                <span>مشاكل مفتوحة</span>
+                <strong><?= count($roadmapIssues) ?></strong>
+                <small>يتم إغلاقها قبل الانتقال.</small>
+            </article>
+        </section>
+        <section class="roadmap-command-actions panel wide" aria-label="إجراءات خارطة التطوير">
+            <div>
+                <span class="premium-pill">Development Gate</span>
+                <h3>تحكم في التطوير كمسارات إنتاجية لا كقائمة عشوائية</h3>
+                <p>تابع المرحلة الحالية، نفّذ الإصلاحات الآمنة، وراجع المراحل الاثنتي عشرة من نفس الصفحة بدون فقدان السياق.</p>
+            </div>
+            <div class="button-row">
+                <a class="primary" href="<?= htmlspecialchars($appUrl) ?>/api/platform-roadmap">API الخارطة</a>
+                <a class="secondary" href="<?= htmlspecialchars($appUrl) ?>/api/development-execution">API التنفيذ</a>
+                <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/setup-checklist">جاهزية الإطلاق</a>
             </div>
         </section>
 
