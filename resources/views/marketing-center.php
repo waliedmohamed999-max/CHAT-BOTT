@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v40';
+$assetVersion = '20260519-premium-brand-v41';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -266,60 +266,113 @@ $labelText = static function (?string $value): string {
     </header>
 
     <?php if ($page === 'overview'): ?>
-        <section class="hero-command overview-hero">
-            <div>
-                <span class="premium-pill">مركز قيادة التسويق التنفيذي</span>
-                <h2>لوحة قيادة موحدة للحملات، المحادثات، الإيرادات، وذكاء العملاء.</h2>
-                <p>راقب الأداء اللحظي، اكتشف فرص النمو، وشغّل الحملات عبر WhatsApp وMeta من مساحة عمل واحدة.</p>
+        <?php
+            $overviewMetricIcons = ['📣', '➤', '✓', '×', '👥'];
+            $setupScore = (int) ($setupReadiness['score'] ?? 0);
+            $showSetupWarning = $setupScore < 100;
+        ?>
+        <section class="hero-command overview-hero executive-dashboard-hero">
+            <div class="overview-hero-copy">
+                <span class="premium-pill">ShatPot Executive Command</span>
+                <h2>لوحة قيادة موحدة للحملات، المحادثات، الإيرادات و<span>ذكاء العملاء</span>.</h2>
+                <p>مساحة عربية RTL تجمع أداء الحملات، صندوق الوارد، تدفقات البوت، جاهزية واتساب، ورؤى الذكاء الاصطناعي في شاشة واحدة قابلة للتنفيذ.</p>
+                <div class="overview-hero-actions">
+                    <a class="primary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/campaign-builder">تشغيل حملة</a>
+                    <a class="overview-ghost-cta" href="<?= htmlspecialchars($connectUrl) ?>">ربط Meta / واتساب</a>
+                </div>
             </div>
-            <div class="ai-orbit">
+            <div class="ai-orbit overview-growth-bubble" aria-label="توقع نمو التحويل">
                 <span>AI</span>
-                <b>+18%</b>
+                <b>18%+</b>
                 <small>توقع نمو التحويل</small>
             </div>
         </section>
 
-        <section class="overview-action-strip" aria-label="إجراءات مركز القيادة">
-            <a class="overview-action primary-action" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/campaign-builder"><span>تشغيل حملة</span><b>Campaign</b></a>
-            <a class="overview-action" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/chatbot-builder"><span>تدفق بوت</span><b>Automation</b></a>
-            <a class="overview-action" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/inbox"><span>صندوق المحادثات</span><b>Inbox</b></a>
-            <a class="overview-action" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/analytics"><span>تحليل الأداء</span><b>Analytics</b></a>
-        </section>
+        <?php if ($showSetupWarning): ?>
+            <section class="overview-warning-banner" role="alert">
+                <button type="button" aria-label="إغلاق التنبيه" onclick="this.closest('.overview-warning-banner').hidden = true">×</button>
+                <strong>⚡ تحتاج 3 مستندات لإكمال تفعيل حسابك</strong>
+                <span>أكمل بيانات النشاط والربط حتى تصبح الحملات والرسائل جاهزة للإطلاق.</span>
+                <a href="<?= htmlspecialchars($appUrl) ?>/marketing-center/whatsapp-setup-center">أكمل الآن</a>
+            </section>
+        <?php endif; ?>
 
-        <section class="metric-grid overview-metrics">
-            <?php foreach ($cards as $card): ?>
-                <article class="metric-card lift-card">
-                    <span><?= htmlspecialchars($card[0]) ?></span>
+        <section class="metric-grid overview-metrics executive-stats-row" aria-label="مؤشرات مركز القيادة">
+            <?php foreach ($cards as $index => $card): ?>
+                <?php $trendClass = str_contains((string) $card[2], '-') ? 'down' : 'up'; ?>
+                <article class="metric-card lift-card executive-stat-card">
+                    <span class="stat-icon"><?= htmlspecialchars($overviewMetricIcons[$index] ?? '•') ?></span>
+                    <span class="stat-label"><?= htmlspecialchars($card[0]) ?></span>
                     <strong class="counter" data-count="<?= (int) $card[1] ?>"><?= number_format((int) $card[1]) ?></strong>
-                    <div><em><?= htmlspecialchars($card[2]) ?></em><small><?= htmlspecialchars($card[3]) ?></small></div>
+                    <div><em class="<?= htmlspecialchars($trendClass) ?>"><?= htmlspecialchars($card[2]) ?></em><small><?= htmlspecialchars($card[3]) ?></small></div>
                 </article>
             <?php endforeach; ?>
         </section>
 
-        <section class="workspace-grid overview-command-grid">
-            <article class="panel wide">
-                <div class="panel-head"><div><h2>اتجاه الإيرادات والتفاعل</h2><span>تحليل مباشر للحملات النشطة</span></div><button class="ghost-btn">تصدير</button></div>
-                <div class="chart-stage">
-                    <div class="line-chart"><i style="height:42%"></i><i style="height:61%"></i><i style="height:54%"></i><i style="height:78%"></i><i style="height:69%"></i><i style="height:86%"></i><i style="height:74%"></i><i style="height:92%"></i></div>
-                    <div class="chart-summary"><strong>94.2%</strong><span>معدل تسليم</span><p>القراءة ارتفعت 11% مقارنة بآخر 7 أيام.</p></div>
-                </div>
-            </article>
-            <article class="panel">
-                <div class="panel-head"><div><h2>رؤى AI</h2><span>اقتراحات قابلة للتنفيذ</span></div></div>
-                <ul class="insight-list">
-                    <li><b>فرصة</b><span>شريحة VIP تستجيب أكثر للقوالب المختصرة.</span></li>
-                    <li><b>تنبيه</b><span>لا ترسل للحملات الجديدة قبل مزامنة القوالب.</span></li>
-                    <li><b>توقع</b><span>أفضل حملة قادمة: كوبون ما بعد الشراء.</span></li>
-                </ul>
-            </article>
-            <article class="panel">
-                <div class="panel-head"><div><h2>نشاط مباشر</h2><span>آخر أحداث النظام</span></div></div>
-                <ul class="activity-feed">
-                    <li><i></i><span>Webhook receiver جاهز لاستقبال الرسائل</span><small>الآن</small></li>
-                    <li><i></i><span>Queue يتحقق من Opt-in قبل الإرسال</span><small>قبل 3 د</small></li>
-                    <li><i></i><span>التوكنات مشفرة داخل قاعدة البيانات</span><small>آمن</small></li>
-                </ul>
-            </article>
+        <section class="overview-dashboard-tabs panel wide">
+            <input type="radio" name="overview-tabs" id="overview-tab-campaign" checked>
+            <input type="radio" name="overview-tabs" id="overview-tab-flow">
+            <input type="radio" name="overview-tabs" id="overview-tab-inbox">
+            <input type="radio" name="overview-tabs" id="overview-tab-analytics">
+            <div class="overview-tab-nav" role="tablist" aria-label="تبويبات مركز القيادة">
+                <label for="overview-tab-campaign">تشغيل حملة</label>
+                <label for="overview-tab-flow">تدفق بوت</label>
+                <label for="overview-tab-inbox">صندوق الوارد</label>
+                <label for="overview-tab-analytics">تحليل الأداء</label>
+            </div>
+            <div class="overview-tab-panels">
+                <article class="overview-tab-panel campaign-panel">
+                    <div class="channel-performance">
+                        <div class="panel-head"><div><h2>أداء القنوات</h2><span>نسبة الجاهزية والتفاعل حسب المصدر</span></div></div>
+                        <?php foreach ([['واتساب', 85], ['Meta', 60], ['بريد', 42], ['SMS', 28]] as $row): ?>
+                            <div class="channel-bar"><span><?= htmlspecialchars($row[0]) ?></span><b><?= (int) $row[1] ?>%</b><i style="--value: <?= (int) $row[1] ?>%"></i></div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="weekly-performance">
+                        <div class="panel-head"><div><h2>الأسبوع الحالي</h2><span>حجم الإرسال ومعدل التسليم</span></div></div>
+                        <div class="weekly-bars">
+                            <?php foreach ([42, 61, 54, 78, 69, 86, 74] as $idx => $height): ?>
+                                <span><i style="height: <?= (int) $height ?>%"></i><small><?= ['س', 'ح', 'ن', 'ث', 'ر', 'خ', 'ج'][$idx] ?></small></span>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="delivery-progress"><span>معدل التسليم</span><strong>94%</strong><i></i></div>
+                    </div>
+                    <div class="recent-campaigns">
+                        <div class="mini-table-row head"><span>الحملة</span><span>القناة</span><span>المرسلة</span><span>الناجحة</span><span>الحالة</span></div>
+                        <div class="mini-table-row"><span>عرض نهاية الأسبوع</span><span>🟢 WA</span><span>1,240</span><span>1,169</span><b>نشطة</b></div>
+                        <div class="mini-table-row"><span>استرداد السلة</span><span>🔵 Meta</span><span>980</span><span>912</span><b>مجدولة</b></div>
+                        <div class="mini-table-row"><span>ترحيب العملاء</span><span>✉ بريد</span><span>640</span><span>603</span><b>مكتملة</b></div>
+                    </div>
+                </article>
+
+                <article class="overview-tab-panel flow-panel">
+                    <?php foreach ([['🤖', 'ترحيب تلقائي', 'يفتح المحادثة ويرشد العميل إلى الأقسام.', 'مفعل'], ['🔄', 'تتبع الطلبات', 'يطلب رقم الطلب ويربطه ببيانات المتجر.', 'مفعل'], ['🎧', 'تحويل لموظف', 'يصعد المحادثة عند انخفاض ثقة الرد.', 'مراجعة']] as $node): ?>
+                        <div class="overview-flow-node"><span><?= htmlspecialchars($node[0]) ?></span><div><strong><?= htmlspecialchars($node[1]) ?></strong><small><?= htmlspecialchars($node[2]) ?></small></div><b><?= htmlspecialchars($node[3]) ?></b><em aria-hidden="true"></em></div>
+                    <?php endforeach; ?>
+                    <a class="primary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/chatbot-builder">إنشاء تدفق جديد</a>
+                </article>
+
+                <article class="overview-tab-panel inbox-panel">
+                    <?php foreach ([['سارة', 'أحتاج معرفة حالة طلبي', 'الآن', 3], ['محمد', 'هل العرض متاح اليوم؟', 'قبل 8 د', 1], ['ندى', 'تم الدفع وأريد تأكيد الشحن', 'قبل 22 د', 0]] as $conv): ?>
+                        <div class="overview-conversation-row"><span>عم</span><div><strong><?= htmlspecialchars($conv[0]) ?></strong><small><?= htmlspecialchars($conv[1]) ?></small></div><time><?= htmlspecialchars($conv[2]) ?></time><?php if ($conv[3] > 0): ?><b><?= (int) $conv[3] ?></b><?php endif; ?></div>
+                    <?php endforeach; ?>
+                    <a class="overview-ghost-cta" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/inbox">عرض جميع المحادثات</a>
+                </article>
+
+                <article class="overview-tab-panel analytics-panel">
+                    <?php foreach ([['معدل الفتح', '67%'], ['معدل النقر', '24%'], ['معدل التحويل', '18%'], ['وقت الرد', '2.4د']] as $metric): ?>
+                        <div class="analytics-mini-stat"><span><?= htmlspecialchars($metric[0]) ?></span><strong><?= htmlspecialchars($metric[1]) ?></strong></div>
+                    <?php endforeach; ?>
+                    <a class="primary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/analytics">عرض التحليلات الكاملة</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="overview-quick-actions" aria-label="إجراءات سريعة">
+            <a href="<?= htmlspecialchars($appUrl) ?>/marketing-center/campaign-builder"><span>＋</span><strong>حملة جديدة</strong><small>إنشاء حملة واتساب أو Meta.</small></a>
+            <a href="<?= htmlspecialchars($appUrl) ?>/marketing-center/chatbot-builder"><span>🤖</span><strong>بوت جديد</strong><small>بناء تدفق ردود تلقائية.</small></a>
+            <a href="<?= htmlspecialchars($appUrl) ?>/marketing-center/contacts"><span>👥</span><strong>إضافة عملاء</strong><small>استيراد أو تنظيم جهات الاتصال.</small></a>
+            <a href="<?= htmlspecialchars($appUrl) ?>/marketing-center/analytics"><span>↗</span><strong>تقرير الأداء</strong><small>تحليل النتائج والقنوات.</small></a>
         </section>
     <?php endif; ?>
 
