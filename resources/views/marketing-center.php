@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v44';
+$assetVersion = '20260519-premium-brand-v45';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -1251,6 +1251,28 @@ $labelText = static function (?string $value): string {
                 <article><span>معتمدة</span><strong><?= (int) $templateApproved ?></strong><small>جاهزة للحملات</small></article>
                 <article><span>قيد المراجعة</span><strong><?= (int) $templatePending ?></strong><small>تحتاج متابعة Meta</small></article>
                 <article><span>مرفوضة</span><strong><?= (int) $templateRejected ?></strong><small>راجع السياسة والنص</small></article>
+            </section>
+
+            <section class="template-command-bar panel wide" aria-label="أدوات مكتبة القوالب">
+                <div>
+                    <label class="template-search-box"><span>بحث</span><input data-template-search placeholder="ابحث باسم القالب أو التصنيف أو النص"></label>
+                    <div class="template-chip-row" aria-label="فلاتر القنوات">
+                        <button type="button" class="active">الكل</button>
+                        <button type="button">واتساب</button>
+                        <button type="button">Meta</button>
+                        <button type="button">بريد</button>
+                    </div>
+                </div>
+                <button type="button" class="primary template-review-jump">إنشاء قالب جديد</button>
+            </section>
+
+            <section class="template-preset-grid" aria-label="قوالب جاهزة">
+                <article><em>👋</em><b>رسالة ترحيب</b><span>رسالة ترحيب تلقائية للعملاء الجدد</span><button type="button" class="secondary template-fill-btn" data-template-preset="offer">استخدام</button></article>
+                <article><em>🛍</em><b>عرض ترويجي</b><span>قالب للعروض والخصومات الخاصة</span><button type="button" class="secondary template-fill-btn" data-template-preset="offer">استخدام</button></article>
+                <article><em>📦</em><b>تأكيد الطلب</b><span>إشعار تلقائي بتأكيد الطلبات</span><button type="button" class="secondary template-fill-btn" data-template-preset="order">استخدام</button></article>
+                <article><em>⭐</em><b>طلب تقييم</b><span>جمع آراء العملاء بعد الشراء</span><button type="button" class="secondary template-fill-btn" data-template-preset="order">استخدام</button></article>
+                <article><em>↻</em><b>استرداد العميل</b><span>إعادة تفعيل العملاء غير النشطين</span><button type="button" class="secondary template-fill-btn" data-template-preset="offer">استخدام</button></article>
+                <article class="create-template-card"><em>+</em><b>إنشاء قالب</b><span>ابدأ من قالب فارغ وأرسله للمراجعة</span><button type="button" class="primary template-review-jump">بدء</button></article>
             </section>
 
             <section class="template-workspace">
