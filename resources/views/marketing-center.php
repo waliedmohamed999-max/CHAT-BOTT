@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v35';
+$assetVersion = '20260519-premium-brand-v36';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -232,7 +232,7 @@ $labelText = static function (?string $value): string {
     </header>
 
     <?php if ($page === 'overview'): ?>
-        <section class="hero-command">
+        <section class="hero-command overview-hero">
             <div>
                 <span class="premium-pill">مركز قيادة التسويق التنفيذي</span>
                 <h2>لوحة قيادة موحدة للحملات، المحادثات، الإيرادات، وذكاء العملاء.</h2>
@@ -245,7 +245,14 @@ $labelText = static function (?string $value): string {
             </div>
         </section>
 
-        <section class="metric-grid">
+        <section class="overview-action-strip" aria-label="إجراءات مركز القيادة">
+            <a class="overview-action primary-action" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/campaign-builder"><span>تشغيل حملة</span><b>Campaign</b></a>
+            <a class="overview-action" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/chatbot-builder"><span>تدفق بوت</span><b>Automation</b></a>
+            <a class="overview-action" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/inbox"><span>صندوق المحادثات</span><b>Inbox</b></a>
+            <a class="overview-action" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/analytics"><span>تحليل الأداء</span><b>Analytics</b></a>
+        </section>
+
+        <section class="metric-grid overview-metrics">
             <?php foreach ($cards as $card): ?>
                 <article class="metric-card lift-card">
                     <span><?= htmlspecialchars($card[0]) ?></span>
@@ -255,7 +262,7 @@ $labelText = static function (?string $value): string {
             <?php endforeach; ?>
         </section>
 
-        <section class="workspace-grid">
+        <section class="workspace-grid overview-command-grid">
             <article class="panel wide">
                 <div class="panel-head"><div><h2>اتجاه الإيرادات والتفاعل</h2><span>تحليل مباشر للحملات النشطة</span></div><button class="ghost-btn">تصدير</button></div>
                 <div class="chart-stage">

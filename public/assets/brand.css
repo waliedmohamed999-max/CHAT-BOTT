@@ -3565,3 +3565,222 @@ body[class*="page-"] .ai-widget.open {
     accent-color: #1E3A8A !important;
     box-shadow: none !important;
 }
+
+/* Executive overview redesign */
+body.page-overview .hero-command.overview-hero {
+    min-height: 340px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(210px, 280px) !important;
+    gap: 28px !important;
+    align-items: center !important;
+    margin-bottom: 16px !important;
+    padding: clamp(28px, 4vw, 48px) !important;
+    border-radius: 34px !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(circle at 12% 18%, rgba(16,185,129,.13), transparent 28%),
+        radial-gradient(circle at 86% 12%, rgba(124,58,237,.14), transparent 30%),
+        linear-gradient(135deg, rgba(255,255,255,.98), rgba(241,247,252,.82)) !important;
+    box-shadow: 0 28px 78px rgba(15,23,42,.12) !important;
+}
+
+body.page-overview .hero-command.overview-hero::before {
+    background:
+        linear-gradient(120deg, transparent 0 42%, rgba(49,87,213,.08) 42% 43%, transparent 43%),
+        repeating-linear-gradient(135deg, rgba(49,87,213,.045) 0 1px, transparent 1px 20px) !important;
+}
+
+body.page-overview .overview-hero h2 {
+    max-width: 980px !important;
+    margin: 14px 0 12px !important;
+    color: #101828 !important;
+    font-size: clamp(34px, 4.6vw, 64px) !important;
+    line-height: 1.06 !important;
+    letter-spacing: 0 !important;
+}
+
+body.page-overview .overview-hero p {
+    max-width: 860px !important;
+    color: #667085 !important;
+    font-size: 16px !important;
+    line-height: 1.9 !important;
+}
+
+body.page-overview .overview-hero .premium-pill {
+    color: #1E3A8A !important;
+    background: rgba(30,58,138,.08) !important;
+}
+
+body.page-overview .ai-orbit {
+    width: min(100%, 250px) !important;
+    margin-inline: auto !important;
+    border: 1px solid rgba(30,58,138,.10) !important;
+    background:
+        radial-gradient(circle, rgba(16,185,129,.18), rgba(124,58,237,.10) 52%, rgba(255,255,255,.72) 72%) !important;
+    box-shadow: 0 24px 64px rgba(16,24,40,.11) !important;
+}
+
+body.page-overview .overview-action-strip {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 18px !important;
+}
+
+body.page-overview .overview-action {
+    min-height: 76px !important;
+    display: grid !important;
+    align-content: center !important;
+    gap: 5px !important;
+    padding: 16px 18px !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    border-radius: 22px !important;
+    color: #344054 !important;
+    text-decoration: none !important;
+    background: rgba(255,255,255,.82) !important;
+    box-shadow: 0 16px 40px rgba(15,23,42,.07) !important;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease !important;
+}
+
+body.page-overview .overview-action:hover {
+    transform: translateY(-2px);
+    border-color: rgba(30,58,138,.18) !important;
+    box-shadow: 0 22px 54px rgba(15,23,42,.10) !important;
+}
+
+body.page-overview .overview-action span {
+    color: #101828 !important;
+    font-size: 15px !important;
+    font-weight: 950 !important;
+}
+
+body.page-overview .overview-action b {
+    color: #667085 !important;
+    font-size: 12px !important;
+}
+
+body.page-overview .overview-action.primary-action {
+    color: #fff !important;
+    background: linear-gradient(135deg,#1E3A8A,#7C3AED) !important;
+    box-shadow: 0 22px 56px rgba(49,46,129,.22) !important;
+}
+
+body.page-overview .overview-action.primary-action span,
+body.page-overview .overview-action.primary-action b {
+    color: #fff !important;
+}
+
+body.page-overview .overview-metrics {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    margin-bottom: 18px !important;
+}
+
+body.page-overview .overview-metrics .metric-card {
+    position: relative !important;
+    min-height: 154px !important;
+    align-content: space-between !important;
+    padding: 20px !important;
+    overflow: hidden !important;
+    border-radius: 24px !important;
+    background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(248,250,252,.88)) !important;
+}
+
+body.page-overview .overview-metrics .metric-card::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 18px;
+    inset-block: 18px;
+    width: 4px;
+    border-radius: 99px;
+    background: linear-gradient(180deg,#1E3A8A,#7C3AED);
+}
+
+body.page-overview .overview-metrics .metric-card span {
+    color: #667085 !important;
+    font-size: 13px !important;
+    font-weight: 850 !important;
+}
+
+body.page-overview .overview-metrics .metric-card strong {
+    color: #101828 !important;
+    font-size: clamp(30px, 2.6vw, 42px) !important;
+    line-height: 1 !important;
+}
+
+body.page-overview .overview-command-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.55fr) minmax(320px, .75fr) !important;
+    gap: 18px !important;
+    align-items: stretch !important;
+}
+
+body.page-overview .overview-command-grid .panel {
+    margin-bottom: 0 !important;
+    border-radius: 26px !important;
+}
+
+body.page-overview .overview-command-grid .panel.wide {
+    grid-column: 1 !important;
+    grid-row: span 2 !important;
+}
+
+body.page-overview .chart-stage {
+    grid-template-columns: minmax(0, 1fr) minmax(190px, 240px) !important;
+    gap: 16px !important;
+}
+
+body.page-overview .line-chart {
+    min-height: 320px !important;
+    align-items: end !important;
+    gap: 14px !important;
+    padding: 22px !important;
+    border-radius: 22px !important;
+    background:
+        linear-gradient(180deg, rgba(30,58,138,.045), rgba(8,145,178,.035)),
+        repeating-linear-gradient(0deg, rgba(15,23,42,.05) 0 1px, transparent 1px 54px) !important;
+}
+
+body.page-overview .line-chart i {
+    border-radius: 12px 12px 5px 5px !important;
+    background: linear-gradient(180deg,#0891B2,#1E3A8A 70%,#7C3AED) !important;
+}
+
+body.page-overview .chart-summary {
+    border-radius: 22px !important;
+    background: rgba(236,253,245,.82) !important;
+}
+
+body.page-overview .insight-list li,
+body.page-overview .activity-feed li {
+    border-radius: 18px !important;
+    background: rgba(255,255,255,.76) !important;
+}
+
+@media (max-width: 1400px) {
+    body.page-overview .overview-metrics {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    body.page-overview .overview-command-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.page-overview .overview-command-grid .panel.wide {
+        grid-column: auto !important;
+        grid-row: auto !important;
+    }
+}
+
+@media (max-width: 860px) {
+    body.page-overview .hero-command.overview-hero,
+    body.page-overview .overview-action-strip,
+    body.page-overview .overview-metrics,
+    body.page-overview .chart-stage {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.page-overview .overview-hero h2 {
+        font-size: 34px !important;
+    }
+}
