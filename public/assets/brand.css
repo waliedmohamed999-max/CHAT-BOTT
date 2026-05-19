@@ -7450,7 +7450,732 @@ body.page-omnichannel .omnichannel-connect-form select {
 
 @media (max-width: 760px) {
     body.page-omnichannel .channels-command-grid,
-    body.page-omnichannel .channels-add-grid {
+body.page-omnichannel .channels-add-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Platform settings workspace v49 */
+body.page-settings,
+body[class*="page-settings-"] {
+    --settings-panel: var(--gray-0);
+    --settings-border: var(--gray-150);
+    --settings-muted: var(--gray-500);
+}
+
+body.page-settings .control-center-hero,
+body[class*="page-settings-"] .control-center-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 390px);
+    gap: 22px;
+    align-items: center;
+    min-height: 320px;
+    padding: 30px !important;
+    color: var(--gray-0) !important;
+    border-color: rgba(255,255,255,.12) !important;
+    background:
+        radial-gradient(circle at 12% 15%, rgba(45,212,191,.22), transparent 34%),
+        radial-gradient(circle at 88% 8%, rgba(109,40,217,.40), transparent 36%),
+        linear-gradient(135deg, var(--gray-900), var(--brand-900)) !important;
+    box-shadow: 0 24px 70px rgba(28,25,23,.18) !important;
+}
+
+body.page-settings .control-center-hero::before,
+body[class*="page-settings-"] .control-center-hero::before {
+    background:
+        linear-gradient(135deg, rgba(255,255,255,.06), transparent 42%),
+        repeating-linear-gradient(135deg, rgba(255,255,255,.045) 0 1px, transparent 1px 18px);
+}
+
+body.page-settings .control-center-hero h2,
+body[class*="page-settings-"] .control-center-hero h2 {
+    max-width: 760px;
+    color: var(--gray-0) !important;
+    font-size: clamp(34px, 4.4vw, 64px) !important;
+}
+
+body.page-settings .control-center-hero p,
+body[class*="page-settings-"] .control-center-hero p,
+body.page-settings .executive-hero-meta,
+body[class*="page-settings-"] .executive-hero-meta {
+    color: rgba(255,255,255,.70) !important;
+}
+
+body.page-settings .executive-hero-meta,
+body[class*="page-settings-"] .executive-hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+body.page-settings .control-hero-actions,
+body[class*="page-settings-"] .control-hero-actions {
+    display: grid;
+    gap: 16px;
+    justify-items: stretch;
+}
+
+body.page-settings .launch-radar,
+body[class*="page-settings-"] .launch-radar {
+    display: grid;
+    place-items: center;
+    min-height: 190px;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 28px;
+    background: rgba(255,255,255,.08);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+body.page-settings .launch-radar span,
+body[class*="page-settings-"] .launch-radar span {
+    color: var(--accent-300);
+    font-size: 46px;
+    font-weight: 950;
+}
+
+body.page-settings .launch-radar small,
+body[class*="page-settings-"] .launch-radar small {
+    color: rgba(255,255,255,.66);
+    font-weight: 800;
+}
+
+body.page-settings .control-hero-actions .button-row,
+body[class*="page-settings-"] .control-hero-actions .button-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+body.page-settings .executive-overview-grid,
+body[class*="page-settings-"] .executive-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+body.page-settings .executive-metric-card,
+body[class*="page-settings-"] .executive-metric-card {
+    position: relative;
+    display: grid;
+    gap: 8px;
+    min-height: 138px;
+    padding: 18px;
+    overflow: hidden;
+    border: 1px solid var(--settings-border);
+    border-radius: 22px;
+    background: var(--settings-panel);
+    box-shadow: var(--shadow-sm);
+}
+
+body.page-settings .executive-metric-card::before,
+body[class*="page-settings-"] .executive-metric-card::before {
+    content: "";
+    position: absolute;
+    inset-block: 18px;
+    inset-inline-start: 0;
+    width: 5px;
+    border-radius: 999px;
+    background: var(--brand-gradient);
+}
+
+body.page-settings .executive-metric-card.ok::before,
+body[class*="page-settings-"] .executive-metric-card.ok::before {
+    background: linear-gradient(180deg, var(--accent-400), var(--success));
+}
+
+body.page-settings .executive-metric-card.danger::before,
+body[class*="page-settings-"] .executive-metric-card.danger::before {
+    background: linear-gradient(180deg, var(--danger), var(--amber-500));
+}
+
+body.page-settings .executive-metric-card span,
+body[class*="page-settings-"] .executive-metric-card span,
+body.page-settings .executive-metric-card small,
+body[class*="page-settings-"] .executive-metric-card small {
+    color: var(--settings-muted);
+}
+
+body.page-settings .executive-metric-card strong,
+body[class*="page-settings-"] .executive-metric-card strong {
+    color: var(--gray-900);
+    font-size: 34px;
+    font-weight: 950;
+}
+
+body.page-settings .settings-quick-actions,
+body[class*="page-settings-"] .settings-quick-actions,
+body.page-settings .settings-command-panel,
+body[class*="page-settings-"] .settings-command-panel,
+body.page-settings .settings-section-action-bar,
+body[class*="page-settings-"] .settings-section-action-bar {
+    display: grid;
+    grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr);
+    gap: 18px;
+    align-items: center;
+    padding: 20px !important;
+    border: 1px solid var(--settings-border) !important;
+    border-radius: 24px !important;
+    background: var(--settings-panel) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+body.page-settings .quick-action-strip,
+body[class*="page-settings-"] .quick-action-strip,
+body.page-settings .settings-filter-pills,
+body[class*="page-settings-"] .settings-filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+body.page-settings .quick-action-strip a,
+body[class*="page-settings-"] .quick-action-strip a,
+body.page-settings .settings-filter-pills button,
+body[class*="page-settings-"] .settings-filter-pills button {
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid var(--settings-border);
+    border-radius: 14px;
+    color: var(--gray-700);
+    background: var(--gray-0);
+    font-weight: 900;
+    text-decoration: none;
+}
+
+body.page-settings .quick-action-strip a:hover,
+body[class*="page-settings-"] .quick-action-strip a:hover {
+    border-color: var(--brand-200);
+    color: var(--brand-600);
+    background: var(--brand-50);
+}
+
+body.page-settings .settings-hub-tools,
+body[class*="page-settings-"] .settings-hub-tools {
+    display: grid;
+    gap: 12px;
+}
+
+body.page-settings .settings-hub-search,
+body[class*="page-settings-"] .settings-hub-search {
+    display: grid;
+    gap: 7px;
+    color: var(--settings-muted);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+body.page-settings .settings-hub-search input,
+body[class*="page-settings-"] .settings-hub-search input,
+body.page-settings .control-search,
+body[class*="page-settings-"] .control-search {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid var(--settings-border);
+    border-radius: 15px;
+    background: var(--gray-50);
+}
+
+body.page-settings .settings-control-card-grid,
+body[class*="page-settings-"] .settings-control-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+body.page-settings .settings-control-card,
+body[class*="page-settings-"] .settings-control-card {
+    position: relative;
+    display: grid;
+    gap: 13px;
+    min-height: 230px;
+    padding: 18px;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid var(--settings-border) !important;
+    border-radius: 24px !important;
+    background: var(--settings-panel) !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: transform .15s cubic-bezier(.16,1,.3,1), border-color .15s cubic-bezier(.16,1,.3,1), box-shadow .15s cubic-bezier(.16,1,.3,1);
+}
+
+body.page-settings .settings-control-card:hover,
+body[class*="page-settings-"] .settings-control-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--brand-200) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+body.page-settings .settings-control-card-head,
+body[class*="page-settings-"] .settings-control-card-head {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: start;
+}
+
+body.page-settings .settings-control-card-icon,
+body[class*="page-settings-"] .settings-control-card-icon,
+body.page-settings .settings-section-icon,
+body[class*="page-settings-"] .settings-section-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    color: var(--gray-0);
+    background: var(--brand-gradient);
+    box-shadow: var(--shadow-brand);
+    font-size: 12px;
+    font-weight: 950;
+}
+
+body.page-settings .settings-control-card-title,
+body[class*="page-settings-"] .settings-control-card-title {
+    display: grid;
+    gap: 2px;
+}
+
+body.page-settings .settings-control-card-title small,
+body[class*="page-settings-"] .settings-control-card-title small,
+body.page-settings .settings-control-card p,
+body[class*="page-settings-"] .settings-control-card p {
+    color: var(--settings-muted);
+}
+
+body.page-settings .settings-control-card-title strong,
+body[class*="page-settings-"] .settings-control-card-title strong,
+body.page-settings .settings-control-card-footer b,
+body[class*="page-settings-"] .settings-control-card-footer b {
+    color: var(--gray-900);
+    font-weight: 950;
+}
+
+body.page-settings .settings-control-card-meta,
+body[class*="page-settings-"] .settings-control-card-meta,
+body.page-settings .settings-control-card-footer,
+body[class*="page-settings-"] .settings-control-card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.page-settings .settings-control-card-meta em,
+body[class*="page-settings-"] .settings-control-card-meta em,
+body.page-settings .settings-control-card-meta code,
+body[class*="page-settings-"] .settings-control-card-meta code {
+    max-width: 100%;
+    padding: 6px 9px;
+    overflow: hidden;
+    border-radius: 999px;
+    color: var(--gray-600);
+    background: var(--gray-100);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+body.page-settings .settings-control-card-progress,
+body[class*="page-settings-"] .settings-control-card-progress,
+body.page-settings .settings-section-progress,
+body[class*="page-settings-"] .settings-section-progress {
+    display: block;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--gray-100);
+}
+
+body.page-settings .settings-control-card-progress i,
+body[class*="page-settings-"] .settings-control-card-progress i,
+body.page-settings .settings-section-progress i,
+body[class*="page-settings-"] .settings-section-progress i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--brand-gradient);
+}
+
+body[class*="page-settings-"] .settings-section-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+    gap: 18px;
+    align-items: center;
+    padding: 24px !important;
+}
+
+body[class*="page-settings-"] .settings-section-hero-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+
+body[class*="page-settings-"] .settings-section-copy {
+    display: grid;
+    gap: 8px;
+}
+
+body[class*="page-settings-"] .settings-section-copy code {
+    justify-self: start;
+    max-width: 100%;
+    padding: 7px 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    color: var(--brand-700);
+    background: var(--brand-50);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+body[class*="page-settings-"] .settings-section-score {
+    display: grid;
+    gap: 8px;
+    padding: 18px;
+    border: 1px solid var(--settings-border);
+    border-radius: 20px;
+    background: var(--gray-50);
+}
+
+body[class*="page-settings-"] .settings-section-score strong {
+    color: var(--gray-900);
+    font-size: 36px;
+    font-weight: 950;
+}
+
+body[class*="page-settings-"] .settings-section-tool-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+body[class*="page-settings-"] .settings-section-tool {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+    min-height: 112px;
+    padding: 16px;
+}
+
+body[class*="page-settings-"] .settings-section-tool > span {
+    display: inline-grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    color: var(--brand-700);
+    background: var(--brand-50);
+    font-size: 11px;
+    font-weight: 950;
+}
+
+body.page-settings .executive-bottom-grid,
+body[class*="page-settings-"] .executive-bottom-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr);
+    gap: 16px;
+    align-items: start;
+}
+
+body.page-settings .ai-recommendation-panel,
+body[class*="page-settings-"] .ai-recommendation-panel {
+    grid-column: 1 / -1;
+}
+
+body.page-settings .system-health-grid,
+body[class*="page-settings-"] .system-health-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+body.page-settings .system-health-card,
+body[class*="page-settings-"] .system-health-card {
+    display: grid;
+    gap: 5px;
+    padding: 14px;
+    border: 1px solid var(--settings-border);
+    border-radius: 16px;
+    background: var(--gray-50);
+}
+
+body.page-settings .system-health-card span,
+body[class*="page-settings-"] .system-health-card span {
+    color: var(--brand-600);
+    font-size: 11px;
+    font-weight: 950;
+}
+
+body.page-settings .system-health-card b,
+body[class*="page-settings-"] .system-health-card b {
+    color: var(--gray-900);
+}
+
+body.page-settings .activity-timeline,
+body[class*="page-settings-"] .activity-timeline,
+body.page-settings .ai-recommendation-list,
+body[class*="page-settings-"] .ai-recommendation-list {
+    display: grid;
+    gap: 10px;
+}
+
+body.page-settings .activity-timeline article,
+body[class*="page-settings-"] .activity-timeline article,
+body.page-settings .ai-recommendation-list article,
+body[class*="page-settings-"] .ai-recommendation-list article {
+    display: grid;
+    gap: 4px;
+    padding: 14px;
+    border: 1px solid var(--settings-border);
+    border-radius: 16px;
+    background: var(--gray-50) !important;
+}
+
+body[class*="page-settings-"] .control-center-layout,
+body[class*="page-settings-"] .settings-detail-layout {
+    grid-template-columns: 280px minmax(0, 1fr) !important;
+    gap: 18px !important;
+    align-items: start;
+}
+
+body[class*="page-settings-"] .control-sidebar {
+    position: sticky;
+    top: calc(var(--header-h) + 18px);
+    display: grid;
+    gap: 14px;
+    max-height: calc(100vh - var(--header-h) - 36px);
+    padding: 16px !important;
+    overflow: auto;
+    border-radius: 22px !important;
+    background: var(--gray-0) !important;
+}
+
+body[class*="page-settings-"] .control-sidebar nav {
+    display: grid;
+    gap: 7px;
+}
+
+body[class*="page-settings-"] .control-sidebar nav a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 13px;
+    color: var(--gray-600);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+body[class*="page-settings-"] .control-content {
+    display: grid;
+    gap: 18px;
+    min-width: 0;
+}
+
+body[class*="page-settings-"] .control-section,
+body[class*="page-settings-"] .control-card,
+body[class*="page-settings-"] .control-table,
+body[class*="page-settings-"] .general-field-card,
+body[class*="page-settings-"] .user-create-card,
+body[class*="page-settings-"] .user-tools-card,
+body[class*="page-settings-"] .rbac-create-card {
+    border: 1px solid var(--settings-border) !important;
+    border-radius: 24px !important;
+    background: var(--gray-0) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+body[class*="page-settings-"] .control-section {
+    padding: 22px !important;
+    overflow: hidden;
+}
+
+body[class*="page-settings-"] .general-settings-head,
+body[class*="page-settings-"] .general-field-card-head,
+body[class*="page-settings-"] .panel-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+body[class*="page-settings-"] .general-settings-suite,
+body[class*="page-settings-"] .control-form,
+body[class*="page-settings-"] .general-field-stack,
+body[class*="page-settings-"] .general-toggle-grid {
+    display: grid;
+    gap: 14px;
+}
+
+body[class*="page-settings-"] .general-settings-overview {
+    grid-template-columns: minmax(260px, 1.2fr) repeat(3, minmax(160px, .7fr)) !important;
+}
+
+body[class*="page-settings-"] .general-brand-card,
+body[class*="page-settings-"] .general-stat-card {
+    padding: 16px;
+}
+
+body[class*="page-settings-"] .general-brand-logo {
+    display: inline-grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    color: var(--gray-0);
+    background: var(--brand-gradient);
+    box-shadow: var(--shadow-brand);
+    font-weight: 950;
+}
+
+body[class*="page-settings-"] .general-field-card {
+    padding: 18px;
+}
+
+body[class*="page-settings-"] .control-form label,
+body[class*="page-settings-"] .general-field-stack label {
+    display: grid;
+    gap: 7px;
+    color: var(--gray-600);
+    font-size: 12px;
+    font-weight: 900;
+}
+
+body[class*="page-settings-"] .control-form input,
+body[class*="page-settings-"] .control-form select,
+body[class*="page-settings-"] .control-form textarea,
+body[class*="page-settings-"] .general-field-stack input,
+body[class*="page-settings-"] .general-field-stack select,
+body[class*="page-settings-"] .general-field-stack textarea {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 1px solid var(--settings-border);
+    border-radius: 14px;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    outline: none;
+}
+
+body[class*="page-settings-"] .control-form textarea,
+body[class*="page-settings-"] .general-field-stack textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+body[class*="page-settings-"] .control-form input:focus,
+body[class*="page-settings-"] .control-form select:focus,
+body[class*="page-settings-"] .control-form textarea:focus {
+    border-color: var(--brand-400);
+    box-shadow: 0 0 0 4px rgba(109,40,217,.12);
+}
+
+body[class*="page-settings-"] .toggle-line,
+body[class*="page-settings-"] .premium-toggle {
+    display: flex !important;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 58px;
+    padding: 12px 14px;
+    border: 1px solid var(--settings-border);
+    border-radius: 16px;
+    background: var(--gray-50);
+}
+
+body[class*="page-settings-"] input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--brand-500);
+}
+
+body[class*="page-settings-"] .control-table {
+    display: grid;
+    gap: 8px;
+    padding: 12px;
+    overflow-x: auto;
+}
+
+body[class*="page-settings-"] .control-table .row,
+body[class*="page-settings-"] .control-table article,
+body[class*="page-settings-"] .user-row-card {
+    min-width: 720px;
+    padding: 12px;
+    border: 1px solid var(--gray-150);
+    border-radius: 14px;
+    background: var(--gray-50);
+}
+
+@media (max-width: 1320px) {
+    body.page-settings .control-center-hero,
+    body[class*="page-settings-"] .control-center-hero,
+    body.page-settings .settings-quick-actions,
+    body[class*="page-settings-"] .settings-quick-actions,
+    body.page-settings .settings-command-panel,
+    body[class*="page-settings-"] .settings-command-panel,
+    body.page-settings .settings-section-action-bar,
+    body[class*="page-settings-"] .settings-section-action-bar,
+    body[class*="page-settings-"] .settings-section-hero,
+    body[class*="page-settings-"] .control-center-layout,
+    body[class*="page-settings-"] .settings-detail-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.page-settings .settings-control-card-grid,
+    body[class*="page-settings-"] .settings-control-card-grid,
+    body.page-settings .executive-overview-grid,
+    body[class*="page-settings-"] .executive-overview-grid,
+    body[class*="page-settings-"] .settings-section-tool-grid,
+    body.page-settings .system-health-grid,
+    body[class*="page-settings-"] .system-health-grid,
+    body[class*="page-settings-"] .general-settings-overview {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    body[class*="page-settings-"] .control-sidebar {
+        position: static;
+        max-height: none;
+    }
+}
+
+@media (max-width: 760px) {
+    body.page-settings .control-center-hero,
+    body[class*="page-settings-"] .control-center-hero,
+    body[class*="page-settings-"] .control-section {
+        padding: 18px !important;
+        border-radius: 22px !important;
+    }
+
+    body.page-settings .control-hero-actions .button-row,
+    body[class*="page-settings-"] .control-hero-actions .button-row,
+    body.page-settings .settings-control-card-grid,
+    body[class*="page-settings-"] .settings-control-card-grid,
+    body.page-settings .executive-overview-grid,
+    body[class*="page-settings-"] .executive-overview-grid,
+    body[class*="page-settings-"] .settings-section-tool-grid,
+    body.page-settings .system-health-grid,
+    body[class*="page-settings-"] .system-health-grid,
+    body.page-settings .executive-bottom-grid,
+    body[class*="page-settings-"] .executive-bottom-grid,
+    body[class*="page-settings-"] .general-settings-overview {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.page-settings .settings-control-card-head,
+    body[class*="page-settings-"] .settings-control-card-head {
+        grid-template-columns: 44px minmax(0, 1fr);
+    }
+
+    body.page-settings .settings-control-card-head .status-pill,
+    body[class*="page-settings-"] .settings-control-card-head .status-pill {
+        grid-column: 1 / -1;
+        justify-self: start;
     }
 }
