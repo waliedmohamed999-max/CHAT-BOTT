@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v49';
+$assetVersion = '20260519-premium-brand-v50';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -436,6 +436,40 @@ $labelText = static function (?string $value): string {
                 <strong><?= (int) ($setupReadiness['score'] ?? 0) ?></strong>
                 <span>درجة الجاهزية</span>
                 <small><?= htmlspecialchars($setupReadiness['status'] ?? 'غير جاهز') ?></small>
+            </div>
+        </section>
+        <section class="whatsapp-setup-command-grid" aria-label="ملخص تشغيل مركز إعداد واتساب">
+            <article>
+                <span>طريقة الربط</span>
+                <strong>Meta Cloud + QR</strong>
+                <small>اختر المسار الرسمي للحملات أو QR للمحادثات اليومية.</small>
+            </article>
+            <article>
+                <span>ملف النشاط</span>
+                <strong><?= !empty($setupProfile['business_name']) ? 'مكتمل جزئياً' : 'بانتظار البيانات' ?></strong>
+                <small>اسم النشاط، الموقع، البريد الرسمي، ورقم واتساب المطلوب.</small>
+            </article>
+            <article>
+                <span>المستندات</span>
+                <strong><?= count((array) ($setupReadiness['items'] ?? [])) ?> عناصر</strong>
+                <small>السجل التجاري، الهوية، الشعار، وسياسات الخصوصية.</small>
+            </article>
+            <article>
+                <span>اختبار الإطلاق</span>
+                <strong><?= (int) ($setupReadiness['score'] ?? 0) ?>%</strong>
+                <small>فحص الربط، الويب هوك، القوالب، وجودة الرقم.</small>
+            </article>
+        </section>
+        <section class="whatsapp-setup-ops-bar panel wide" aria-label="إجراءات إعداد واتساب السريعة">
+            <div>
+                <span class="premium-pill">WhatsApp Setup Studio</span>
+                <h3>مسار إعداد واضح من الربط حتى الإطلاق</h3>
+                <p>ابدأ بالربط المناسب، ثم أكمل البيانات والمستندات، وبعدها نفّذ الاختبارات قبل تشغيل الحملات أو الردود الآلية.</p>
+            </div>
+            <div class="button-row">
+                <a class="primary" href="<?= htmlspecialchars($connectUrl) ?>">ربط Meta الرسمي</a>
+                <a class="secondary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/whatsapp-qr">فتح QR</a>
+                <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/omnichannel">القنوات الموحدة</a>
             </div>
         </section>
         <section class="setup-wizard panel wide whatsapp-setup-wizard">
