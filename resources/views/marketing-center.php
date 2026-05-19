@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v41';
+$assetVersion = '20260519-premium-brand-v42';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -1278,23 +1278,54 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'inbox'): ?>
-        <section class="inbox">
-            <aside class="panel conversations">
-                <div class="panel-head"><div><h2>Inbox موحد</h2><span>واتساب، إنستجرام، ماسنجر، تيليجرام، بريد، SMS، ودردشة الموقع</span></div></div>
-                <div class="toolbar compact-toolbar"><input placeholder="بحث ذكي"><select><option>كل القنوات</option><option>واتساب</option><option>إنستجرام</option><option>البريد</option><option>Live Chat</option></select></div>
-                <?php foreach (array_slice($omnichannelConversations ?? [], 0, 5) as $conversation): ?>
-                    <?php $channel = $conversation['channel'] ?? 'whatsapp_cloud'; ?>
-                    <button class="<?= ($conversation['priority'] ?? '') === 'high' ? 'active' : '' ?>"><span class="channel-badge"><?= htmlspecialchars($channelIcons[$channel] ?? 'CH') ?></span><?= htmlspecialchars($conversation['customer_name'] ?? 'عميل') ?><small><?= htmlspecialchars($conversation['last_message'] ?? $conversation['subject'] ?? '') ?></small></button>
-                <?php endforeach; ?>
+        <section class="inbox modern-inbox-shell">
+            <aside class="panel conversations inbox-conversation-list">
+                <div class="inbox-list-head">
+                    <div><h2>صندوق الوارد</h2><span>12 جديدة</span></div>
+                    <button class="secondary" type="button">محادثة جديدة</button>
+                </div>
+                <div class="inbox-search-row">
+                    <input placeholder="ابحث عن عميل أو قناة أو رسالة">
+                    <button type="button" aria-label="فلترة">⌘</button>
+                </div>
+                <div class="inbox-filter-chips" aria-label="فلاتر المحادثات">
+                    <button class="active" type="button">الكل</button>
+                    <button type="button">واتساب</button>
+                    <button type="button">Meta</button>
+                    <button type="button">غير مقروءة</button>
+                </div>
+                <div class="conversation-scroll">
+                    <?php foreach (array_slice($omnichannelConversations ?? [], 0, 7) as $index => $conversation): ?>
+                        <?php $channel = $conversation['channel'] ?? 'whatsapp_cloud'; ?>
+                        <button class="conversation-row <?= ($conversation['priority'] ?? '') === 'high' || $index === 0 ? 'active unread' : '' ?>">
+                            <span class="conversation-avatar"><?= htmlspecialchars($channelIcons[$channel] ?? 'CH') ?></span>
+                            <span class="conversation-copy">
+                                <strong><?= htmlspecialchars($conversation['customer_name'] ?? 'عميل') ?></strong>
+                                <small><?= htmlspecialchars($conversation['last_message'] ?? $conversation['subject'] ?? 'رسالة جديدة بانتظار الرد') ?></small>
+                            </span>
+                            <time><?= $index === 0 ? 'الآن' : 'قبل ' . (($index + 1) * 4) . ' د' ?></time>
+                            <?php if ($index < 3): ?><b><?= $index + 1 ?></b><?php endif; ?>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
             </aside>
-            <article class="panel chat">
-                <div class="chat-header"><strong>محادثة موحدة</strong><span class="status-pill ok">الرد من نفس القناة</span></div>
-                <div class="bubble inbound"><span class="channel-badge">WA</span> أحتاج حالة طلبي.</div>
-                <div class="bubble inbound"><span class="channel-badge">IG</span> هل الكوبون يعمل على نفس المنتج؟</div>
-                <div class="bubble outbound"><span class="channel-badge">WA</span> شكراً لك، نراجع الطلب الآن.</div>
-                <div class="ai-suggestion"><b>رد مقترح</b><span>طلبك قيد التجهيز وسيتم إرسال رابط التتبع خلال دقائق. تم تصنيف المحادثة: دعم الطلبات.</span></div>
-                <textarea placeholder="اكتب الرد، أو أضف ملاحظة داخلية، أو أرفق ملفاً"></textarea>
-                <div class="button-row"><button class="secondary">رد سريع</button><button class="secondary">ملاحظة داخلية</button><button class="secondary">إرفاق</button><button class="primary">إرسال الرد</button></div>
+
+            <article class="panel chat inbox-chat-view">
+                <div class="inbox-chat-header">
+                    <span class="conversation-avatar large">WA</span>
+                    <div><strong>سارة محمد</strong><small><i></i> متصل الآن · واتساب Business</small></div>
+                    <button class="secondary" type="button">عرض الملف</button>
+                </div>
+                <div class="inbox-message-stream">
+                    <div class="message-bubble incoming"><p>السلام عليكم، أحتاج معرفة حالة طلبي.</p><time>09:41</time></div>
+                    <div class="message-bubble incoming"><p>هل الكوبون يعمل على نفس المنتج؟</p><time>09:42</time></div>
+                    <div class="message-bubble outgoing"><p>وعليكم السلام، نراجع الطلب الآن وسنرسل لك رابط التتبع فوراً.</p><time>09:43 ✓✓</time></div>
+                    <div class="ai-suggestion inbox-ai-suggestion"><b>رد مقترح</b><span>طلبك قيد التجهيز وسيتم إرسال رابط التتبع خلال دقائق. تم تصنيف المحادثة: دعم الطلبات.</span></div>
+                </div>
+                <div class="inbox-composer">
+                    <textarea placeholder="اكتب الرد هنا..."></textarea>
+                    <div class="button-row"><button class="secondary">رد سريع</button><button class="secondary">ملاحظة داخلية</button><button class="secondary">إرفاق</button><button class="primary">إرسال الرد</button></div>
+                </div>
                 <div class="button-row bot-control-row">
                     <button data-api="/api/chatbot/conversations/1/pause" class="secondary api-post">إيقاف البوت</button>
                     <button data-api="/api/chatbot/conversations/1/resume" class="secondary api-post">استئناف البوت</button>
@@ -1302,28 +1333,22 @@ $labelText = static function (?string $value): string {
                     <button data-api="/api/chatbot/conversations/1/end" class="danger api-post">إنهاء المحادثة</button>
                 </div>
             </article>
-            <aside class="panel customer-timeline">
-                <div class="panel-head"><div><h2>ملف العميل 360</h2><span>سجل العميل عبر كل القنوات</span></div></div>
+
+            <aside class="panel customer-timeline inbox-customer-panel">
+                <div class="panel-head"><div><h2>Customer 360</h2><span>سجل العميل عبر كل القنوات</span></div></div>
                 <div class="kv"><span>مُسند إلى</span><strong>موظف الدعم</strong></div>
                 <div class="kv"><span>AI Score</span><strong><?= (int) ($customer360['ai_score'] ?? 0) ?>%</strong></div>
                 <div class="kv"><span>القسم</span><strong>طابور الطلبات</strong></div>
-                <div class="kv"><span>حالة البوت</span><strong>نشط / متوقف</strong></div>
-                    <div class="kv"><span>المسار الحالي</span><strong>مسار واتساب الافتراضي</strong></div>
                 <div class="kv"><span>القنوات</span><strong>WA، IG، Email، Live Chat</strong></div>
-                <div class="kv"><span>الوسوم</span><strong>VIP، طلب، مهتم بالعروض</strong></div>
                 <div class="ai-inbox-panel">
                     <b>رد ذكي مقترح</b>
-                    <p>طلبك قيد التجهيز، وسنرسل رابط التتبع فور تحديث شركة الشحن. إذا رغبت يمكنني تحويلك لفريق الطلبات.</p>
+                    <p>اطلب رقم الطلب أو حوّل المحادثة إلى طابور الطلبات إذا لم تكن بيانات التتبع متاحة.</p>
                     <div class="ai-meta-grid">
                         <span><em>نية العميل</em><strong>متابعة طلب</strong></span>
                         <span><em>المشاعر</em><strong>محايد</strong></span>
                         <span><em>درجة العميل</em><strong>58%</strong></span>
                         <span><em>الأولوية</em><strong>عادية</strong></span>
                     </div>
-                    <b>ملخص ذكي</b>
-                    <p>العميل يسأل عن حالة الطلب ويحتاج رداً من فريق الطلبات إذا لم تكن بيانات التتبع متاحة في قاعدة المعرفة.</p>
-                    <b>الإجراء التالي المقترح</b>
-                    <p>اطلب رقم الطلب أو حوّل المحادثة إلى طابور الطلبات.</p>
                     <button class="secondary ai-analyze-conversation" type="button" data-conversation-id="1">تحليل المحادثة</button>
                 </div>
                 <div class="timeline"><span>العميل فتح المحادثة</span><span>البوت أرسل الترحيب</span><span>العميل اختار القسم</span><span>تم التحويل للقسم</span><span>الموظف استلم المحادثة</span></div>
