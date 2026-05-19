@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v33';
+$assetVersion = '20260519-premium-brand-v34';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -799,6 +799,7 @@ $labelText = static function (?string $value): string {
                         <button type="button" data-component-type="end"><span>⚑</span> نهاية</button>
                     </div>
                     <div class="panel-head settings-title"><div><h2>إعدادات العقدة</h2><span>أي تعديل يظهر فوراً في واتساب Preview</span></div></div>
+                    <div class="inspector-fields">
                     <label class="inspector-field"><span>اسم العقدة</span><input id="nodeTitleInput" value="اختيار القسم"></label>
                     <label class="inspector-field"><span>نوع العقدة</span><select id="nodeTypeInput"><option value="message">رسالة نصية / قائمة</option><option value="question">سؤال ينتظر رد</option><option value="condition">شرط</option><option value="delay">تأخير</option><option value="ai_reply">رد ذكي</option><option value="human_handover">تحويل لموظف</option><option value="api_request">طلب API</option><option value="end">رسالة نهاية</option></select></label>
                     <label class="inspector-field"><span>نص الرسالة</span><textarea id="nodeMessageInput">أهلاً بك 👋
@@ -818,6 +819,7 @@ $labelText = static function (?string $value): string {
                         <label><input type="checkbox" checked> العقدة مفعلة</label>
                     </div>
                     <label class="inspector-field"><span>الخطوة التالية</span><select id="nodeNextInput"><option value="department_reply">عقدة رد القسم</option><option value="human_handover">تحويل لموظف</option><option value="end">نهاية المسار</option></select></label>
+                    </div>
                     <div class="button-row"><button class="primary save-node-settings" type="button">حفظ الإعدادات</button><button class="danger delete-node-btn" type="button">حذف العقدة</button></div>
                     <div class="autosave-state">Auto Save جاهز</div>
                     <div class="bot-settings-menu">
