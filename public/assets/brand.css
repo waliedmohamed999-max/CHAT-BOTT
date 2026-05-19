@@ -3529,3 +3529,39 @@ body[class*="page-"] .ai-widget.open {
     gap: 10px !important;
     margin: 0 !important;
 }
+
+.page-chatbot-builder .bot-node-settings .inspector-fields .settings-checks label {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    min-height: 48px !important;
+    width: 100% !important;
+    padding: 11px 13px !important;
+    border: 1px solid rgba(16,24,40,.08) !important;
+    border-radius: 16px !important;
+    color: #344054 !important;
+    background: rgba(255,255,255,.88) !important;
+    font-size: 13px !important;
+    font-weight: 850 !important;
+    line-height: 1.35 !important;
+    white-space: nowrap !important;
+    writing-mode: horizontal-tb !important;
+}
+
+.page-chatbot-builder .bot-node-settings .inspector-fields .settings-checks input[type="checkbox"] {
+    display: inline-block !important;
+    flex: 0 0 18px !important;
+    width: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    height: 18px !important;
+    min-height: 18px !important;
+    max-height: 18px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 5px !important;
+    accent-color: #1E3A8A !important;
+    box-shadow: none !important;
+}
