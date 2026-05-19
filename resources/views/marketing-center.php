@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v39';
+$assetVersion = '20260519-premium-brand-v40';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -30,6 +30,12 @@ $nav = [
     'saas' => ['label' => 'الباقات والاشتراكات', 'icon' => 'SA'],
     'super-admin' => ['label' => 'إدارة المنصة', 'icon' => 'SU'],
     'settings' => ['label' => 'الإعدادات', 'icon' => 'ST'],
+];
+$navGroups = [
+    'الرئيسية' => ['overview', 'inbox', 'campaign-builder'],
+    'القنوات' => ['omnichannel', 'whatsapp-setup', 'whatsapp-setup-center'],
+    'ذكاء اصطناعي' => ['chatbot-builder', 'templates', 'analytics', 'contacts'],
+    'الإعدادات' => ['settings'],
 ];
 $settingsPageLabels = [
     'general' => 'الإعدادات العامة',
@@ -197,26 +203,50 @@ $labelText = static function (?string $value): string {
 
 <aside class="sidebar" id="sidebar">
     <div class="brand">
-        <span class="brand-mark">MC</span>
+        <span class="brand-mark">SP</span>
         <div class="brand-copy">
-            <strong>مركز التسويق</strong>
-            <small>مساحة نمو ذكية</small>
+            <strong>ShatPot</strong>
+            <small>منصة التسويق الذكي</small>
         </div>
+    </div>
+    <div class="workspace-switcher" role="button" tabindex="0" aria-label="تبديل مساحة العمل">
+        <span class="workspace-avatar">MC</span>
+        <div>
+            <strong>مركز التسويق</strong>
+            <small>Professional Plan</small>
+        </div>
+        <em>Pro</em>
     </div>
     <button class="collapse-btn" id="collapseSidebar" type="button" title="طي القائمة">⇄</button>
     <nav class="side-nav">
-        <?php foreach ($nav as $key => $item): ?>
-            <?php $isActiveNav = $page === $key || ($key === 'settings' && str_starts_with($page, 'settings-')); ?>
-            <a class="<?= $isActiveNav ? 'active' : '' ?>" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/<?= $key ?>" title="<?= htmlspecialchars($item['label']) ?>">
-                <span class="nav-icon"><?= htmlspecialchars($item['icon']) ?></span>
-                <span class="nav-label"><?= htmlspecialchars($item['label']) ?></span>
-            </a>
+        <?php foreach ($navGroups as $groupLabel => $groupKeys): ?>
+            <div class="nav-section">
+                <span class="nav-section-label"><?= htmlspecialchars($groupLabel) ?></span>
+                <?php foreach ($groupKeys as $key): ?>
+                    <?php if (!isset($nav[$key])) { continue; } ?>
+                    <?php $item = $nav[$key]; $isActiveNav = $page === $key || ($key === 'settings' && str_starts_with($page, 'settings-')); ?>
+                    <a class="<?= $isActiveNav ? 'active' : '' ?>" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/<?= $key ?>" title="<?= htmlspecialchars($item['label']) ?>">
+                        <span class="nav-icon"><?= htmlspecialchars($item['icon']) ?></span>
+                        <span class="nav-label"><?= htmlspecialchars($item['label']) ?></span>
+                        <?php if ($key === 'inbox'): ?><span class="nav-badge">12</span><?php endif; ?>
+                        <?php if ($key === 'whatsapp-setup'): ?><span class="nav-live-dot" aria-label="متصل"></span><?php endif; ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
         <?php endforeach; ?>
     </nav>
     <div class="sidebar-card">
         <span>رؤية ذكية</span>
         <strong>أفضل وقت للإرسال اليوم بين 7:30 و9:00 مساءً</strong>
         <small>مبني على نشاط العملاء الأخير</small>
+    </div>
+    <div class="sidebar-user-row">
+        <span class="sidebar-user-avatar">MC</span>
+        <div>
+            <strong>مدير المنصة</strong>
+            <small>Admin</small>
+        </div>
+        <a href="<?= htmlspecialchars($appUrl) ?>/marketing-center/settings" aria-label="الإعدادات">⚙</a>
     </div>
 </aside>
 
