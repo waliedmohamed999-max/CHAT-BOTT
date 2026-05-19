@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v47';
+$assetVersion = '20260519-premium-brand-v48';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -1608,6 +1608,43 @@ $labelText = static function (?string $value): string {
             <article class="metric-card lift-card"><span>غير مسندة</span><strong><?= (int) ($omnichannelOverview['unassigned'] ?? 0) ?></strong><small>تحتاج توزيع</small></article>
             <article class="metric-card lift-card"><span>حلها الذكاء الاصطناعي</span><strong><?= (int) ($omnichannelOverview['ai_resolved'] ?? 0) ?></strong><small>بدون تدخل بشري</small></article>
             <article class="metric-card lift-card"><span>أول رد</span><strong><?= htmlspecialchars($omnichannelOverview['first_response_time'] ?? '0د') ?></strong><small>متوسط وقت الاستجابة</small></article>
+        </section>
+
+        <section class="channels-command-grid" aria-label="القنوات الموحدة">
+            <article class="channel-connect-card connected">
+                <div><b>واتساب Business</b><span>Cloud API + QR Session</span></div>
+                <em>متصل</em>
+                <dl><div><dt>مرسلة</dt><dd>2,140</dd></div><div><dt>واردة</dt><dd>860</dd></div></dl>
+                <div class="button-row"><button class="secondary" type="button">إعداد</button><button class="danger" type="button">فصل</button></div>
+            </article>
+            <article class="channel-connect-card connected">
+                <div><b>Meta</b><span>Facebook + Instagram</span></div>
+                <em>متصل</em>
+                <dl><div><dt>مرسلة</dt><dd>820</dd></div><div><dt>واردة</dt><dd>310</dd></div></dl>
+                <div class="button-row"><button class="secondary" type="button">إعداد</button><button class="danger" type="button">فصل</button></div>
+            </article>
+            <article class="channel-connect-card pending">
+                <div><b>بريد إلكتروني</b><span>SMTP / IMAP</span></div>
+                <em>جاهز للربط</em>
+                <dl><div><dt>مرسلة</dt><dd>0</dd></div><div><dt>واردة</dt><dd>0</dd></div></dl>
+                <div class="button-row"><button class="primary" type="button">ربط</button></div>
+            </article>
+            <article class="channel-connect-card pending">
+                <div><b>SMS</b><span>مزود رسائل قصير</span></div>
+                <em>غير متصل</em>
+                <dl><div><dt>مرسلة</dt><dd>0</dd></div><div><dt>واردة</dt><dd>0</dd></div></dl>
+                <div class="button-row"><button class="primary" type="button">ربط</button></div>
+            </article>
+        </section>
+
+        <section class="channels-add-panel panel wide">
+            <div class="panel-head"><div><h2>ربط قناة جديدة</h2><span>اختر قناة إضافية ثم أكمل بيانات المزود في النموذج.</span></div></div>
+            <div class="channels-add-grid">
+                <button type="button">+ تيليجرام</button>
+                <button type="button">+ دردشة الموقع</button>
+                <button type="button">+ بريد إلكتروني</button>
+                <button type="button">+ SMS</button>
+            </div>
         </section>
 
         <section class="panel wide omnichannel-channel-hub">

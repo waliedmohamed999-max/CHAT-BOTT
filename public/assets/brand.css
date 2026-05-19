@@ -7288,8 +7288,169 @@ body.page-contacts .contacts-legacy-panel {
         grid-template-columns: 1fr;
     }
 
-    body.page-contacts .contacts-command-actions {
+body.page-contacts .contacts-command-actions {
         display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Omnichannel connected channels v48 */
+body.page-omnichannel .omnichannel-command-hero {
+    color: var(--gray-0) !important;
+    background:
+        radial-gradient(circle at 12% 18%, rgba(45,212,191,.20), transparent 34%),
+        radial-gradient(circle at 92% 8%, rgba(109,40,217,.34), transparent 34%),
+        var(--gray-900) !important;
+}
+
+body.page-omnichannel .omnichannel-command-hero h2 {
+    color: var(--gray-0) !important;
+}
+
+body.page-omnichannel .omnichannel-command-hero p {
+    color: rgba(255,255,255,.68) !important;
+}
+
+body.page-omnichannel .omni-score {
+    border-color: rgba(255,255,255,.14) !important;
+    background: rgba(255,255,255,.08) !important;
+}
+
+body.page-omnichannel .omni-score strong,
+body.page-omnichannel .omni-score span {
+    color: var(--gray-0) !important;
+}
+
+body.page-omnichannel .omni-score small {
+    color: rgba(255,255,255,.66) !important;
+}
+
+body.page-omnichannel .channels-command-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+body.page-omnichannel .channel-connect-card,
+body.page-omnichannel .channels-add-panel {
+    border: 1px solid var(--gray-150) !important;
+    border-radius: 22px !important;
+    background: var(--gray-0) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+body.page-omnichannel .channel-connect-card {
+    position: relative;
+    display: grid;
+    gap: 14px;
+    padding: 18px;
+    overflow: hidden;
+}
+
+body.page-omnichannel .channel-connect-card::before {
+    content: "";
+    position: absolute;
+    inset-block: 18px;
+    inset-inline-start: 0;
+    width: 5px;
+    border-radius: 999px;
+    background: var(--brand-gradient);
+}
+
+body.page-omnichannel .channel-connect-card.connected::before {
+    background: var(--accent-gradient);
+}
+
+body.page-omnichannel .channel-connect-card b {
+    display: block;
+    color: var(--gray-900);
+    font-size: 16px;
+    font-weight: 900;
+}
+
+body.page-omnichannel .channel-connect-card span,
+body.page-omnichannel .channel-connect-card dt {
+    color: var(--gray-500);
+    font-size: 12px;
+}
+
+body.page-omnichannel .channel-connect-card em {
+    justify-self: start;
+    padding: 5px 10px;
+    border-radius: 999px;
+    color: var(--success);
+    background: var(--success-bg);
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+body.page-omnichannel .channel-connect-card.pending em {
+    color: var(--warning);
+    background: var(--warning-bg);
+}
+
+body.page-omnichannel .channel-connect-card dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+}
+
+body.page-omnichannel .channel-connect-card dd {
+    margin: 3px 0 0;
+    color: var(--gray-900);
+    font-weight: 900;
+}
+
+body.page-omnichannel .channel-connect-card .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+body.page-omnichannel .channels-add-panel {
+    padding: 18px !important;
+}
+
+body.page-omnichannel .channels-add-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+body.page-omnichannel .channels-add-grid button {
+    min-height: 54px;
+    border: 1px dashed var(--brand-200);
+    border-radius: 16px;
+    color: var(--brand-600);
+    background: var(--brand-50);
+    font-weight: 900;
+}
+
+body.page-omnichannel .omnichannel-channel-hub,
+body.page-omnichannel .omnichannel-workbench > .panel,
+body.page-omnichannel .omnichannel-ops-grid > .panel {
+    border: 1px solid var(--gray-150) !important;
+    background: var(--gray-0) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+body.page-omnichannel .omnichannel-connect-form input,
+body.page-omnichannel .omnichannel-connect-form select {
+    background: var(--gray-0) !important;
+}
+
+@media (max-width: 1280px) {
+    body.page-omnichannel .channels-command-grid,
+    body.page-omnichannel .channels-add-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    body.page-omnichannel .channels-command-grid,
+    body.page-omnichannel .channels-add-grid {
         grid-template-columns: 1fr;
     }
 }
