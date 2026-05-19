@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v43';
+$assetVersion = '20260519-premium-brand-v44';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -842,7 +842,37 @@ $labelText = static function (?string $value): string {
                 <article><b>جاهزية النشر</b><span>لا تنشر البوت قبل وصول التشخيص إلى 100% في البيئة الحقيقية.</span></article>
             </div>
         </section>
-        <section class="panel wide whatsapp-bot-builder">
+        <section class="bot-studio-command panel wide" aria-labelledby="botStudioTitle">
+            <div class="bot-studio-head">
+                <div>
+                    <span class="premium-pill">Bot Flow Studio</span>
+                    <h2 id="botStudioTitle">مساحة بناء تدفقات البوت</h2>
+                    <p>ابدأ من عقد جاهزة، رتّب المسار، اختبر الردود، ثم انشر البوت على واتساب والقنوات الموحدة بدون تغيير المنطق الحالي.</p>
+                </div>
+                <div class="bot-studio-actions">
+                    <button class="secondary auto-arrange-flow" type="button">ترتيب تلقائي</button>
+                    <button class="primary chatbot-create-flow" type="button" data-flow-status="draft">حفظ المسار</button>
+                </div>
+            </div>
+            <div class="bot-node-library" aria-label="أنواع العقد">
+                <article class="node-message"><b>رسالة</b><span>نص، صورة، أزرار، قوائم</span></article>
+                <article class="node-question"><b>سؤال</b><span>جمع بيانات العميل</span></article>
+                <article class="node-condition"><b>شروط</b><span>إذا / وإلا حسب النية</span></article>
+                <article class="node-api"><b>API</b><span>طلب خارجي آمن</span></article>
+                <article class="node-ai"><b>AI</b><span>رد ذكي من المعرفة</span></article>
+                <article class="node-handover"><b>تحويل موظف</b><span>إسناد لقسم مختص</span></article>
+            </div>
+            <div class="bot-flow-overview">
+                <article><b>1</b><span>رسالة ترحيب</span></article>
+                <i></i>
+                <article><b>2</b><span>اختيار القسم</span></article>
+                <i></i>
+                <article><b>3</b><span>رد ذكي أو مسار</span></article>
+                <i></i>
+                <article><b>4</b><span>تحويل أو إنهاء</span></article>
+            </div>
+        </section>
+        <section class="panel wide whatsapp-bot-builder bot-builder-suite">
             <div class="builder-actions">
                 <span class="bot-status-toggle"><i></i> الحالة: منشط</span>
                 <button class="secondary bot-preview-run" type="button">معاينة المحادثة</button>
