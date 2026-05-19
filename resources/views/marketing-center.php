@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v42';
+$assetVersion = '20260519-premium-brand-v43';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -607,7 +607,65 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'campaign-builder'): ?>
-        <section class="campaign-command">
+        <section class="campaign-command campaign-command-suite">
+            <section class="campaign-dashboard-head panel wide" aria-labelledby="campaignCommandTitle">
+                <div>
+                    <span class="premium-pill">Campaign Command Center</span>
+                    <h2 id="campaignCommandTitle">منشئ الحملات الذكي</h2>
+                    <p>صمّم الجمهور، اختر القالب، راقب الالتزام، وجدول الإرسال من مساحة واحدة واضحة مع معاينة واتساب مباشرة.</p>
+                </div>
+                <div class="campaign-head-actions">
+                    <a class="secondary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/templates">مكتبة القوالب</a>
+                    <a class="primary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/contacts">إضافة جمهور</a>
+                </div>
+            </section>
+
+            <section class="campaign-stats-row" aria-label="ملخص الحملات">
+                <article><span>إجمالي الحملات</span><strong><?= number_format((int) ($data['campaigns'] ?? 0)) ?></strong><small>نشطة ومجدولة</small></article>
+                <article><span>مجموع المُرسلة</span><strong><?= number_format((int) ($data['sent'] ?? 0)) ?></strong><small>كل القنوات</small></article>
+                <article><span>معدل النجاح</span><strong>93%</strong><small>آخر 30 يوم</small></article>
+                <article><span>معدل التحويل</span><strong>18%</strong><small>تحسن +4%</small></article>
+            </section>
+
+            <section class="campaign-card-grid" aria-label="حملات مختارة">
+                <article class="campaign-plan-card is-live">
+                    <div><b>عرض نهاية الأسبوع</b><span>واتساب Cloud</span></div>
+                    <em>نشطة</em>
+                    <div class="campaign-progress progress-86"><i></i></div>
+                    <dl><div><dt>مُرسلة</dt><dd>1,240</dd></div><div><dt>ناجحة</dt><dd>1,182</dd></div><div><dt>تحويل</dt><dd>21%</dd></div></dl>
+                </article>
+                <article class="campaign-plan-card is-review">
+                    <div><b>استرداد السلة</b><span>واتساب + Meta</span></div>
+                    <em>مراجعة</em>
+                    <div class="campaign-progress progress-64"><i></i></div>
+                    <dl><div><dt>مُرسلة</dt><dd>820</dd></div><div><dt>ناجحة</dt><dd>771</dd></div><div><dt>تحويل</dt><dd>16%</dd></div></dl>
+                </article>
+                <article class="campaign-plan-card is-scheduled">
+                    <div><b>ترحيب العملاء</b><span>قالب Utility</span></div>
+                    <em>مجدولة</em>
+                    <div class="campaign-progress progress-42"><i></i></div>
+                    <dl><div><dt>مُرسلة</dt><dd>560</dd></div><div><dt>ناجحة</dt><dd>541</dd></div><div><dt>تحويل</dt><dd>12%</dd></div></dl>
+                </article>
+                <a class="campaign-create-card" href="#campaignWorkbench">+ إنشاء حملة جديدة</a>
+            </section>
+
+            <section class="campaign-table-panel panel wide">
+                <div class="panel-head">
+                    <div>
+                        <h2>سجل الحملات</h2>
+                        <span>متابعة سريعة للحملات الأخيرة وحالة الإرسال.</span>
+                    </div>
+                    <a class="secondary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/analytics">عرض التحليلات</a>
+                </div>
+                <div class="campaign-data-table" role="table" aria-label="جدول الحملات">
+                    <div role="row" class="campaign-table-head"><span>اسم الحملة</span><span>القناة</span><span>الجمهور</span><span>المُرسلة</span><span>الناجحة</span><span>التحويل</span><span>الحالة</span><span>إجراءات</span></div>
+                    <div role="row"><span>عرض نهاية الأسبوع</span><span>واتساب</span><span>نشطون</span><span>1,240</span><span>1,182</span><span>21%</span><b class="status-pill ok">نشطة</b><span><button type="button" class="secondary">تعديل</button></span></div>
+                    <div role="row"><span>استرداد السلة</span><span>Meta</span><span>سلة متروكة</span><span>820</span><span>771</span><span>16%</span><b class="status-pill pending">مراجعة</b><span><button type="button" class="secondary">فتح</button></span></div>
+                    <div role="row"><span>ترحيب العملاء</span><span>Cloud API</span><span>جدد</span><span>560</span><span>541</span><span>12%</span><b class="status-pill info">مجدولة</b><span><button type="button" class="secondary">نسخ</button></span></div>
+                </div>
+            </section>
+
+            <section class="campaign-builder-grid" id="campaignWorkbench" aria-label="منشئ الحملة">
             <aside class="campaign-preview-rail">
                 <div class="campaign-phone-shell">
                     <div class="campaign-phone">
@@ -714,6 +772,7 @@ $labelText = static function (?string $value): string {
                     <button type="button" class="danger">مراجعة قبل الإطلاق</button>
                 </div>
             </form>
+            </section>
         </section>
     <?php endif; ?>
 
