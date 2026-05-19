@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v52';
+$assetVersion = '20260519-premium-brand-v53';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -377,6 +377,52 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'connect-meta'): ?>
+        <section class="meta-connect-hero panel wide">
+            <div>
+                <span class="premium-pill">Meta Business OAuth</span>
+                <h2>ربط Meta الرسمي وإدارة أصول واتساب من مكان واحد</h2>
+                <p>اربط Business Portfolio، حساب WhatsApp Business، وأرقام الإرسال عبر OAuth آمن مع مزامنة الصلاحيات والتحقق من Webhook قبل تشغيل الحملات.</p>
+            </div>
+            <div class="meta-connect-score">
+                <strong><?= $connection ? 'متصل' : 'غير متصل' ?></strong>
+                <span><?= htmlspecialchars($connection['token_status'] ?? 'OAuth Pending') ?></span>
+                <small><?= htmlspecialchars($connection['business_id'] ?? 'بانتظار ربط Business Portfolio') ?></small>
+            </div>
+        </section>
+        <section class="meta-connect-grid" aria-label="ملخص ربط Meta">
+            <article class="<?= $connection ? 'ok' : 'pending' ?>">
+                <span>OAuth</span>
+                <strong><?= $connection ? 'نشط' : 'معلق' ?></strong>
+                <small>تسجيل دخول Meta للأعمال.</small>
+            </article>
+            <article class="<?= !empty($phones[0]['waba_id'] ?? null) ? 'ok' : 'pending' ?>">
+                <span>WABA</span>
+                <strong><?= !empty($phones[0]['waba_id'] ?? null) ? 'مرتبط' : 'بانتظار' ?></strong>
+                <small>حساب واتساب للأعمال.</small>
+            </article>
+            <article class="<?= !empty($phones[0]['phone_number_id'] ?? null) ? 'ok' : 'pending' ?>">
+                <span>Phone ID</span>
+                <strong><?= !empty($phones[0]['phone_number_id'] ?? null) ? 'جاهز' : 'غير مربوط' ?></strong>
+                <small>رقم الإرسال الرسمي.</small>
+            </article>
+            <article>
+                <span>Webhook</span>
+                <strong>جاهز</strong>
+                <small><?= htmlspecialchars($appUrl) ?>/api/webhooks/whatsapp</small>
+            </article>
+        </section>
+        <section class="meta-connect-actions panel wide" aria-label="إجراءات ربط Meta">
+            <div>
+                <span class="premium-pill">Secure Connection Flow</span>
+                <h3>مسار ربط واضح قبل تشغيل القوالب والحملات</h3>
+                <p>ابدأ OAuth، اختر Business/WABA، زامن الأصول، ثم اختبر الويب هوك والقوالب من مركز واتساب.</p>
+            </div>
+            <div class="button-row">
+                <a class="primary" href="<?= htmlspecialchars($connectUrl) ?>">ربط Meta</a>
+                <a class="secondary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/whatsapp-setup-center">مركز إعداد واتساب</a>
+                <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/omnichannel">القنوات الموحدة</a>
+            </div>
+        </section>
         <section class="panel-grid">
             <article class="panel wide integration-card">
                 <div class="panel-head"><div><h2>تسجيل دخول Meta للأعمال</h2><span>ربط رسمي عبر OAuth والتسجيل المضمن</span></div><span class="status-pill <?= $connection ? 'ok' : 'pending' ?>"><?= $connection ? 'متصل' : 'غير متصل' ?></span></div>
