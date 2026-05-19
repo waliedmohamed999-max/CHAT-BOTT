@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v37';
+$assetVersion = '20260519-premium-brand-v38';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -339,7 +339,7 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'whatsapp-setup-center'): ?>
-        <section class="setup-center-hero panel wide">
+        <section class="setup-center-hero panel wide whatsapp-setup-command-hero">
             <div>
                 <span class="premium-pill">إعداد واتساب الموحد</span>
                 <h2>مركز إعداد واتساب الموحد</h2>
@@ -351,8 +351,8 @@ $labelText = static function (?string $value): string {
                 <small><?= htmlspecialchars($setupReadiness['status'] ?? 'غير جاهز') ?></small>
             </div>
         </section>
-        <section class="setup-wizard panel wide">
-            <div class="wizard-steps" data-wizard-tabs>
+        <section class="setup-wizard panel wide whatsapp-setup-wizard">
+            <div class="wizard-steps whatsapp-setup-steps" data-wizard-tabs>
                 <button class="active" data-step="1">1. طريقة الربط</button>
                 <button data-step="2">2. بيانات النشاط</button>
                 <button data-step="3">3. المستندات</button>
@@ -361,8 +361,8 @@ $labelText = static function (?string $value): string {
                 <button data-step="6">6. الجاهزية</button>
             </div>
 
-            <div class="wizard-panel active" data-step-panel="1">
-                <div class="method-cards">
+            <div class="wizard-panel active whatsapp-setup-panel" data-step-panel="1">
+                <div class="method-cards whatsapp-method-cards">
                     <article>
                         <span class="premium-pill">رسمي</span>
                         <h3>واجهة Meta Cloud API لواتساب</h3>
@@ -378,7 +378,7 @@ $labelText = static function (?string $value): string {
                         <button class="secondary setup-method" data-method="qr_web_session">المتابعة بالباركود</button>
                     </article>
                 </div>
-                <div class="comparison-table">
+                <div class="comparison-table whatsapp-comparison-table">
                     <span>الميزة</span><b>الواجهة الرسمية</b><b>جلسة الباركود</b>
                     <span>القوالب الرسمية</span><b>نعم</b><b>لا</b>
                     <span>الحملات الكبيرة</span><b>مناسب</b><b>محدود</b>
@@ -387,8 +387,8 @@ $labelText = static function (?string $value): string {
                 </div>
             </div>
 
-            <div class="wizard-panel" data-step-panel="2">
-                <form class="setup-profile-form">
+            <div class="wizard-panel whatsapp-setup-panel" data-step-panel="2">
+                <form class="setup-profile-form whatsapp-profile-form">
                     <input name="business_name" placeholder="اسم النشاط التجاري" value="<?= htmlspecialchars($setupProfile['business_name'] ?? '') ?>">
                     <input name="store_name" placeholder="اسم المتجر" value="<?= htmlspecialchars($setupProfile['store_name'] ?? '') ?>">
                     <input name="country" placeholder="الدولة" value="<?= htmlspecialchars($setupProfile['country'] ?? '') ?>">
@@ -410,8 +410,8 @@ $labelText = static function (?string $value): string {
                 </form>
             </div>
 
-            <div class="wizard-panel" data-step-panel="3">
-                <div class="upload-grid">
+            <div class="wizard-panel whatsapp-setup-panel" data-step-panel="3">
+                <div class="upload-grid whatsapp-upload-grid">
                     <?php foreach (['commercial_register' => 'السجل التجاري', 'tax_card' => 'البطاقة الضريبية', 'identity' => 'الهوية أو جواز السفر', 'logo' => 'شعار النشاط', 'domain_ownership' => 'إثبات ملكية الموقع', 'meta_business' => 'بيانات Meta Business', 'privacy_policy' => 'سياسة الخصوصية', 'terms' => 'الشروط والأحكام', 'additional' => 'مستند إضافي'] as $type => $label): ?>
                         <form class="upload-card setup-upload-form" enctype="multipart/form-data">
                             <input type="hidden" name="document_type" value="<?= htmlspecialchars($type) ?>">
@@ -424,8 +424,8 @@ $labelText = static function (?string $value): string {
                 </div>
             </div>
 
-            <div class="wizard-panel" data-step-panel="4">
-                <div class="setup-connect-grid">
+            <div class="wizard-panel whatsapp-setup-panel" data-step-panel="4">
+                <div class="setup-connect-grid whatsapp-connect-grid">
                     <article>
                         <h3>الربط الرسمي Meta</h3>
                         <div class="checklist mini"><div><b>✓</b><span>تطبيق Meta للمطورين</span></div><div><b>✓</b><span>مدير الأعمال</span></div><div><b>!</b><span>توثيق النشاط</span></div><div><b>!</b><span>مزامنة القوالب</span></div></div>
@@ -439,8 +439,8 @@ $labelText = static function (?string $value): string {
                 </div>
             </div>
 
-            <div class="wizard-panel" data-step-panel="5">
-                <div class="test-grid">
+            <div class="wizard-panel whatsapp-setup-panel" data-step-panel="5">
+                <div class="test-grid whatsapp-test-grid">
                     <form class="setup-test-form">
                         <h3>إرسال رسالة اختبار</h3>
                         <input name="to" placeholder="رقم المستلم">
@@ -453,8 +453,8 @@ $labelText = static function (?string $value): string {
                 <div class="result-cards"><span class="status-pill pending">قيد الانتظار</span><span class="status-pill ok">ناجح</span><span class="status-pill danger-state">فشل</span><span class="status-pill pending">تحذير</span></div>
             </div>
 
-            <div class="wizard-panel" data-step-panel="6">
-                <div class="readiness-board">
+            <div class="wizard-panel whatsapp-setup-panel" data-step-panel="6">
+                <div class="readiness-board whatsapp-readiness-board">
                     <div class="launch-score large"><strong><?= (int) ($setupReadiness['score'] ?? 0) ?></strong><span>من 100</span><small><?= htmlspecialchars($setupReadiness['status'] ?? 'غير جاهز') ?></small></div>
                     <div class="checklist">
                         <?php foreach (($setupReadiness['items'] ?? []) as $item => $ready): ?>

@@ -4173,3 +4173,459 @@ body.page-omnichannel .funnel span {
         max-width: 100% !important;
     }
 }
+
+/* WhatsApp setup center redesign */
+body.page-whatsapp-setup-center .main-area {
+    background:
+        radial-gradient(circle at 18% 0%, rgba(16,185,129,.09), transparent 30%),
+        radial-gradient(circle at 86% 8%, rgba(124,58,237,.08), transparent 34%),
+        #F5F7FB !important;
+}
+
+body.page-whatsapp-setup-center .page-title {
+    min-height: 86px !important;
+    margin-bottom: 18px !important;
+    border-radius: 28px !important;
+    background: rgba(255,255,255,.84) !important;
+    box-shadow: 0 18px 54px rgba(15,23,42,.08) !important;
+    backdrop-filter: blur(18px);
+}
+
+body.page-whatsapp-setup-center .whatsapp-setup-command-hero {
+    min-height: 300px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 300px) !important;
+    gap: 28px !important;
+    align-items: center !important;
+    margin-bottom: 18px !important;
+    padding: clamp(28px, 4vw, 48px) !important;
+    border-radius: 34px !important;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,.98), rgba(240,253,250,.78)),
+        radial-gradient(circle at 14% 16%, rgba(16,185,129,.13), transparent 32%),
+        radial-gradient(circle at 90% 8%, rgba(124,58,237,.12), transparent 34%) !important;
+    box-shadow: 0 28px 78px rgba(15,23,42,.12) !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-setup-command-hero h2 {
+    margin: 14px 0 12px !important;
+    color: #101828 !important;
+    font-size: clamp(34px, 4.3vw, 62px) !important;
+    line-height: 1.06 !important;
+    letter-spacing: 0 !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-setup-command-hero p {
+    max-width: 880px !important;
+    color: #667085 !important;
+    font-size: 15px !important;
+    line-height: 1.9 !important;
+}
+
+body.page-whatsapp-setup-center .launch-score {
+    min-height: 220px !important;
+    display: grid !important;
+    place-items: center !important;
+    text-align: center !important;
+    padding: 22px !important;
+    border: 1px solid rgba(16,185,129,.18) !important;
+    border-radius: 30px !important;
+    background:
+        radial-gradient(circle at 50% 38%, rgba(16,185,129,.18), transparent 44%),
+        linear-gradient(145deg, rgba(255,255,255,.92), rgba(236,253,245,.72)) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 22px 56px rgba(16,185,129,.12) !important;
+}
+
+body.page-whatsapp-setup-center .launch-score strong {
+    color: #059669 !important;
+    font-size: clamp(52px, 4vw, 76px) !important;
+    line-height: 1 !important;
+}
+
+body.page-whatsapp-setup-center .launch-score span {
+    color: #101828 !important;
+    font-weight: 950 !important;
+}
+
+body.page-whatsapp-setup-center .launch-score small {
+    color: #667085 !important;
+    font-weight: 800 !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-setup-wizard {
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 34px !important;
+    background: rgba(255,255,255,.88) !important;
+    box-shadow: 0 28px 78px rgba(15,23,42,.10) !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-setup-steps {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 5 !important;
+    display: grid !important;
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    padding: 18px !important;
+    border-bottom: 1px solid rgba(15,23,42,.08) !important;
+    background: rgba(255,255,255,.92) !important;
+    backdrop-filter: blur(18px);
+}
+
+body.page-whatsapp-setup-center .whatsapp-setup-steps button {
+    min-height: 58px !important;
+    padding: 10px 12px !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    border-radius: 18px !important;
+    color: #344054 !important;
+    background: rgba(248,250,252,.86) !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+    white-space: normal !important;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-setup-steps button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(30,58,138,.16) !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-setup-steps button.active {
+    color: #fff !important;
+    border-color: transparent !important;
+    background: linear-gradient(135deg,#1E3A8A,#7C3AED) !important;
+    box-shadow: 0 16px 36px rgba(49,46,129,.22) !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-setup-panel {
+    padding: 24px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-method-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    margin-bottom: 18px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-method-cards article {
+    position: relative !important;
+    min-height: 320px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    padding: 24px !important;
+    overflow: hidden !important;
+    border-radius: 28px !important;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.98), rgba(248,250,252,.90)) !important;
+    box-shadow: 0 20px 54px rgba(15,23,42,.08) !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-method-cards article::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: 22px;
+    width: 5px;
+    border-radius: 99px;
+    background: linear-gradient(180deg,#059669,#1E3A8A,#7C3AED);
+}
+
+body.page-whatsapp-setup-center .whatsapp-method-cards h3 {
+    margin: 0 !important;
+    color: #101828 !important;
+    font-size: 22px !important;
+    line-height: 1.35 !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-method-cards p {
+    color: #667085 !important;
+    line-height: 1.8 !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-method-cards ul {
+    display: grid !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-method-cards li {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #344054 !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-method-cards li::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    flex: 0 0 8px;
+    border-radius: 99px;
+    background: #10B981;
+}
+
+body.page-whatsapp-setup-center .whatsapp-method-cards button {
+    margin-top: auto !important;
+    min-height: 48px !important;
+    border-radius: 16px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-comparison-table {
+    display: grid !important;
+    grid-template-columns: minmax(180px, .9fr) repeat(2, minmax(180px, 1fr)) !important;
+    gap: 8px !important;
+    padding: 14px !important;
+    overflow-x: auto !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    border-radius: 24px !important;
+    background: rgba(248,250,252,.72) !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-comparison-table > * {
+    min-height: 46px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 10px 12px !important;
+    border-radius: 14px !important;
+    background: #fff !important;
+    white-space: nowrap !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-comparison-table b {
+    color: #101828 !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-profile-form {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    padding: 20px !important;
+    border-radius: 28px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-profile-form input,
+body.page-whatsapp-setup-center .whatsapp-profile-form textarea,
+body.page-whatsapp-setup-center .whatsapp-profile-form label,
+body.page-whatsapp-setup-center .whatsapp-profile-form button,
+body.page-whatsapp-setup-center .setup-test-form input,
+body.page-whatsapp-setup-center .setup-test-form button {
+    min-height: 48px !important;
+    border-radius: 16px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-profile-form textarea {
+    grid-column: 1 / -1 !important;
+    min-height: 124px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-profile-form label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 12px 14px !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    background: rgba(255,255,255,.84) !important;
+    color: #344054 !important;
+    font-weight: 850 !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-profile-form input[type="checkbox"] {
+    width: 18px !important;
+    min-width: 18px !important;
+    height: 18px !important;
+    min-height: 18px !important;
+    accent-color: #1E3A8A !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-profile-form button {
+    grid-column: 1 / -1 !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-upload-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    gap: 14px !important;
+}
+
+body.page-whatsapp-setup-center .upload-card {
+    min-height: 190px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding: 18px !important;
+    border-radius: 24px !important;
+    background: #fff !important;
+}
+
+body.page-whatsapp-setup-center .upload-card b {
+    color: #101828 !important;
+    font-size: 15px !important;
+}
+
+body.page-whatsapp-setup-center .upload-card span {
+    color: #667085 !important;
+    font-size: 12px !important;
+}
+
+body.page-whatsapp-setup-center .upload-card input[type="file"] {
+    width: 100% !important;
+    min-height: 46px !important;
+    padding: 10px !important;
+    border: 1px dashed rgba(30,58,138,.22) !important;
+    border-radius: 16px !important;
+    background: rgba(239,246,255,.52) !important;
+}
+
+body.page-whatsapp-setup-center .upload-card button {
+    margin-top: auto !important;
+    min-height: 44px !important;
+    border-radius: 15px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-connect-grid,
+body.page-whatsapp-setup-center .whatsapp-test-grid,
+body.page-whatsapp-setup-center .whatsapp-readiness-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    align-items: stretch !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-connect-grid article,
+body.page-whatsapp-setup-center .whatsapp-test-grid article,
+body.page-whatsapp-setup-center .setup-test-form {
+    min-height: 260px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 22px !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    border-radius: 26px !important;
+    background: rgba(255,255,255,.88) !important;
+    box-shadow: 0 18px 46px rgba(15,23,42,.07) !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-connect-grid h3,
+body.page-whatsapp-setup-center .whatsapp-test-grid h3 {
+    margin: 0 !important;
+    color: #101828 !important;
+    font-size: 20px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-connect-grid .checklist,
+body.page-whatsapp-setup-center .whatsapp-readiness-board .checklist {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-connect-grid .checklist div,
+body.page-whatsapp-setup-center .whatsapp-readiness-board .checklist div {
+    min-height: 54px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 12px !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    border-radius: 16px !important;
+    background: rgba(248,250,252,.86) !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-connect-grid .checklist b,
+body.page-whatsapp-setup-center .whatsapp-readiness-board .checklist b {
+    width: 26px !important;
+    height: 26px !important;
+    display: grid !important;
+    place-items: center !important;
+    border-radius: 10px !important;
+    color: #059669 !important;
+    background: rgba(16,185,129,.12) !important;
+}
+
+body.page-whatsapp-setup-center .qr-box.small {
+    min-height: 210px !important;
+    border-radius: 24px !important;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.94), rgba(239,246,255,.72)),
+        repeating-linear-gradient(90deg, rgba(30,58,138,.045) 0 1px, transparent 1px 18px) !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-test-grid {
+    grid-template-columns: minmax(280px, .9fr) repeat(2, minmax(0, 1fr)) !important;
+}
+
+body.page-whatsapp-setup-center .setup-test-form input,
+body.page-whatsapp-setup-center .setup-test-form button {
+    width: 100% !important;
+}
+
+body.page-whatsapp-setup-center .result-cards {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    margin-top: 16px !important;
+}
+
+body.page-whatsapp-setup-center .result-cards .status-pill {
+    min-height: 46px !important;
+    justify-content: center !important;
+    border-radius: 16px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-readiness-board .launch-score.large {
+    min-height: 340px !important;
+}
+
+body.page-whatsapp-setup-center .whatsapp-readiness-board .checklist {
+    align-content: start !important;
+}
+
+@media (max-width: 1300px) {
+    body.page-whatsapp-setup-center .whatsapp-setup-steps {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    body.page-whatsapp-setup-center .whatsapp-profile-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    body.page-whatsapp-setup-center .whatsapp-test-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 980px) {
+    body.page-whatsapp-setup-center .whatsapp-setup-command-hero,
+    body.page-whatsapp-setup-center .whatsapp-method-cards,
+    body.page-whatsapp-setup-center .whatsapp-connect-grid,
+    body.page-whatsapp-setup-center .whatsapp-readiness-board {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.page-whatsapp-setup-center .whatsapp-comparison-table {
+        grid-template-columns: repeat(3, minmax(170px, 1fr)) !important;
+    }
+}
+
+@media (max-width: 700px) {
+    body.page-whatsapp-setup-center .whatsapp-setup-command-hero,
+    body.page-whatsapp-setup-center .whatsapp-setup-wizard {
+        border-radius: 22px !important;
+    }
+
+    body.page-whatsapp-setup-center .whatsapp-setup-steps,
+    body.page-whatsapp-setup-center .whatsapp-profile-form,
+    body.page-whatsapp-setup-center .whatsapp-connect-grid .checklist,
+    body.page-whatsapp-setup-center .whatsapp-readiness-board .checklist,
+    body.page-whatsapp-setup-center .result-cards {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.page-whatsapp-setup-center .whatsapp-setup-panel {
+        padding: 16px !important;
+    }
+}
