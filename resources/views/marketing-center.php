@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v45';
+$assetVersion = '20260519-premium-brand-v46';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -1649,6 +1649,62 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'analytics'): ?>
+        <section class="analytics-command panel wide" aria-labelledby="analyticsCommandTitle">
+            <div>
+                <span class="premium-pill">Analytics Command Center</span>
+                <h2 id="analyticsCommandTitle">لوحة التحليلات التنفيذية</h2>
+                <p>راقب أداء القنوات والحملات والتحويلات من مساحة واحدة، مع مؤشرات جاهزة للمراجعة وتوصيات تشغيلية قابلة للتنفيذ.</p>
+            </div>
+            <div class="analytics-range">
+                <button type="button" class="active">آخر 7 أيام</button>
+                <button type="button">30 يوم</button>
+                <button type="button">90 يوم</button>
+                <button type="button">مخصص</button>
+            </div>
+        </section>
+
+        <section class="analytics-kpi-row" aria-label="مؤشرات التحليلات">
+            <article><span>معدل الفتح</span><strong>67%</strong><small>+8% عن الفترة السابقة</small></article>
+            <article><span>معدل النقر</span><strong>24%</strong><small>روابط الحملات</small></article>
+            <article><span>معدل التحويل</span><strong>18%</strong><small>طلبات ومحادثات مؤهلة</small></article>
+            <article><span>معدل الاستجابة</span><strong>91%</strong><small>واتساب + صندوق الوارد</small></article>
+            <article><span>وقت الرد</span><strong>2.4د</strong><small>متوسط الفريق</small></article>
+        </section>
+
+        <section class="analytics-chart-grid">
+            <article class="panel analytics-chart-card">
+                <div class="panel-head"><div><h2>الأداء الأسبوعي</h2><span>إرسال، فتح، وتحويل حسب اليوم.</span></div></div>
+                <div class="analytics-week-bars">
+                    <i class="bar-42"><span>س</span></i><i class="bar-58"><span>ح</span></i><i class="bar-76"><span>ن</span></i><i class="bar-64"><span>ث</span></i><i class="bar-88"><span>ر</span></i><i class="bar-72"><span>خ</span></i><i class="bar-54"><span>ج</span></i>
+                </div>
+            </article>
+            <article class="panel analytics-chart-card">
+                <div class="panel-head"><div><h2>توزيع القنوات</h2><span>حصة الأداء حسب مصدر الرسائل.</span></div></div>
+                <div class="analytics-donut" aria-label="واتساب 60، Meta 20، بريد 12، SMS 8"></div>
+                <div class="analytics-legend"><span>واتساب 60%</span><span>Meta 20%</span><span>بريد 12%</span><span>SMS 8%</span></div>
+            </article>
+        </section>
+
+        <section class="analytics-table-panel panel wide">
+            <div class="panel-head"><div><h2>تفصيل القنوات</h2><span>قراءة تشغيلية لأداء كل قناة.</span></div></div>
+            <div class="analytics-channel-table" role="table" aria-label="تفصيل القنوات">
+                <div role="row" class="analytics-table-head"><span>القناة</span><span>المُرسلة</span><span>الناجحة</span><span>المفتوحة</span><span>التحويل</span><span>التكلفة</span></div>
+                <div role="row"><b>واتساب</b><span>2,140</span><span>2,021</span><span>67%</span><span>18%</span><span>SAR 184</span></div>
+                <div role="row"><b>Meta</b><span>820</span><span>776</span><span>52%</span><span>12%</span><span>SAR 96</span></div>
+                <div role="row"><b>بريد</b><span>460</span><span>431</span><span>41%</span><span>8%</span><span>SAR 22</span></div>
+                <div role="row"><b>SMS</b><span>200</span><span>188</span><span>34%</span><span>5%</span><span>SAR 40</span></div>
+            </div>
+        </section>
+
+        <section class="analytics-top-campaigns panel wide">
+            <div class="panel-head"><div><h2>أفضل الحملات</h2><span>مرتبة حسب معدل التحويل.</span></div></div>
+            <div class="analytics-campaign-list">
+                <article><b>01</b><div><strong>عرض نهاية الأسبوع</strong><span>واتساب Cloud</span></div><em>21%</em><i class="rank-84"></i></article>
+                <article><b>02</b><div><strong>استرداد السلة</strong><span>Meta + WhatsApp</span></div><em>16%</em><i class="rank-64"></i></article>
+                <article><b>03</b><div><strong>ترحيب العملاء</strong><span>Utility Template</span></div><em>12%</em><i class="rank-48"></i></article>
+            </div>
+        </section>
+
         <section class="metric-grid analytics-grid">
             <?php foreach (['معدل التسليم', 'معدل القراءة', 'معدل الرد', 'CTR', 'معدل التحويل', 'الإيراد المحقق'] as $metric): ?>
                 <article class="metric-card lift-card"><span><?= $metric ?></span><strong>0%</strong><small>بانتظار بيانات الحملات الفعلية</small></article>
