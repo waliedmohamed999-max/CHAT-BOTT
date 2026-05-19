@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v36';
+$assetVersion = '20260519-premium-brand-v37';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -1320,7 +1320,7 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'omnichannel'): ?>
-        <section class="panel wide omni-hero">
+        <section class="panel wide omni-hero omnichannel-command-hero">
             <div>
                 <span class="premium-pill">Omnichannel Communication Platform</span>
                 <h2>مركز تواصل موحد لكل القنوات</h2>
@@ -1333,16 +1333,16 @@ $labelText = static function (?string $value): string {
             </div>
         </section>
 
-        <section class="metric-grid">
+        <section class="metric-grid omnichannel-metrics">
             <article class="metric-card lift-card"><span>محادثات مفتوحة</span><strong><?= (int) ($omnichannelOverview['open_conversations'] ?? 0) ?></strong><small>كل القنوات</small></article>
             <article class="metric-card lift-card"><span>غير مسندة</span><strong><?= (int) ($omnichannelOverview['unassigned'] ?? 0) ?></strong><small>تحتاج توزيع</small></article>
             <article class="metric-card lift-card"><span>حلها الذكاء الاصطناعي</span><strong><?= (int) ($omnichannelOverview['ai_resolved'] ?? 0) ?></strong><small>بدون تدخل بشري</small></article>
             <article class="metric-card lift-card"><span>أول رد</span><strong><?= htmlspecialchars($omnichannelOverview['first_response_time'] ?? '0د') ?></strong><small>متوسط وقت الاستجابة</small></article>
         </section>
 
-        <section class="panel wide">
+        <section class="panel wide omnichannel-channel-hub">
             <div class="panel-head"><div><h2>القنوات المتصلة</h2><span>نظام Channel Adapter قابل للتوسع</span></div></div>
-            <div class="channel-grid">
+            <div class="channel-grid omnichannel-channel-grid">
                 <?php foreach (($omnichannelOverview['channels'] ?? []) as $channel): ?>
                     <article class="channel-card">
                         <b><?= htmlspecialchars($channel['icon'] ?? 'CH') ?></b>
@@ -1352,7 +1352,7 @@ $labelText = static function (?string $value): string {
                     </article>
                 <?php endforeach; ?>
             </div>
-            <form class="omni-connect-form compact-form">
+            <form class="omni-connect-form compact-form omnichannel-connect-form">
                 <select name="channel"><option value="instagram">إنستجرام</option><option value="facebook">ماسنجر فيسبوك</option><option value="telegram">تيليجرام</option><option value="email">البريد الإلكتروني</option><option value="sms">SMS</option><option value="live_chat">دردشة الموقع</option></select>
                 <input name="display_name" placeholder="اسم الحساب أو القناة">
                 <input name="provider_account_id" placeholder="معرف الحساب الخارجي">
@@ -1361,7 +1361,7 @@ $labelText = static function (?string $value): string {
             </form>
         </section>
 
-        <section class="omni-inbox-grid">
+        <section class="omni-inbox-grid omnichannel-workbench">
             <aside class="panel conversations">
                 <div class="panel-head"><div><h2>Inbox موحد</h2><span>بحث، فلاتر، إسناد، وملاحظات داخلية</span></div></div>
                 <div class="toolbar compact-toolbar"><input placeholder="بحث في كل القنوات"><select><option>كل القنوات</option><option>واتساب</option><option>إنستجرام</option><option>البريد</option></select></div>
@@ -1393,7 +1393,7 @@ $labelText = static function (?string $value): string {
             </aside>
         </section>
 
-        <section class="workspace-grid">
+        <section class="workspace-grid omnichannel-ops-grid">
             <article class="panel">
                 <div class="panel-head"><div><h2>الشات بوت الموحد</h2><span>نفس المسارات والـ AI وقاعدة المعرفة لكل قناة</span></div></div>
                 <div class="launch-grid compact-launch">

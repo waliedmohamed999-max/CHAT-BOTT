@@ -3784,3 +3784,392 @@ body.page-overview .activity-feed li {
         font-size: 34px !important;
     }
 }
+
+/* Omnichannel workspace redesign */
+body.page-omnichannel .main-area {
+    background:
+        radial-gradient(circle at 20% 0%, rgba(30,58,138,.08), transparent 30%),
+        radial-gradient(circle at 82% 8%, rgba(124,58,237,.07), transparent 32%),
+        #F5F7FB !important;
+}
+
+body.page-omnichannel .page-title {
+    min-height: 86px !important;
+    margin-bottom: 18px !important;
+    border-radius: 28px !important;
+    background: rgba(255,255,255,.82) !important;
+    box-shadow: 0 18px 54px rgba(15,23,42,.08) !important;
+    backdrop-filter: blur(18px);
+}
+
+body.page-omnichannel .omnichannel-command-hero {
+    min-height: 292px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 280px) !important;
+    gap: 28px !important;
+    align-items: center !important;
+    margin-bottom: 16px !important;
+    padding: clamp(28px, 4vw, 48px) !important;
+    border-radius: 34px !important;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,.98), rgba(247,250,255,.88)),
+        radial-gradient(circle at 15% 15%, rgba(16,185,129,.11), transparent 32%),
+        radial-gradient(circle at 88% 10%, rgba(124,58,237,.13), transparent 34%) !important;
+    box-shadow: 0 28px 78px rgba(15,23,42,.12) !important;
+}
+
+body.page-omnichannel .omnichannel-command-hero h2 {
+    margin: 14px 0 12px !important;
+    color: #101828 !important;
+    font-size: clamp(34px, 4.4vw, 62px) !important;
+    line-height: 1.06 !important;
+    letter-spacing: 0 !important;
+}
+
+body.page-omnichannel .omnichannel-command-hero p {
+    max-width: 880px !important;
+    color: #667085 !important;
+    font-size: 15px !important;
+    line-height: 1.9 !important;
+}
+
+body.page-omnichannel .omni-score {
+    min-height: 220px !important;
+    border-radius: 28px !important;
+    border: 1px solid rgba(30,58,138,.12) !important;
+    background:
+        radial-gradient(circle at 50% 35%, rgba(16,185,129,.17), transparent 44%),
+        linear-gradient(145deg, rgba(255,255,255,.88), rgba(239,246,255,.78)) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 22px 56px rgba(30,58,138,.12) !important;
+}
+
+body.page-omnichannel .omni-score strong {
+    color: #1E3A8A !important;
+    font-size: clamp(48px, 4vw, 72px) !important;
+}
+
+body.page-omnichannel .omni-score span {
+    color: #101828 !important;
+    font-weight: 950 !important;
+}
+
+body.page-omnichannel .omni-score small {
+    max-width: 190px !important;
+    color: #667085 !important;
+    line-height: 1.6 !important;
+}
+
+body.page-omnichannel .omnichannel-metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    margin-bottom: 18px !important;
+}
+
+body.page-omnichannel .omnichannel-metrics .metric-card {
+    min-height: 142px !important;
+    align-content: space-between !important;
+    padding: 20px !important;
+    border-radius: 24px !important;
+    background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(248,250,252,.9)) !important;
+}
+
+body.page-omnichannel .omnichannel-metrics .metric-card strong {
+    color: #101828 !important;
+    font-size: clamp(28px, 2.7vw, 42px) !important;
+}
+
+body.page-omnichannel .omnichannel-channel-hub {
+    margin-bottom: 18px !important;
+    padding: 24px !important;
+    border-radius: 30px !important;
+}
+
+body.page-omnichannel .omnichannel-channel-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+    gap: 14px !important;
+}
+
+body.page-omnichannel .channel-card {
+    position: relative !important;
+    min-height: 156px !important;
+    align-content: space-between !important;
+    padding: 18px !important;
+    overflow: hidden !important;
+    border-radius: 22px !important;
+    background: #fff !important;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease !important;
+}
+
+body.page-omnichannel .channel-card::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: 18px;
+    width: 4px;
+    border-radius: 99px;
+    background: linear-gradient(180deg,#1E3A8A,#7C3AED);
+}
+
+body.page-omnichannel .channel-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(30,58,138,.18) !important;
+    box-shadow: 0 24px 58px rgba(15,23,42,.12) !important;
+}
+
+body.page-omnichannel .channel-card b,
+body.page-omnichannel .channel-badge {
+    width: 42px !important;
+    height: 36px !important;
+    border-radius: 14px !important;
+    color: #1E3A8A !important;
+    background: rgba(30,58,138,.08) !important;
+}
+
+body.page-omnichannel .channel-card strong {
+    color: #101828 !important;
+    font-size: 16px !important;
+    font-weight: 950 !important;
+}
+
+body.page-omnichannel .channel-card span {
+    color: #667085 !important;
+    font-size: 12px !important;
+}
+
+body.page-omnichannel .omnichannel-connect-form {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    margin-top: 18px !important;
+}
+
+body.page-omnichannel .omnichannel-connect-form input,
+body.page-omnichannel .omnichannel-connect-form select,
+body.page-omnichannel .omnichannel-connect-form button {
+    min-height: 48px !important;
+    border-radius: 16px !important;
+}
+
+body.page-omnichannel .omnichannel-workbench {
+    display: grid !important;
+    grid-template-columns: minmax(250px, 330px) minmax(0, 1.45fr) minmax(250px, 330px) !important;
+    gap: 18px !important;
+    align-items: stretch !important;
+    margin-top: 0 !important;
+    margin-bottom: 18px !important;
+}
+
+body.page-omnichannel .omnichannel-workbench > .panel {
+    min-height: 520px !important;
+    max-height: none !important;
+    overflow: hidden !important;
+    border-radius: 28px !important;
+}
+
+body.page-omnichannel .conversations {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+body.page-omnichannel .conversations .compact-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding-bottom: 8px !important;
+    background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.86)) !important;
+}
+
+body.page-omnichannel .conversations button {
+    width: 100% !important;
+    min-height: 72px !important;
+    display: grid !important;
+    grid-template-columns: 38px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 12px !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    border-radius: 18px !important;
+    text-align: start !important;
+    background: rgba(255,255,255,.82) !important;
+}
+
+body.page-omnichannel .conversations button small {
+    grid-column: 2 !important;
+    display: block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    color: #667085 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+body.page-omnichannel .omni-chat {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,250,252,.86)),
+        repeating-linear-gradient(0deg, rgba(30,58,138,.04) 0 1px, transparent 1px 42px) !important;
+}
+
+body.page-omnichannel .omni-chat .chat-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 1px solid rgba(15,23,42,.08) !important;
+}
+
+body.page-omnichannel .omni-chat .bubble {
+    width: fit-content !important;
+    max-width: min(78%, 560px) !important;
+    padding: 13px 15px !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    background: #fff !important;
+    box-shadow: 0 12px 32px rgba(15,23,42,.06) !important;
+}
+
+body.page-omnichannel .omni-chat .bubble.outbound {
+    margin-inline-start: auto !important;
+    color: #fff !important;
+    background: linear-gradient(135deg,#1E3A8A,#7C3AED) !important;
+}
+
+body.page-omnichannel .omni-chat .ai-suggestion {
+    padding: 16px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(16,185,129,.18) !important;
+    background: rgba(236,253,245,.72) !important;
+}
+
+body.page-omnichannel .omni-chat textarea {
+    margin-top: auto !important;
+    min-height: 116px !important;
+    resize: vertical !important;
+    border-radius: 20px !important;
+}
+
+body.page-omnichannel .omni-chat .button-row {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+}
+
+body.page-omnichannel .omni-chat .button-row button {
+    min-height: 44px !important;
+    border-radius: 15px !important;
+    white-space: normal !important;
+}
+
+body.page-omnichannel .customer-timeline {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+body.page-omnichannel .customer-timeline .kv {
+    padding: 14px !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    border-radius: 18px !important;
+    background: rgba(255,255,255,.76) !important;
+}
+
+body.page-omnichannel .customer-timeline .timeline {
+    display: grid !important;
+    gap: 9px !important;
+    margin-top: 4px !important;
+}
+
+body.page-omnichannel .customer-timeline .timeline span {
+    position: relative !important;
+    padding: 11px 14px !important;
+    border-radius: 16px !important;
+    color: #344054 !important;
+    background: rgba(248,250,252,.94) !important;
+}
+
+body.page-omnichannel .omnichannel-ops-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    align-items: stretch !important;
+}
+
+body.page-omnichannel .omnichannel-ops-grid > .panel {
+    min-height: 240px !important;
+    border-radius: 28px !important;
+}
+
+body.page-omnichannel .live-widget-preview {
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 22px !important;
+    background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(236,253,245,.72)) !important;
+}
+
+body.page-omnichannel .funnel {
+    gap: 10px !important;
+}
+
+body.page-omnichannel .funnel span {
+    min-height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 14px !important;
+    border-radius: 15px !important;
+    color: #fff !important;
+    background: linear-gradient(135deg,#1E3A8A,#7C3AED) !important;
+}
+
+@media (max-width: 1500px) {
+    body.page-omnichannel .omnichannel-workbench {
+        grid-template-columns: minmax(240px, 320px) minmax(0, 1fr) !important;
+    }
+
+    body.page-omnichannel .customer-timeline {
+        grid-column: 1 / -1 !important;
+        min-height: auto !important;
+    }
+
+    body.page-omnichannel .customer-timeline .timeline {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+    }
+}
+
+@media (max-width: 1180px) {
+    body.page-omnichannel .omnichannel-command-hero,
+    body.page-omnichannel .omnichannel-workbench,
+    body.page-omnichannel .omnichannel-ops-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.page-omnichannel .omnichannel-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    body.page-omnichannel .omnichannel-connect-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 760px) {
+    body.page-omnichannel .page-title,
+    body.page-omnichannel .omnichannel-command-hero,
+    body.page-omnichannel .omnichannel-channel-hub,
+    body.page-omnichannel .omnichannel-workbench > .panel,
+    body.page-omnichannel .omnichannel-ops-grid > .panel {
+        border-radius: 22px !important;
+    }
+
+    body.page-omnichannel .omnichannel-metrics,
+    body.page-omnichannel .omnichannel-connect-form,
+    body.page-omnichannel .omni-chat .button-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.page-omnichannel .omni-chat .bubble {
+        max-width: 100% !important;
+    }
+}
