@@ -7075,7 +7075,221 @@ body.page-analytics .analytics-campaign-list .rank-48 { width: 48%; }
 @media (max-width: 760px) {
     body.page-analytics .analytics-command,
     body.page-analytics .analytics-kpi-row,
-    body.page-analytics .analytics-campaign-list article {
+body.page-analytics .analytics-campaign-list article {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Contacts CRM workspace v47 */
+body.page-contacts .contacts-command {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: center;
+    padding: 24px !important;
+    border-radius: 28px !important;
+    color: var(--gray-0);
+    background:
+        radial-gradient(circle at 10% 20%, rgba(45,212,191,.22), transparent 34%),
+        radial-gradient(circle at 92% 10%, rgba(109,40,217,.34), transparent 34%),
+        var(--gray-900) !important;
+    box-shadow: var(--shadow-md);
+}
+
+body.page-contacts .contacts-command h2 {
+    margin: 8px 0 6px;
+    color: var(--gray-0);
+    font-size: clamp(28px, 3vw, 46px);
+    line-height: 1.1;
+    font-weight: 900;
+}
+
+body.page-contacts .contacts-command p {
+    max-width: 820px;
+    margin: 0;
+    color: rgba(255,255,255,.68);
+    line-height: 1.9;
+}
+
+body.page-contacts .contacts-command-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+body.page-contacts .contacts-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+body.page-contacts .contacts-stats-row article,
+body.page-contacts .contacts-toolbar,
+body.page-contacts .contacts-table-panel,
+body.page-contacts .contacts-insights {
+    border: 1px solid var(--gray-150) !important;
+    border-radius: 22px !important;
+    background: var(--gray-0) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+body.page-contacts .contacts-stats-row article {
+    padding: 18px;
+}
+
+body.page-contacts .contacts-stats-row span,
+body.page-contacts .contacts-stats-row small {
+    display: block;
+    color: var(--gray-500);
+    font-size: 12px;
+}
+
+body.page-contacts .contacts-stats-row strong {
+    display: block;
+    margin: 8px 0;
+    color: var(--gray-900);
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 900;
+}
+
+body.page-contacts .contacts-toolbar {
+    display: grid !important;
+    grid-template-columns: minmax(260px, 1fr) repeat(2, minmax(160px, .45fr)) auto auto;
+    gap: 10px;
+    padding: 14px !important;
+}
+
+body.page-contacts .contacts-toolbar input,
+body.page-contacts .contacts-toolbar select {
+    min-height: 46px;
+    border-radius: 14px !important;
+    background: var(--gray-0) !important;
+}
+
+body.page-contacts .contacts-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+    gap: 16px;
+    align-items: start;
+}
+
+body.page-contacts .contacts-table-panel,
+body.page-contacts .contacts-insights {
+    padding: 18px !important;
+    overflow: hidden !important;
+}
+
+body.page-contacts .contacts-table {
+    display: grid;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+body.page-contacts .contacts-table [role="row"] {
+    min-width: 860px;
+    display: grid;
+    grid-template-columns: 1.45fr 1fr .75fr .9fr .75fr .7fr;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--gray-150);
+    border-radius: 16px;
+    background: var(--gray-0);
+}
+
+body.page-contacts .contacts-table-head {
+    color: var(--gray-500);
+    background: var(--gray-50) !important;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+body.page-contacts .customer-cell {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    column-gap: 10px;
+    align-items: center;
+}
+
+body.page-contacts .customer-cell b {
+    grid-row: span 2;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    color: var(--gray-0);
+    background: var(--brand-gradient);
+}
+
+body.page-contacts .customer-cell strong {
+    color: var(--gray-900);
+    font-weight: 900;
+}
+
+body.page-contacts .customer-cell small {
+    color: var(--gray-500);
+}
+
+body.page-contacts .contacts-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 14px;
+    color: var(--gray-500);
+}
+
+body.page-contacts .contacts-insights {
+    display: grid;
+    gap: 12px;
+}
+
+body.page-contacts .contacts-insights article {
+    display: grid;
+    gap: 6px;
+    padding: 14px;
+    border: 1px solid var(--gray-150);
+    border-radius: 18px;
+    background: var(--gray-50);
+}
+
+body.page-contacts .contacts-insights b,
+body.page-contacts .contacts-insights strong {
+    color: var(--gray-900);
+    font-weight: 900;
+}
+
+body.page-contacts .contacts-insights span {
+    color: var(--gray-500);
+    font-size: 12px;
+}
+
+body.page-contacts .contacts-legacy-panel {
+    display: none !important;
+}
+
+@media (max-width: 1200px) {
+    body.page-contacts .contacts-stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    body.page-contacts .contacts-toolbar,
+    body.page-contacts .contacts-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    body.page-contacts .contacts-command,
+    body.page-contacts .contacts-stats-row {
+        grid-template-columns: 1fr;
+    }
+
+    body.page-contacts .contacts-command-actions {
+        display: grid;
         grid-template-columns: 1fr;
     }
 }

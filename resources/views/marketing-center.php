@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v46';
+$assetVersion = '20260519-premium-brand-v47';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -1381,7 +1381,54 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'contacts'): ?>
-        <section class="panel wide">
+        <section class="contacts-command panel wide" aria-labelledby="contactsCommandTitle">
+            <div>
+                <span class="premium-pill">Customer Intelligence CRM</span>
+                <h2 id="contactsCommandTitle">إدارة العملاء الذكية</h2>
+                <p>ملف موحد لكل عميل: الموافقة، القناة، آخر نشاط، القيمة، احتمالية التحويل، وإشارات الذكاء الاصطناعي.</p>
+            </div>
+            <div class="contacts-command-actions">
+                <button class="secondary" type="button">استيراد CSV / Excel</button>
+                <button class="primary" type="button">+ عميل جديد</button>
+            </div>
+        </section>
+
+        <section class="contacts-stats-row" aria-label="ملخص العملاء">
+            <article><span>إجمالي العملاء</span><strong><?= number_format((int) ($data['contacts'] ?? 0)) ?></strong><small>داخل CRM</small></article>
+            <article><span>نشطون</span><strong>64%</strong><small>تفاعل آخر 30 يوم</small></article>
+            <article><span>جدد هذا الشهر</span><strong>128</strong><small>من الحملات والقنوات</small></article>
+            <article><span>معدل التفاعل</span><strong>42%</strong><small>رسائل وردود</small></article>
+        </section>
+
+        <section class="contacts-toolbar panel wide">
+            <input placeholder="بحث بالاسم أو الهاتف أو الوسم">
+            <select><option>كل القنوات</option><option>واتساب</option><option>Meta</option><option>البريد</option></select>
+            <select><option>كل الحالات</option><option>موافق</option><option>محظور</option><option>عميل ساخن</option></select>
+            <button class="secondary" type="button">تصدير</button>
+            <button class="secondary" type="button">إجراءات جماعية</button>
+        </section>
+
+        <section class="contacts-layout">
+            <article class="panel contacts-table-panel">
+                <div class="panel-head"><div><h2>قائمة العملاء</h2><span>عرض CRM سريع مع معلومات القناة وآخر نشاط.</span></div></div>
+                <div class="contacts-table" role="table" aria-label="جدول العملاء">
+                    <div role="row" class="contacts-table-head"><span>العميل</span><span>رقم الهاتف</span><span>القناة</span><span>آخر نشاط</span><span>الحالة</span><span>الإجراءات</span></div>
+                    <div role="row"><span class="customer-cell"><b>س</b><strong>سارة</strong><small>sara@example.com</small></span><span>9665xxxxxxx</span><span>واتساب</span><span>منذ 12 دقيقة</span><em class="status-pill ok">موافق</em><span><button class="secondary" type="button">فتح</button></span></div>
+                    <div role="row"><span class="customer-cell"><b>ع</b><strong>عمر</strong><small>omar@example.com</small></span><span>9715xxxxxxx</span><span>Meta</span><span>أمس</span><em class="status-pill danger-state">محظور</em><span><button class="secondary" type="button">مراجعة</button></span></div>
+                    <div role="row"><span class="customer-cell"><b>ن</b><strong>نورا</strong><small>nora@example.com</small></span><span>9665yyyyyyy</span><span>بريد</span><span>منذ 3 أيام</span><em class="status-pill pending">متابعة</em><span><button class="secondary" type="button">حملة</button></span></div>
+                </div>
+                <div class="contacts-pagination"><span>1-3 من <?= number_format(max(3, (int) ($data['contacts'] ?? 3))) ?></span><button class="secondary" type="button">السابق</button><button class="primary" type="button">التالي</button></div>
+            </article>
+
+            <aside class="panel contacts-insights">
+                <div class="panel-head"><div><h2>شرائح ذكية</h2><span>جاهزة للحملات والتدفقات.</span></div></div>
+                <article><b>عملاء جاهزون للشراء</b><span>احتمالية تحويل أعلى من 70%</span><strong>38</strong></article>
+                <article><b>خطر ترك الخدمة</b><span>انخفاض تفاعل أو شكاوى متكررة</span><strong>12</strong></article>
+                <article><b>موافقون Opt-in</b><span>جاهزون لقوالب WhatsApp</span><strong>82%</strong></article>
+            </aside>
+        </section>
+
+        <section class="panel wide contacts-legacy-panel">
             <div class="panel-head"><div><h2>ذكاء العملاء</h2><span>CRM مع إشارات ذكية وسلوك الشراء</span></div><button class="ghost-btn">إجراءات جماعية</button></div>
             <div class="toolbar"><input placeholder="بحث بالاسم أو الهاتف أو الوسم"><button class="secondary">استيراد CSV / Excel</button><button class="secondary">تصدير</button></div>
             <div class="data-table premium-data"><b>العميل</b><b>الهاتف</b><b>النقاط</b><b>القيمة</b><b>الموافقة</b><b>احتمال التحويل</b><span>سارة</span><span>9665xxxxxxx</span><span class="score">92</span><span>4,800 ر.س</span><span class="status-pill ok">موافق</span><span>78%</span><span>عمر</span><span>9715xxxxxxx</span><span class="score">61</span><span>1,120 ر.س</span><span class="status-pill danger-state">محظور</span><span>24%</span></div>
