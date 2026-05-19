@@ -8345,6 +8345,237 @@ body.page-whatsapp-setup-center .whatsapp-readiness-board .checklist div {
     }
 }
 
+/* Launch readiness command center v51 */
+body.page-setup-checklist .launch-readiness-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+    gap: 22px;
+    align-items: center;
+    padding: 30px !important;
+    color: var(--gray-0) !important;
+    background:
+        radial-gradient(circle at 12% 16%, rgba(45,212,191,.22), transparent 34%),
+        radial-gradient(circle at 88% 8%, rgba(109,40,217,.40), transparent 36%),
+        linear-gradient(135deg, var(--gray-900), var(--brand-900)) !important;
+}
+
+body.page-setup-checklist .launch-readiness-hero h2 {
+    color: var(--gray-0) !important;
+    font-size: clamp(34px, 4.4vw, 64px) !important;
+}
+
+body.page-setup-checklist .launch-readiness-hero .panel-head span,
+body.page-setup-checklist .launch-readiness-hero small {
+    color: rgba(255,255,255,.68) !important;
+}
+
+body.page-setup-checklist .readiness-score-card {
+    display: grid;
+    gap: 11px;
+    padding: 22px;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 28px;
+    background: rgba(255,255,255,.08);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+body.page-setup-checklist .readiness-score-card strong {
+    color: var(--accent-300);
+    font-size: 56px;
+    line-height: 1;
+    font-weight: 950;
+}
+
+body.page-setup-checklist .readiness-score-card span {
+    color: var(--gray-0);
+    font-weight: 900;
+}
+
+body.page-setup-checklist .readiness-meter {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255,255,255,.16);
+}
+
+body.page-setup-checklist .readiness-meter i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--accent-400), var(--brand-400));
+}
+
+body.page-setup-checklist .launch-command-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+body.page-setup-checklist .launch-command-grid article,
+body.page-setup-checklist .launch-command-actions,
+body.page-setup-checklist .launch-alert-panel,
+body.page-setup-checklist .workspace-grid > .panel,
+body.page-setup-checklist .panel.wide {
+    border: 1px solid var(--gray-150) !important;
+    border-radius: 24px !important;
+    background: var(--gray-0) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+body.page-setup-checklist .launch-command-grid article {
+    position: relative;
+    display: grid;
+    gap: 8px;
+    min-height: 138px;
+    padding: 18px;
+    overflow: hidden;
+}
+
+body.page-setup-checklist .launch-command-grid article::before {
+    content: "";
+    position: absolute;
+    inset-block: 18px;
+    inset-inline-start: 0;
+    width: 5px;
+    border-radius: 999px;
+    background: var(--brand-gradient);
+}
+
+body.page-setup-checklist .launch-command-grid article.ok::before {
+    background: linear-gradient(180deg, var(--accent-400), var(--success));
+}
+
+body.page-setup-checklist .launch-command-grid article.danger::before {
+    background: linear-gradient(180deg, var(--danger), var(--amber-500));
+}
+
+body.page-setup-checklist .launch-command-grid span,
+body.page-setup-checklist .launch-command-grid small {
+    color: var(--gray-500);
+}
+
+body.page-setup-checklist .launch-command-grid strong {
+    color: var(--gray-900);
+    font-size: 34px;
+    font-weight: 950;
+}
+
+body.page-setup-checklist .launch-command-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: center;
+    padding: 20px !important;
+}
+
+body.page-setup-checklist .launch-command-actions h3 {
+    margin: 8px 0 6px;
+    color: var(--gray-900);
+    font-size: 22px;
+    font-weight: 950;
+}
+
+body.page-setup-checklist .launch-command-actions p {
+    max-width: 760px;
+    color: var(--gray-500);
+}
+
+body.page-setup-checklist .launch-alert-list,
+body.page-setup-checklist .launch-checklist,
+body.page-setup-checklist .compact-launch,
+body.page-setup-checklist .env-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)) !important;
+    gap: 12px !important;
+}
+
+body.page-setup-checklist .launch-alert-list article,
+body.page-setup-checklist .launch-checklist > div,
+body.page-setup-checklist .compact-launch > div,
+body.page-setup-checklist .env-grid > span {
+    min-height: 74px;
+    padding: 14px;
+    border: 1px solid var(--gray-150);
+    border-radius: 18px;
+    background: var(--gray-50);
+}
+
+body.page-setup-checklist .launch-checklist > div,
+body.page-setup-checklist .compact-launch > div {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+body.page-setup-checklist .launch-checklist b,
+body.page-setup-checklist .compact-launch b {
+    display: inline-grid;
+    place-items: center;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 11px;
+    color: var(--warning);
+    background: var(--warning-bg);
+    font-weight: 950;
+}
+
+body.page-setup-checklist .launch-checklist .ready b,
+body.page-setup-checklist .compact-launch .ready-box b {
+    color: var(--success);
+    background: var(--success-bg);
+}
+
+body.page-setup-checklist .launch-checklist span,
+body.page-setup-checklist .compact-launch span,
+body.page-setup-checklist .env-grid em,
+body.page-setup-checklist .env-grid small {
+    color: var(--gray-500);
+}
+
+body.page-setup-checklist .launch-checklist small {
+    display: block;
+    margin-top: 4px;
+    color: var(--gray-500);
+    line-height: 1.6;
+}
+
+body.page-setup-checklist .launch-env-command {
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid var(--gray-150) !important;
+    border-radius: 20px !important;
+    background: var(--gray-50) !important;
+}
+
+body.page-setup-checklist .launch-env-command code {
+    display: block;
+    padding: 11px 13px;
+    overflow-x: auto;
+    border-radius: 12px;
+    color: var(--gray-0);
+    background: var(--gray-900);
+    direction: ltr;
+    text-align: left;
+}
+
+@media (max-width: 1180px) {
+    body.page-setup-checklist .launch-readiness-hero,
+    body.page-setup-checklist .launch-command-actions {
+        grid-template-columns: 1fr;
+    }
+
+    body.page-setup-checklist .launch-command-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 680px) {
+    body.page-setup-checklist .launch-command-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 760px) {
     body.page-settings .control-center-hero,
     body[class*="page-settings-"] .control-center-hero,

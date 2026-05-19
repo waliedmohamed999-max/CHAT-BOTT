@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v50';
+$assetVersion = '20260519-premium-brand-v51';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -1967,6 +1967,40 @@ $labelText = static function (?string $value): string {
                 <span>درجة الجاهزية الحالية</span>
                 <div class="readiness-meter"><i style="width: <?= max(0, min(100, $launchScore)) ?>%"></i></div>
                 <small>0-40 غير جاهز، 41-70 يحتاج مراجعة، 71-100 جاهز للإطلاق بشرط عدم وجود موانع حرجة.</small>
+            </div>
+        </section>
+        <section class="launch-command-grid" aria-label="ملخص جاهزية الإطلاق">
+            <article class="<?= $launchScore >= 71 ? 'ok' : 'pending' ?>">
+                <span>Launch Score</span>
+                <strong><?= $launchScore ?>%</strong>
+                <small><?= htmlspecialchars($launchStatus) ?></small>
+            </article>
+            <article class="<?= $launchBlocking === [] ? 'ok' : 'danger' ?>">
+                <span>الموانع الحرجة</span>
+                <strong><?= count((array) $launchBlocking) ?></strong>
+                <small>يجب أن تصبح صفر قبل الإطلاق.</small>
+            </article>
+            <article>
+                <span>متطلبات الفحص</span>
+                <strong><?= count((array) $launchItems) ?></strong>
+                <small>الأمان، واتساب، قاعدة البيانات، السجلات.</small>
+            </article>
+            <article>
+                <span>مسارات التشغيل</span>
+                <strong><?= count((array) $launchOperations) ?></strong>
+                <small>اختبارات ما قبل التسليم النهائي.</small>
+            </article>
+        </section>
+        <section class="launch-command-actions panel wide" aria-label="إجراءات جاهزية الإطلاق">
+            <div>
+                <span class="premium-pill">Production Readiness Gate</span>
+                <h3>بوابة واحدة قبل تشغيل المنصة على الإنتاج</h3>
+                <p>راجع الموانع، أكمل المتطلبات الحرجة، ثم شغّل أوامر الفحص قبل نشر الحملات أو تمكين العملاء.</p>
+            </div>
+            <div class="button-row">
+                <a class="primary" href="<?= htmlspecialchars($appUrl) ?>/api/launch-readiness">فتح API الجاهزية</a>
+                <a class="secondary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/whatsapp-setup-center">إعداد واتساب</a>
+                <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/settings/launch">إعدادات الإطلاق</a>
             </div>
         </section>
 
