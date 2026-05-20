@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v53';
+$assetVersion = '20260519-premium-brand-v54';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -444,6 +444,52 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'whatsapp-setup'): ?>
+        <section class="wa-official-hero panel wide">
+            <div>
+                <span class="premium-pill">WhatsApp Cloud API</span>
+                <h2>إعداد واتساب الرسمي للحملات والقوالب والويب هوك</h2>
+                <p>راجع بيانات الرقم الرسمي، جودة الإرسال، حدود Meta، واختبر القالب قبل تشغيل أي حملة أو مسار تلقائي.</p>
+            </div>
+            <div class="wa-official-status">
+                <strong><?= htmlspecialchars($phones[0]['quality_rating'] ?? 'جاهز') ?></strong>
+                <span>جودة الرقم</span>
+                <small><?= htmlspecialchars($phones[0]['messaging_limit'] ?? 'حد الإرسال حسب Meta') ?></small>
+            </div>
+        </section>
+        <section class="wa-official-grid" aria-label="ملخص إعداد واتساب الرسمي">
+            <article>
+                <span>اسم النشاط</span>
+                <strong><?= htmlspecialchars($phones[0]['verified_name'] ?? 'من ملف WABA') ?></strong>
+                <small>الاسم الظاهر للعملاء.</small>
+            </article>
+            <article>
+                <span>Phone Number ID</span>
+                <strong><?= htmlspecialchars($phones[0]['phone_number_id'] ?? 'غير مربوط') ?></strong>
+                <small>معرف الرقم الرسمي من Meta.</small>
+            </article>
+            <article>
+                <span>WABA</span>
+                <strong><?= htmlspecialchars($phones[0]['waba_id'] ?? 'بانتظار الربط') ?></strong>
+                <small>حساب واتساب للأعمال.</small>
+            </article>
+            <article>
+                <span>Webhook</span>
+                <strong>Ready</strong>
+                <small><?= htmlspecialchars($appUrl) ?>/api/webhooks/whatsapp</small>
+            </article>
+        </section>
+        <section class="wa-official-actions panel wide" aria-label="إجراءات واتساب الرسمية">
+            <div>
+                <span class="premium-pill">Official Messaging Control</span>
+                <h3>اختبر الرقم والقالب قبل أي إرسال فعلي</h3>
+                <p>استخدم هذه الصفحة لضبط الملف التجاري، سياسة الجودة، نافذة خدمة العملاء، والحماية من إرسال غير موافق عليه.</p>
+            </div>
+            <div class="button-row">
+                <a class="primary" href="<?= htmlspecialchars($connectUrl) ?>">تحديث ربط Meta</a>
+                <a class="secondary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/templates">القوالب</a>
+                <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/campaign-builder">الحملات</a>
+            </div>
+        </section>
         <section class="panel-grid">
             <article class="panel wide form-panel">
                 <div class="panel-head"><div><h2>إعداد رقم واتساب الرسمي</h2><span>واجهة Cloud API، الجودة، الحدود، والاختبار</span></div><span class="status-pill ok">الواجهة جاهزة</span></div>
