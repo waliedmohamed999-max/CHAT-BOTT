@@ -5,7 +5,7 @@ if (isset($_GET['__mc_path'])) {
     $scriptBase = '';
 }
 $appUrl = rtrim(\MarketingCenter\Support\Env::get('APP_URL', $scriptBase), '/');
-$assetVersion = '20260519-premium-brand-v54';
+$assetVersion = '20260519-premium-brand-v55';
 $nav = [
     'overview' => ['label' => 'مركز القيادة', 'icon' => 'OV'],
     'omnichannel' => ['label' => 'القنوات الموحدة', 'icon' => 'OC'],
@@ -32,9 +32,10 @@ $nav = [
     'settings' => ['label' => 'الإعدادات', 'icon' => 'ST'],
 ];
 $navGroups = [
-    'الرئيسية' => ['overview', 'inbox', 'campaign-builder'],
-    'القنوات' => ['omnichannel', 'whatsapp-setup', 'whatsapp-setup-center'],
-    'ذكاء اصطناعي' => ['chatbot-builder', 'templates', 'analytics', 'contacts'],
+    'الرئيسية' => ['overview', 'setup-checklist', 'platform-roadmap', 'inbox', 'campaign-builder'],
+    'القنوات' => ['omnichannel', 'whatsapp-setup-center', 'connect-meta', 'whatsapp-setup', 'whatsapp-qr'],
+    'ذكاء اصطناعي' => ['chatbot-builder', 'templates', 'analytics', 'ai-intelligence', 'contacts', 'automation', 'social'],
+    'المنصة والتوسع' => ['marketplace', 'enterprise', 'ai-commerce-os', 'saas', 'super-admin'],
     'الإعدادات' => ['settings'],
 ];
 $settingsPageLabels = [
@@ -680,6 +681,52 @@ $labelText = static function (?string $value): string {
     <?php endif; ?>
 
     <?php if ($page === 'whatsapp-qr'): ?>
+        <section class="qr-command-hero panel wide">
+            <div>
+                <span class="premium-pill">WhatsApp QR Session</span>
+                <h2>ربط واتساب بالباركود للمحادثات والردود اليومية</h2>
+                <p>جلسة واتساب ويب منفصلة بجانب الربط الرسمي. مناسبة للتشغيل الخفيف والردود، مع تنبيه واضح أنها ليست بديل Cloud API للحملات الكبيرة والقوالب الرسمية.</p>
+            </div>
+            <div class="qr-command-status">
+                <strong><?= htmlspecialchars($sessionStatusLabels[$qrSession['session_status'] ?? 'disconnected'] ?? 'غير متصل') ?></strong>
+                <span><?= htmlspecialchars($qrSession['display_name'] ?? 'لا يوجد جهاز متصل') ?></span>
+                <small><?= htmlspecialchars($qrSession['phone_number'] ?? 'بانتظار مسح الباركود') ?></small>
+            </div>
+        </section>
+        <section class="qr-command-grid" aria-label="ملخص ربط واتساب بالباركود">
+            <article class="<?= ($qrSession['session_status'] ?? '') === 'connected' ? 'ok' : 'pending' ?>">
+                <span>حالة الجلسة</span>
+                <strong><?= htmlspecialchars($sessionStatusLabels[$qrSession['session_status'] ?? 'disconnected'] ?? 'غير متصل') ?></strong>
+                <small>تحديث مباشر عبر SSE.</small>
+            </article>
+            <article>
+                <span>الجهاز</span>
+                <strong><?= htmlspecialchars($qrSession['display_name'] ?? 'غير متصل') ?></strong>
+                <small>اسم الجهاز أو الحساب المتصل.</small>
+            </article>
+            <article>
+                <span>آخر اتصال</span>
+                <strong><?= htmlspecialchars($qrSession['last_connected_at'] ?? 'لم يتصل بعد') ?></strong>
+                <small>آخر وقت اتصال محفوظ.</small>
+            </article>
+            <article>
+                <span>الاستخدام الأفضل</span>
+                <strong>محادثات</strong>
+                <small>ردود يومية وتشغيل خفيف فقط.</small>
+            </article>
+        </section>
+        <section class="qr-command-actions panel wide" aria-label="إجراءات QR السريعة">
+            <div>
+                <span class="premium-pill">QR Connection Controls</span>
+                <h3>أنشئ الجلسة، امسح الكود، وتابع الحالة بدون ازدحام</h3>
+                <p>استخدم QR للمحادثات الخفيفة، وارجع إلى Cloud API عند الحاجة إلى حملات كبيرة أو قوالب Meta رسمية.</p>
+            </div>
+            <div class="button-row">
+                <button data-api="/api/whatsapp-qr/session/create" class="primary api-post qr-action">إنشاء جلسة</button>
+                <a class="secondary" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/whatsapp-setup">واتساب الرسمي</a>
+                <a class="ghost-btn" href="<?= htmlspecialchars($appUrl) ?>/marketing-center/whatsapp-setup-center">مركز إعداد واتساب</a>
+            </div>
+        </section>
         <section class="panel wide">
             <div class="panel-head">
                 <div><h2>ربط واتساب بالباركود</h2><span>جلسة واتساب ويب منفصلة بجانب الربط الرسمي</span></div>
